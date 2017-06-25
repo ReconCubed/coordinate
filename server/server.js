@@ -10,7 +10,6 @@ app.use(session({
   secret: 'aaabbbccc',
 }));
 
-
 app.use('/graphql', expressGraphQL({
   schema,
   graphiql: true

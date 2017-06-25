@@ -4,4 +4,4 @@ node_modules
 .npm
 .DS_Store
 */bundle.js
-password
+*firebase*

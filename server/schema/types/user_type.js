@@ -5,6 +5,7 @@ import {
   GraphQLList
 } from 'graphql';
 import LocationType from './location_type';
+import GroupType from './group_type';
 
 const UserType = new GraphQLObjectType({
   name: 'UserType',
@@ -15,7 +16,7 @@ const UserType = new GraphQLObjectType({
     photo: { type: GraphQLString },
     location: { type: new GraphQLList(LocationType) },
     friends: { type: new GraphQLList(UserType) },
-    groups: { type: GraphQLString }
+    groups: { type: new GraphQLList(GroupType) }
   })
 });
 

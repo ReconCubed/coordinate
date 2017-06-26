@@ -1,11 +1,11 @@
-import {
+const graphql = require('graphql');
+
+const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
   GraphQLList
-} from 'graphql';
-import LocationType from './location_type';
-import GroupType from './group_type';
+} = graphql;
 
 const UserType = new GraphQLObjectType({
   name: 'UserType',
@@ -20,4 +20,8 @@ const UserType = new GraphQLObjectType({
   })
 });
 
-export default UserType;
+module.exports = UserType;
+
+const LocationType = require('./location_type');
+const GroupType = require('./group_type');
+

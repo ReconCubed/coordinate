@@ -1,8 +1,10 @@
-import {
+const graphql = require('graphql');
+
+const {
   GraphQLObjectType,
   GraphQLString,
-  GraphQLID
-} from 'graphql';
+  GraphQLID,
+} = graphql;
 
 const LocationType = new GraphQLObjectType({
   name: 'LocationType',
@@ -14,4 +16,4 @@ const LocationType = new GraphQLObjectType({
   })
 });
 
-export default LocationType;
+module.exports = LocationType;

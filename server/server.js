@@ -1,7 +1,13 @@
-import express from 'express';
-import expressGraphQL from 'express-graphql';
-import session from 'express-session';
-import schema from './schema/schema';
+const express = require('express');
+const expressGraphQL = require('express-graphql');
+const session = require('express-session');
+const schema = require('./schema/schema');
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
+
+const key = fs.readFileSync('../../.secret/key.pem', 'utf8');
+const cert = fs.readFileSync('../../.secret/cert.pem', 'utf8');
 
 const app = express();
 app.use(session({
@@ -15,6 +21,8 @@ app.use('/graphql', expressGraphQL({
   graphiql: true
 }));
 
-app.listen(4000, () => {
-  console.log('Listening');
-});
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer({ key, cert }, app);
+
+httpServer.listen(8080);
+httpsServer.listen(8443);

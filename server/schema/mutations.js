@@ -1,8 +1,11 @@
-import {
+const {
   GraphQLObjectType,
   GraphQLString
-} from 'graphql';
-import UserType from './types/user_type';
+} = require('graphql');
+const auth = require('../services/auth');
+const UserType = require('./types/user_type');
+
+const { login, signup } = auth;
 
 const mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -14,7 +17,6 @@ const mutation = new GraphQLObjectType({
         password: { type: GraphQLString }
       },
       resolve(parentValue, { email, password }, req) {
-        // resolve
       }
     },
     logout: {
@@ -36,6 +38,4 @@ const mutation = new GraphQLObjectType({
   }
 });
 
-export default mutation;
-
-
+module.exports = mutation;

@@ -12,7 +12,7 @@ admin.initializeApp({
 const db = admin.database();
 
 const readTest = (uid) => {
-  const ref = db.ref(`${uid}/test`);
+  const ref = db.ref(`users/${uid}/`);
   ref.on('value', (snapshot) => {
     console.log(snapshot.val());
   }, (errorObject) => {
@@ -40,8 +40,36 @@ const login = () => {
 
 };
 
-const signup = () => {
-
+const signup = ({ email, photo, username, password }) => {
+  return new Promise((resolve, reject) => {
+    admin.auth().createUser({
+      email,
+      emailVerified: false,
+      password
+    })
+    .then((record) => {
+      const uid = record.uid;
+      const newUserRecord = {
+        email,
+        username,
+        photo
+      };
+      db.ref(`users/${uid}/`)
+      .set(newUserRecord)
+      .then(() => {
+        newUserRecord.id = uid;
+        resolve(newUserRecord);
+      })
+      .catch((e) => {
+        console.error(e);
+        reject();
+      });
+    })
+    .catch((e) => {
+      console.error(e);
+      reject();
+    });
+  });
 };
 
 module.exports = { verifyToken, login, signup, readTest };

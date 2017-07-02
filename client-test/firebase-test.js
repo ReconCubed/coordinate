@@ -21,7 +21,7 @@ firebase.auth().signInWithEmailAndPassword(users.u1.email, users.u1.password)
 .then(() => {
   getToken()
   .then((token) => {
-    axios.post('http://192.168.1.2:8080/graphql', {
+    axios.post('http://192.168.1.74:8080/graphql', {
       query,
       variables: {
         token

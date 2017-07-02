@@ -11,7 +11,8 @@ const query = `
     user(token: $token, targetUserId: $targetUserId) {
       id,
       email,
-      username
+      username,
+      friends,
     }
   }
 `;
@@ -27,7 +28,7 @@ firebase.auth().signInWithEmailAndPassword(users.u1.email, users.u1.password)
       query,
       variables: {
         token,
-        targetUserId: 'self'
+        targetUserId: 'cx860xX95rPGtqd0FwhplhbxVqJ3'
       }
     })
     .then(res => console.log(res))

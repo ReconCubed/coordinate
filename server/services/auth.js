@@ -1,31 +1,12 @@
-const admin = require('firebase-admin');
-const config = require('../../app_config.js');
-
-const { firebaseConfig } = config;
-const serviceAccount = require(firebaseConfig.secretRef);
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: firebaseConfig.databaseURL,
-});
+const admin = require('./admin');
 
 const db = admin.database();
-
-const readTest = (uid) => {
-  const ref = db.ref(`users/${uid}/`);
-  ref.on('value', (snapshot) => {
-    console.log(snapshot.val());
-  }, (errorObject) => {
-    console.error('The read failed: ', errorObject.code);
-  });
-};
 
 const verifyToken = (token) => {
   return new Promise((resolve, reject) => {
     admin.auth().verifyIdToken(token)
     .then((decodedToken) => {
       const uid = decodedToken.uid;
-      console.log(uid);
       resolve(uid);
     })
     .catch((error) => {
@@ -45,11 +26,15 @@ const getUser = (token, targetUserId) => {
     verifyToken(token)
     .then((uid) => {
       const target = targetUserId === 'self' ? uid : targetUserId;
-      db.ref(`users/${target}`)
+      db.ref(`users/${target}/public`)
       .on('value', (snapshot) => {
         const val = snapshot.val();
         if (val) {
           val.id = target;
+          console.log(val);
+          if (val.friends) {
+            val.friends = Object.keys(val.friends);
+          }
           resolve(val);
         } else {
           reject('You are not authorized to read this record');
@@ -80,7 +65,9 @@ const signup = ({ email, photo, username, password }) => {
         photo
       };
       db.ref(`users/${uid}/`)
-      .set(newUserRecord)
+      .set({
+        public: newUserRecord,
+      })
       .then(() => {
         newUserRecord.id = uid;
         resolve(newUserRecord);
@@ -97,4 +84,4 @@ const signup = ({ email, photo, username, password }) => {
   });
 };
 
-module.exports = { verifyToken, login, signup, readTest, getUser };
+module.exports = { login, signup, getUser };

@@ -1,20 +1,37 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('../../../../.secret/coordinate-26851-firebase-adminsdk-342k8-0ef096b97c.json');
+const config = require('../../app_config.js');
+
+const { firebaseConfig } = config;
+const serviceAccount = require(firebaseConfig.secretRef);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://coordinate-26851.firebaseio.com'
+  databaseURL: firebaseConfig.databaseURL,
 });
 
+const db = admin.database();
+
+const readTest = (uid) => {
+  const ref = db.ref(`${uid}/test`);
+  ref.on('value', (snapshot) => {
+    console.log(snapshot.val());
+  }, (errorObject) => {
+    console.log('The read failed: ', errorObject.code);
+  });
+};
+
 const verifyToken = (idToken) => {
-  admin.auth().verifyIdToken(idToken)
-  .then((decodedToken) => {
-    const uid = decodedToken.uid;
-    // do something
-    console.log(uid);
-  })
-  .catch((error) => {
-    console.error(error);
+  return new Promise((resolve, reject) => {
+    admin.auth().verifyIdToken(idToken)
+    .then((decodedToken) => {
+      const uid = decodedToken.uid;
+      console.log(uid);
+      resolve(uid);
+    })
+    .catch((error) => {
+      console.error(error);
+      reject();
+    });
   });
 };
 
@@ -27,4 +44,4 @@ const signup = () => {
 
 };
 
-module.exports = { login, signup };
+module.exports = { verifyToken, login, signup, readTest };

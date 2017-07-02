@@ -16,13 +16,13 @@ const readTest = (uid) => {
   ref.on('value', (snapshot) => {
     console.log(snapshot.val());
   }, (errorObject) => {
-    console.log('The read failed: ', errorObject.code);
+    console.error('The read failed: ', errorObject.code);
   });
 };
 
-const verifyToken = (idToken) => {
+const verifyToken = (token) => {
   return new Promise((resolve, reject) => {
-    admin.auth().verifyIdToken(idToken)
+    admin.auth().verifyIdToken(token)
     .then((decodedToken) => {
       const uid = decodedToken.uid;
       console.log(uid);
@@ -38,6 +38,31 @@ const verifyToken = (idToken) => {
 
 const login = () => {
 
+};
+
+const getUser = (token, targetUserId) => {
+  return new Promise((resolve, reject) => {
+    verifyToken(token)
+    .then((uid) => {
+      const target = targetUserId === 'self' ? uid : targetUserId;
+      db.ref(`users/${target}`)
+      .on('value', (snapshot) => {
+        const val = snapshot.val();
+        if (val) {
+          val.id = target;
+          resolve(val);
+        } else {
+          reject('You are not authorized to read this record');
+        }
+      }, (errorObject) => {
+        console.error('The read failed: ', errorObject.code);
+      });
+    })
+    .catch((e) => {
+      console.error(e);
+      reject(e);
+    });
+  });
 };
 
 const signup = ({ email, photo, username, password }) => {
@@ -72,4 +97,4 @@ const signup = ({ email, photo, username, password }) => {
   });
 };
 
-module.exports = { verifyToken, login, signup, readTest };
+module.exports = { verifyToken, login, signup, readTest, getUser };

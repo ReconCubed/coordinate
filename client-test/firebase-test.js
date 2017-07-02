@@ -7,9 +7,11 @@ const { firebaseUsers: users } = config;
 console.log('running..');
 
 const query = `
-  query GetUser($token: String){
-    userId(token: $token) {
-      id
+  query GetUser($token: String, $targetUserId: String){
+    user(token: $token, targetUserId: $targetUserId) {
+      id,
+      email,
+      username
     }
   }
 `;
@@ -24,7 +26,8 @@ firebase.auth().signInWithEmailAndPassword(users.u1.email, users.u1.password)
     axios.post('http://192.168.1.74:8080/graphql', {
       query,
       variables: {
-        token
+        token,
+        targetUserId: 'self'
       }
     })
     .then(res => console.log(res))

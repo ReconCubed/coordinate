@@ -62,6 +62,14 @@ const AcceptGroupInvite = `
   }
 `;
 
+const DeclineGroupInvite = `
+  mutation DeclineGroupInvite($token:String!, $groupID:ID!) {
+    declineGroupInvite(token:$token, groupID:$groupID) {
+      groupID
+    }
+  }
+`;
+
 const FetchGroupDetails = `
   query FetchGroupDetails($token:String!, $groupID:ID!) {
     groupDetails(token: $token, groupID:$groupID) {
@@ -102,4 +110,5 @@ export {
   InviteUsersToGroup,
   CreateGroup,
   AcceptGroupInvite,
+  DeclineGroupInvite
 };

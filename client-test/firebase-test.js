@@ -14,13 +14,13 @@ const dummyLocation = {
 };
 
 firebase.initializeApp(config.firebaseConfig);
-firebase.auth().signInWithEmailAndPassword(users.u1.email, users.u1.password)
+firebase.auth().signInWithEmailAndPassword(users.u4.email, users.u4.password)
 .then(() => {
   getToken()
   .then((token) => {
     console.log(token);
     axios.post('http://localhost:8080/graphql', {
-      query: mutations.AcceptGroupInvite,
+      query: mutations.DeclineGroupInvite,
       variables: {
         token,
         groupID: '-Ko57mhRn9ynp4gIzeOK'

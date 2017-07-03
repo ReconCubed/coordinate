@@ -169,5 +169,6 @@ module.exports = {
   fetchGroups,
   fetchGroupDetails,
   inviteToGroup,
-  approveGroupInvite
+  approveGroupInvite,
+  removePendingUser  
 };

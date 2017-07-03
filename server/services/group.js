@@ -20,8 +20,8 @@ const createGroup = ({ token, name, targetLocation }) => {
       })
       .then(({ key }) => {
         const groupToAdd = {};
-        groupToAdd[key] = true;
-        db.ref(`users/${uid}/private/groups/`).update(groupToAdd)
+        groupToAdd[key] = { name };
+        db.ref(`users/${uid}/private/groups/active/`).update(groupToAdd)
         .then(() => {
           resolve(key);
         })
@@ -42,7 +42,7 @@ const updateLocation = ({ token, newLocation }) => {
         const updateObject = {};
         const serverTime = admin.database.ServerValue.TIMESTAMP;
         newLocation.updatedAt = serverTime;
-        groups.forEach((group) => {
+        Array.from(Object.keys(groups)).forEach((group) => {
           updateObject[`${group}/members/accepted/${uid}/location/`] = newLocation;
         });
         db.ref('groups/').update(updateObject)
@@ -54,20 +54,21 @@ const updateLocation = ({ token, newLocation }) => {
   });
 };
 
-const fetchGroups = ({ token }) => {
+
+const fetchGroups = ({ token, inactive }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
     .then((uid) => {
-      db.ref(`users/${uid}/private/groups`)
+      db.ref(`users/${uid}/private/groups/${inactive ? 'inactive/' : 'active/'}`)
       .on('value', (snapshot) => {
         const groupObject = snapshot.val();
         if (!groupObject) {
           reject('No groups found');
         }
-        resolve(Array.from(Object.keys(groupObject)));
+        resolve(groupObject);
       });
     });
   });
 };
 
-module.exports = { createGroup, updateLocation };
+module.exports = { createGroup, updateLocation, fetchGroups };

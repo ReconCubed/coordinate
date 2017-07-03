@@ -1,9 +1,9 @@
 const { GraphQLString, GraphQLNonNull, GraphQLID, GraphQLObjectType } = require('graphql');
-const { createFriendRequest } = require('../../services/friends');
+const { createFriendRequest, removeFriendRequest } = require('../../services/friends');
 
 const sendFriendRequest = {
   type: new GraphQLObjectType({
-    name: 'requestConfirmation',
+    name: 'sendRequestConfirmation',
     fields: {
       requestID: { type: GraphQLID }
     }
@@ -25,4 +25,26 @@ const sendFriendRequest = {
   }
 };
 
-module.exports = { sendFriendRequest };
+const cancelFriendRequest = {
+  type: new GraphQLObjectType({
+    name: 'cancelRequestConfirmation',
+    fields: {
+      requestID: { type: GraphQLID }
+    }
+  }),
+  args: {
+    token: { type: new GraphQLNonNull(GraphQLString) },
+    senderID: { type: new GraphQLNonNull(GraphQLID) },
+    recipientID: { type: new GraphQLNonNull(GraphQLID) },
+    requestID: { type: new GraphQLNonNull(GraphQLID) },
+  },
+  resolve: (parentValue, args) => {
+    return new Promise((resolve, reject) => {
+      removeFriendRequest(args)
+      .then(requestID => resolve({ requestID }))
+      .catch(e => reject(e));
+    });
+  }
+};
+
+module.exports = { cancelFriendRequest, sendFriendRequest };

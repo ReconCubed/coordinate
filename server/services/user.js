@@ -32,7 +32,7 @@ const getPrivateUserData = (token, targetUserId) => {
     .then((uid) => {
       const target = targetUserId === 'self' ? uid : targetUserId;
       db.ref(`users/${target}/public`)
-      .on('value', (snapshot) => {
+      .once('value', (snapshot) => {
         const val = snapshot.val();
         if (val) {
           val.id = target;

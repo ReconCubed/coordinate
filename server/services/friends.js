@@ -28,4 +28,51 @@ const createFriendRequest = ({ token, friendID, message }) => {
   });
 };
 
-module.exports = { createFriendRequest };
+
+const validateFriendRequest = ({ token, senderID, recipientID, requestID }) => {
+  return new Promise((resolve, reject) => {
+    verifyToken(token)
+    .then((uid) => {
+      if (uid === senderID || uid === recipientID) {
+        const senderRef = db.ref(`users/${senderID}/private/friends/pending/sent/`);
+        const recipientRef = db.ref(`users/${recipientID}/private/friends/pending/received/`);
+        senderRef.once('value', (senderSnapshot) => {
+          if (senderSnapshot.hasChild(requestID)) {
+            recipientRef.once('value', (recipientSnapshot) => {
+              if (recipientSnapshot.hasChild(requestID)) {
+                resolve();
+              } else {
+                reject('Request not found');
+              }
+            });
+          } else {
+            reject('Request not found');
+          }
+        });
+      } else {
+        reject('You are not authorized to perform this operation');
+      }
+    })
+    .catch(e => reject(e));
+  });
+};
+
+const removeFriendRequest = ({ token, senderID, recipientID, requestID }) => {
+  return new Promise((resolve, reject) => {
+    validateFriendRequest({ token, senderID, recipientID, requestID })
+    .then(() => {
+      const senderRef = db.ref(`users/${senderID}/private/friends/pending/sent/${requestID}/`);
+      const recipientRef = db.ref(`users/${recipientID}/private/friends/pending/received/${requestID}/`);
+      senderRef.remove()
+      .then(() => {
+        recipientRef.remove()
+        .then(() => resolve(requestID))
+        .catch(e => reject(e));
+      })
+      .catch(e => reject(e));
+    })
+    .catch(e => reject(e));
+  });
+};
+
+module.exports = { createFriendRequest, removeFriendRequest };

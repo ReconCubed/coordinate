@@ -15,11 +15,12 @@ firebase.auth().signInWithEmailAndPassword(users.u2.email, users.u2.password)
   .then((token) => {
     console.log(token);
     axios.post('http://localhost:8080/graphql', {
-      query: mutations.SendFriendRequest,
+      query: mutations.CancelFriendRequest,
       variables: {
         token,
-        message: 'Hi, user 1',
-        friendID: 'LWlr4vt4xcT0USaubJl5WQm29vQ2',
+        recipientID: 'LWlr4vt4xcT0USaubJl5WQm29vQ2',
+        senderID: 'aG1OTgMqI2SoFBkXxwU0JQLjgQN2',
+        requestID: '-Ko8sCw3cqTY8ucXlrI-'
       }
     })
     .then(res => console.log(res))

@@ -15,17 +15,15 @@ firebase.auth().signInWithEmailAndPassword(users.u2.email, users.u2.password)
   .then((token) => {
     console.log(token);
     axios.post('http://localhost:8080/graphql', {
-      query: mutations.AcceptFriendRequest,
+      query: mutations.InviteUsersToGroup,
       variables: {
         token,
-        recipientID: 'LWlr4vt4xcT0USaubJl5WQm29vQ2',
-        senderID: 'aG1OTgMqI2SoFBkXxwU0JQLjgQN2',
-        requestID: '-Ko98VbMSYdv3ZLR-kpB'
+        groupID: '-Ko57mhRn9ynp4gIzeOK',
+        userIDArray: ['LWlr4vt4xcT0USaubJl5WQm29vQ2', 'ZJQH61Ke0nUxAyMmvcIw4ANTRF73'],
       }
     })
     .then(res => console.log(res))
     .catch(e => console.log(e));
-    // pass for verification
   })
   .catch(error => console.error(error));
 })

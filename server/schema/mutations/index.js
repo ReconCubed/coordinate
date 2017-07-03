@@ -2,6 +2,7 @@ const signup = require('./signup');
 const createGroup = require('./createGroup');
 const updateLocation = require('./updateLocation');
 const { sendFriendRequest, cancelFriendRequest, acceptFriendRequest } = require('./friendRequest');
+const { inviteUsersToGroup } = require('./groupRequest');
 
 module.exports = {
   signup,
@@ -9,5 +10,6 @@ module.exports = {
   updateLocation,
   sendFriendRequest,
   cancelFriendRequest,
-  acceptFriendRequest
+  acceptFriendRequest,
+  inviteUsersToGroup
 };

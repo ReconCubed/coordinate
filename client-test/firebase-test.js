@@ -9,14 +9,14 @@ console.log('running..');
 const query = `
   mutation UpdateLocation($token: String!, $newLocation:LocationType!) {
     updateLocation(token: $token, newLocation:$newLocation) {
-      updatedAt
+      groupsUpdated
     }
   }
 `;
 
 const dummyLocation = {
-  lat: '39.2',
-  lng: '-53.3'
+  lat: '59.2',
+  lng: '-103.3'
 };
 
 const getToken = () => firebase.auth().currentUser.getIdToken(true);
@@ -26,7 +26,6 @@ firebase.auth().signInWithEmailAndPassword(users.u2.email, users.u2.password)
 .then(() => {
   getToken()
   .then((token) => {
-    console.log(token);
     axios.post('http://192.168.1.3:8080/graphql', {
       query,
       variables: {

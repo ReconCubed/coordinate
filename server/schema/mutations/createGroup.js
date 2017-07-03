@@ -18,7 +18,6 @@ module.exports = {
     return new Promise((resolve, reject) => {
       createGroup({ token, name, targetLocation })
       .then((groupID) => {
-        console.log(groupID);
         resolve({ id: groupID });
       })
       .catch((e) => {

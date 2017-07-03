@@ -3,7 +3,6 @@ const { verifyToken } = require('./auth');
 
 const db = admin.database();
 
-// needs to create a new group w/ key, add this key to user record
 const createGroup = ({ token, name, targetLocation }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
@@ -24,7 +23,6 @@ const createGroup = ({ token, name, targetLocation }) => {
         groupToAdd[key] = true;
         db.ref(`users/${uid}/private/groups/`).update(groupToAdd)
         .then(() => {
-          console.log('update was successful');
           resolve(key);
         })
         .catch(e => reject(e));
@@ -39,17 +37,16 @@ const updateLocation = ({ token, newLocation }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
     .then((uid) => {
-      db.ref(`users/${uid}/private/groups/`)
-      .on('value', (snapshot) => {
+      fetchGroups({ token })
+      .then((groups) => {
         const updateObject = {};
-        const groups = Array.from(Object.keys(snapshot.val()));
         const serverTime = admin.database.ServerValue.TIMESTAMP;
         newLocation.updatedAt = serverTime;
         groups.forEach((group) => {
           updateObject[`${group}/members/accepted/${uid}/location/`] = newLocation;
         });
         db.ref('groups/').update(updateObject)
-        .then(() => resolve(serverTime))
+        .then(() => resolve(groups))
         .catch(e => reject(e));
       });
     })
@@ -57,5 +54,20 @@ const updateLocation = ({ token, newLocation }) => {
   });
 };
 
+const fetchGroups = ({ token }) => {
+  return new Promise((resolve, reject) => {
+    verifyToken(token)
+    .then((uid) => {
+      db.ref(`users/${uid}/private/groups`)
+      .on('value', (snapshot) => {
+        const groupObject = snapshot.val();
+        if (!groupObject) {
+          reject('No groups found');
+        }
+        resolve(Array.from(Object.keys(groupObject)));
+      });
+    });
+  });
+};
 
 module.exports = { createGroup, updateLocation };

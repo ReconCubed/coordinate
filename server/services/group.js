@@ -98,6 +98,42 @@ const inviteToGroup = ({ token, groupID, userIDArray }) => {
   });
 };
 
+const removeFromGroup = ({ token, groupID, userID }) => {
+  return new Promise((resolve, reject) => {
+    verifyToken(token)
+    .then((uid) => {
+      db.ref(`groups/${groupID}/`)
+      .once('value', (snapshot) => {
+        const val = snapshot.val();
+        const { createdBy, name } = val;
+        if (uid === createdBy && (uid === userID || userID === undefined)) {
+          // delete group
+        } else if (uid !== createdBy && uid !== userID && userID !== undefined) {
+          reject('You are not authorized to remove this user from the group');
+        } else {
+          db.ref(`groups/${groupID}/members/accepted/${userID || uid}/`).remove()
+          .then(() => {
+            db.ref(`users/${userID || uid}/private/groups/active/${groupID}/`).remove()
+            .then(() => {
+              db.ref(`users/${userID || uid}/private/groups/inactive/${groupID}`).update({
+                name,
+                leftAt: admin.database.ServerValue.TIMESTAMP
+              })
+              .then(() => resolve(groupID))
+              .catch(e => reject(e));
+            })
+            .catch(e => reject(e));
+          })
+          .catch(e => reject(e));
+        }
+      })
+      .catch(e => reject(e));
+    })
+    .catch(e => reject(e));
+  });
+};
+
+
 const removePendingUser = ({ token, groupID, userID }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
@@ -170,5 +206,6 @@ module.exports = {
   fetchGroupDetails,
   inviteToGroup,
   approveGroupInvite,
-  removePendingUser  
+  removePendingUser,
+  removeFromGroup
 };

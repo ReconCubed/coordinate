@@ -70,6 +70,15 @@ const DeclineGroupInvite = `
   }
 `;
 
+
+const RemoveUserFromGroup = `
+  mutation RemoveUserFromGroup($token:String!, $groupID:ID!, $targetUserID:ID) {
+    removeUserFromGroup(token:$token, groupID:$groupID, targetUserID:$targetUserID) {
+      groupID
+    }
+  }
+`;
+
 const FetchGroupDetails = `
   query FetchGroupDetails($token:String!, $groupID:ID!) {
     groupDetails(token: $token, groupID:$groupID) {
@@ -110,5 +119,6 @@ export {
   InviteUsersToGroup,
   CreateGroup,
   AcceptGroupInvite,
-  DeclineGroupInvite
+  DeclineGroupInvite,
+  RemoveUserFromGroup
 };

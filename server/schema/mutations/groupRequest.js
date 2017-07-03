@@ -1,5 +1,5 @@
 const { GraphQLString, GraphQLNonNull, GraphQLID, GraphQLObjectType, GraphQLList } = require('graphql');
-const { inviteToGroup, approveGroupInvite, removePendingUser } = require('../../services/group');
+const { inviteToGroup, approveGroupInvite, removePendingUser, removeFromGroup } = require('../../services/group');
 
 const inviteUsersToGroup = {
   type: new GraphQLObjectType({
@@ -52,15 +52,37 @@ const declineGroupInvite = {
   args: {
     token: { type: new GraphQLNonNull(GraphQLString) },
     groupID: { type: new GraphQLNonNull(GraphQLID) },
+    targetUserID: { type: GraphQLID }
   },
-  resolve: (parentValue, args) => {
+  resolve: (parentValue, { token, groupID, targetUserID }) => {
     return new Promise((resolve, reject) => {
-      removePendingUser(args)
-      .then(() => resolve({ groupID: args.groupID }))
+      removePendingUser({ token, groupID, userID: targetUserID })
+      .then(() => resolve({ groupID }))
+      .catch(e => reject(e));
+    });
+  }
+};
+
+const removeUserFromGroup = {
+  type: new GraphQLObjectType({
+    name: 'removeUserFromGroupConfirmation',
+    fields: {
+      groupID: { type: GraphQLID }
+    }
+  }),
+  args: {
+    token: { type: new GraphQLNonNull(GraphQLString) },
+    groupID: { type: new GraphQLNonNull(GraphQLID) },
+    targetUserID: { type: GraphQLID }
+  },
+  resolve: (parentValue, { token, groupID, targetUserID }) => {
+    return new Promise((resolve, reject) => {
+      removeFromGroup({ token, groupID, userID: targetUserID })
+      .then(() => resolve({ groupID }))
       .catch(e => reject(e));
     });
   }
 };
 
 
-module.exports = { inviteUsersToGroup, acceptGroupInvite, declineGroupInvite };
+module.exports = { inviteUsersToGroup, acceptGroupInvite, declineGroupInvite, removeUserFromGroup };

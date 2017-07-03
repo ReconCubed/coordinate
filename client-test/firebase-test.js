@@ -20,10 +20,11 @@ firebase.auth().signInWithEmailAndPassword(users.u4.email, users.u4.password)
   .then((token) => {
     console.log(token);
     axios.post('http://localhost:8080/graphql', {
-      query: mutations.DeclineGroupInvite,
+      query: mutations.RemoveUserFromGroup,
       variables: {
         token,
-        groupID: '-Ko57mhRn9ynp4gIzeOK'
+        groupID: '-Ko57mhRn9ynp4gIzeOK',
+        targetUserID: 'LWlr4vt4xcT0USaubJl5WQm29vQ2'
       }
     })
     .then(res => console.log(res))

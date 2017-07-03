@@ -38,6 +38,14 @@ const AcceptFriendRequest = `
   }
 `;
 
+const DeleteFriend = `
+  mutation DeleteFriend($token:String!, $friendID:ID!) {
+    deleteFriend(token:$token, friendID:$friendID) {
+      friendID
+    }
+  }
+`;
+
 const InviteUsersToGroup = `
   mutation InviteUsersToGroup($token:String!, $groupID:ID!, $userIDArray:[ID]!) {
     inviteUsersToGroup(token:$token, groupID:$groupID, userIDArray:$userIDArray) {
@@ -120,5 +128,6 @@ export {
   CreateGroup,
   AcceptGroupInvite,
   DeclineGroupInvite,
-  RemoveUserFromGroup
+  RemoveUserFromGroup,
+  DeleteFriend
 };

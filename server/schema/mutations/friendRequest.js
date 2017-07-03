@@ -1,5 +1,5 @@
 const { GraphQLString, GraphQLNonNull, GraphQLID, GraphQLObjectType } = require('graphql');
-const { createFriendRequest, removeFriendRequest, approveFriendRequest } = require('../../services/friends');
+const { createFriendRequest, removeFriendRequest, approveFriendRequest, removeFriend } = require('../../services/friends');
 
 const sendFriendRequest = {
   type: new GraphQLObjectType({
@@ -47,6 +47,26 @@ const cancelFriendRequest = {
   }
 };
 
+const deleteFriend = {
+  type: new GraphQLObjectType({
+    name: 'deleteFriendConfirmation',
+    fields: {
+      friendID: { type: GraphQLID }
+    }
+  }),
+  args: {
+    token: { type: new GraphQLNonNull(GraphQLString) },
+    friendID: { type: new GraphQLNonNull(GraphQLID) },
+  },
+  resolve: (parentValue, args) => {
+    return new Promise((resolve, reject) => {
+      removeFriend(args)
+      .then(friendID => resolve({ friendID }))
+      .catch(e => reject(e));
+    });
+  }
+};
+
 const acceptFriendRequest = {
   type: new GraphQLObjectType({
     name: 'acceptRequestConfirmation',
@@ -69,4 +89,4 @@ const acceptFriendRequest = {
   }
 };
 
-module.exports = { cancelFriendRequest, sendFriendRequest, acceptFriendRequest };
+module.exports = { cancelFriendRequest, sendFriendRequest, acceptFriendRequest, deleteFriend };

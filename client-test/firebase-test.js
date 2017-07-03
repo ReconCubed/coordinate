@@ -14,17 +14,16 @@ const dummyLocation = {
 };
 
 firebase.initializeApp(config.firebaseConfig);
-firebase.auth().signInWithEmailAndPassword(users.u4.email, users.u4.password)
+firebase.auth().signInWithEmailAndPassword(users.u1.email, users.u1.password)
 .then(() => {
   getToken()
   .then((token) => {
     console.log(token);
     axios.post('http://localhost:8080/graphql', {
-      query: mutations.RemoveUserFromGroup,
+      query: mutations.DeleteFriend,
       variables: {
         token,
-        groupID: '-Ko57mhRn9ynp4gIzeOK',
-        targetUserID: 'LWlr4vt4xcT0USaubJl5WQm29vQ2'
+        friendID: 'aG1OTgMqI2SoFBkXxwU0JQLjgQN2'
       }
     })
     .then(res => console.log(res))

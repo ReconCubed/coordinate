@@ -4,25 +4,32 @@ const { getUser } = require('./user');
 
 const db = admin.database();
 
+
+const addToAcceptedMembers = ({ groupID, name, userID }) => {
+  return new Promise((resolve, reject) => {
+    const updateObject = {};
+    updateObject[`groups/${groupID}/members/accepted/${userID}/`] = { acceptedAt: admin.database.ServerValue.TIMESTAMP };
+    updateObject[`users/${userID}/private/groups/active/${groupID}/`] = { name };
+    db.ref().update(updateObject)
+    .then(() => resolve())
+    .catch(e => reject(e));
+  });
+};
+
 const createGroup = ({ token, name, targetLocation }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
     .then((uid) => {
       const serverTime = admin.database.ServerValue.TIMESTAMP;
-      const initMembers = { accepted: {} };
-      initMembers.accepted[uid] = { acceptedAt: serverTime };
       targetLocation.updatedAt = serverTime;
       db.ref('groups/').push({
         name,
         targetLocation,
         createdBy: uid,
-        createdAt: serverTime,
-        members: initMembers
+        createdAt: serverTime
       })
       .then(({ key }) => {
-        const groupToAdd = {};
-        groupToAdd[key] = { name };
-        db.ref(`users/${uid}/private/groups/active/`).update(groupToAdd)
+        addToAcceptedMembers({ groupID: key, name, userID: uid })
         .then(() => {
           resolve(key);
         })
@@ -91,6 +98,39 @@ const inviteToGroup = ({ token, groupID, userIDArray }) => {
   });
 };
 
+const removePendingUser = ({ token, groupID, userID }) => {
+  return new Promise((resolve, reject) => {
+    verifyToken(token)
+    .then((uid) => {
+      db.ref(`groups/${groupID}/members/pending/${userID || uid}/`).remove()
+      .then(() => {
+        db.ref(`users/${userID || uid}/private/groups/pending/${groupID}/`).remove()
+        .then(() => resolve(userID || uid))
+        .catch(e => reject(e));
+      })
+      .catch(e => reject(e));
+    })
+    .catch(e => reject(e));
+  });
+};
+
+const approveGroupInvite = ({ token, groupID }) => {
+  return new Promise((resolve, reject) => {
+    removePendingUser({ token, groupID })
+    .then((uid) => {
+      db.ref(`groups/${groupID}/`)
+      .once('value', (snapshot) => {
+        const name = snapshot.val().name;
+        addToAcceptedMembers({ groupID, name, userID: uid })
+        .then(() => resolve(groupID))
+        .catch(e => reject(e));
+      })
+      .catch(e => reject(e));
+    })
+    .catch(e => reject(e));
+  });
+};
+
 const fetchGroupDetails = ({ token, groupID }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
@@ -128,5 +168,6 @@ module.exports = {
   updateLocation,
   fetchGroups,
   fetchGroupDetails,
-  inviteToGroup
+  inviteToGroup,
+  approveGroupInvite
 };

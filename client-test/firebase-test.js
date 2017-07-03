@@ -8,18 +8,22 @@ const { firebaseUsers: users } = config;
 
 const getToken = () => firebase.auth().currentUser.getIdToken(true);
 
+const dummyLocation = {
+  lat: '104.3',
+  lng: '-94.7'
+};
+
 firebase.initializeApp(config.firebaseConfig);
-firebase.auth().signInWithEmailAndPassword(users.u2.email, users.u2.password)
+firebase.auth().signInWithEmailAndPassword(users.u1.email, users.u1.password)
 .then(() => {
   getToken()
   .then((token) => {
     console.log(token);
     axios.post('http://localhost:8080/graphql', {
-      query: mutations.InviteUsersToGroup,
+      query: mutations.AcceptGroupInvite,
       variables: {
         token,
-        groupID: '-Ko57mhRn9ynp4gIzeOK',
-        userIDArray: ['LWlr4vt4xcT0USaubJl5WQm29vQ2', 'ZJQH61Ke0nUxAyMmvcIw4ANTRF73'],
+        groupID: '-Ko57mhRn9ynp4gIzeOK'
       }
     })
     .then(res => console.log(res))

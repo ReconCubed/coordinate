@@ -46,6 +46,22 @@ const InviteUsersToGroup = `
   }
 `;
 
+const CreateGroup = `
+  mutation CreateGroup($token:String!, $name:String!, $targetLocation:LocationArgType) {
+    createGroup(token:$token, name:$name, targetLocation:$targetLocation) {
+      id
+    }
+  }
+`;
+
+const AcceptGroupInvite = `
+  mutation AcceptGroupInvite($token:String!, $groupID:ID!) {
+    acceptGroupInvite(token:$token, groupID:$groupID) {
+      groupID
+    }
+  }
+`;
+
 const FetchGroupDetails = `
   query FetchGroupDetails($token:String!, $groupID:ID!) {
     groupDetails(token: $token, groupID:$groupID) {
@@ -84,4 +100,6 @@ export {
   CancelFriendRequest,
   AcceptFriendRequest,
   InviteUsersToGroup,
+  CreateGroup,
+  AcceptGroupInvite,
 };

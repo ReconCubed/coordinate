@@ -21,7 +21,23 @@ const login = () => {
 
 };
 
-const getUser = (token, targetUserId) => {
+
+const getUser = ({ token, targetID }) => {
+  return new Promise((resolve, reject) => {
+    verifyToken(token)
+    .then(() => {
+      admin.auth().getUser(targetID)
+      .then((user) => {
+        console.log(user);
+        resolve({ username: user.displayName, photo: user.photoURL });
+      })
+      .catch(error => reject(error));
+    })
+    .catch(error => reject(error));
+  });
+};
+
+const getPrivateUserData = (token, targetUserId) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
     .then((uid) => {
@@ -55,7 +71,9 @@ const signup = ({ email, photo, username, password }) => {
     admin.auth().createUser({
       email,
       emailVerified: false,
-      password
+      password,
+      photoURL: photo,
+      displayName: username
     })
     .then((record) => {
       const uid = record.uid;
@@ -84,4 +102,4 @@ const signup = ({ email, photo, username, password }) => {
   });
 };
 
-module.exports = { login, signup, getUser };
+module.exports = { login, signup, getUser, getPrivateUserData, verifyToken };

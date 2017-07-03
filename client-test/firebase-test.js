@@ -7,28 +7,32 @@ const { firebaseUsers: users } = config;
 console.log('running..');
 
 const query = `
-  query GetUser($token: String, $targetUserId: String){
-    user(token: $token, targetUserId: $targetUserId) {
-      id,
-      email,
-      username,
-      friends,
+  mutation createNewGroup($token: String!, $name:String!, $targetLocation:LocationType) {
+    createGroup(token: $token, name: $name, targetLocation:$targetLocation) {
+      id
     }
   }
 `;
 
+const dummyLocation = {
+  lat: '40.2',
+  lng: '-72.3'
+};
+
 const getToken = () => firebase.auth().currentUser.getIdToken(true);
 
 firebase.initializeApp(config.firebaseConfig);
-firebase.auth().signInWithEmailAndPassword(users.u1.email, users.u1.password)
+firebase.auth().signInWithEmailAndPassword(users.u2.email, users.u2.password)
 .then(() => {
   getToken()
   .then((token) => {
-    axios.post('http://192.168.1.74:8080/graphql', {
+    console.log(token);
+    axios.post('http://192.168.1.3:8080/graphql', {
       query,
       variables: {
         token,
-        targetUserId: 'cx860xX95rPGtqd0FwhplhbxVqJ3'
+        targetLocation: dummyLocation,
+        name: 'Test Group 1',
       }
     })
     .then(res => console.log(res))

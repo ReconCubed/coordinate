@@ -1,8 +1,8 @@
 const graphql = require('graphql');
 
-const { GraphQLObjectType, GraphQLString } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLNonNull } = graphql;
 const UserType = require('./user_type');
-const { getUser } = require('../../services/auth');
+const { getPrivateUserData, getUser } = require('../../services/auth');
 
 const RootQueryType = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -10,17 +10,14 @@ const RootQueryType = new GraphQLObjectType({
     user: {
       type: UserType,
       args: {
-        token: { type: GraphQLString },
-        targetUserId: { type: GraphQLString }
+        targetID: { type: new GraphQLNonNull(GraphQLString) },
+        token: { type: new GraphQLNonNull(GraphQLString) },
       },
-      resolve: (parentValue, { token, targetUserId }) => {
-        return new Promise((res, rej) => {
-          getUser(token, targetUserId)
-          .then(user => res(user))
-          .catch((e) => {
-            console.error(e);
-            rej(e);
-          });
+      resolve: (parentValue, { targetID, token }) => {
+        return new Promise((resolve, reject) => {
+          getUser({ token, targetID })
+          .then(user => resolve(user))
+          .catch(error => reject(error));
         });
       }
     }

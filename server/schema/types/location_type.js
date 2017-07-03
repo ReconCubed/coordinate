@@ -1,18 +1,16 @@
 const graphql = require('graphql');
 
 const {
-  GraphQLObjectType,
+  GraphQLInputObjectType,
   GraphQLString,
-  GraphQLID,
+  GraphQLInputType,
 } = graphql;
 
-const LocationType = new GraphQLObjectType({
+const LocationType = new GraphQLInputObjectType({
   name: 'LocationType',
   fields: () => ({
-    id: { type: GraphQLID },
     lat: { type: GraphQLString },
     lng: { type: GraphQLString },
-    time: { type: GraphQLString }
   })
 });
 

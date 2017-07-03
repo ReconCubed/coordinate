@@ -60,4 +60,19 @@ const CancelFriendRequest = `
   }
 `;
 
-export { UpdateLocation, CreateNewUser, FetchGroupDetails, SendFriendRequest, CancelFriendRequest };
+const AcceptFriendRequest = `
+  mutation AcceptFriendRequest($token:String!, $senderID:ID!, $recipientID:ID!, $requestID:ID!) {
+    acceptFriendRequest(token:$token, senderID:$senderID, recipientID:$recipientID, requestID:$requestID) {
+      requestID
+    }
+  }
+`;
+
+export {
+  UpdateLocation,
+  CreateNewUser,
+  FetchGroupDetails,
+  SendFriendRequest,
+  CancelFriendRequest,
+  AcceptFriendRequest
+};

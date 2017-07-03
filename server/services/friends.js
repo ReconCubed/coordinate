@@ -28,7 +28,6 @@ const createFriendRequest = ({ token, friendID, message }) => {
   });
 };
 
-
 const validateFriendRequest = ({ token, senderID, recipientID, requestID }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
@@ -75,4 +74,22 @@ const removeFriendRequest = ({ token, senderID, recipientID, requestID }) => {
   });
 };
 
-module.exports = { createFriendRequest, removeFriendRequest };
+const approveFriendRequest = ({ token, senderID, recipientID, requestID }) => {
+  return new Promise((resolve, reject) => {
+    removeFriendRequest({ token, senderID, recipientID, requestID })
+    .then(() => {
+      const userRef = db.ref('users/');
+      const acceptedAt = admin.database.ServerValue.TIMESTAMP;
+      const acceptPayload = { acceptedAt };
+      const acceptObject = {};
+      acceptObject[`${senderID}/public/friends/${recipientID}/`] = acceptPayload;
+      acceptObject[`${recipientID}/public/friends/${senderID}/`] = acceptPayload;
+      userRef.update(acceptObject)
+      .then(() => resolve(requestID))
+      .catch(e => reject(e));
+    })
+    .catch(e => reject(e));
+  });
+};
+
+module.exports = { createFriendRequest, removeFriendRequest, approveFriendRequest };

@@ -7,16 +7,16 @@ const { firebaseUsers: users } = config;
 console.log('running..');
 
 const query = `
-  mutation createNewGroup($token: String!, $name:String!, $targetLocation:LocationType) {
-    createGroup(token: $token, name: $name, targetLocation:$targetLocation) {
-      id
+  mutation UpdateLocation($token: String!, $newLocation:LocationType!) {
+    updateLocation(token: $token, newLocation:$newLocation) {
+      updatedAt
     }
   }
 `;
 
 const dummyLocation = {
-  lat: '40.2',
-  lng: '-72.3'
+  lat: '39.2',
+  lng: '-53.3'
 };
 
 const getToken = () => firebase.auth().currentUser.getIdToken(true);
@@ -31,8 +31,7 @@ firebase.auth().signInWithEmailAndPassword(users.u2.email, users.u2.password)
       query,
       variables: {
         token,
-        targetLocation: dummyLocation,
-        name: 'Test Group 1',
+        newLocation: dummyLocation,
       }
     })
     .then(res => console.log(res))

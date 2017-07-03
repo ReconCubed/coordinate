@@ -35,9 +35,27 @@ const createGroup = ({ token, name, targetLocation }) => {
   });
 };
 
-// const updateLocation = ({ token, newLocation }) => {
-//   return new Promise
-// };
+const updateLocation = ({ token, newLocation }) => {
+  return new Promise((resolve, reject) => {
+    verifyToken(token)
+    .then((uid) => {
+      db.ref(`users/${uid}/private/groups/`)
+      .on('value', (snapshot) => {
+        const updateObject = {};
+        const groups = Array.from(Object.keys(snapshot.val()));
+        const serverTime = admin.database.ServerValue.TIMESTAMP;
+        newLocation.updatedAt = serverTime;
+        groups.forEach((group) => {
+          updateObject[`${group}/members/accepted/${uid}/location/`] = newLocation;
+        });
+        db.ref('groups/').update(updateObject)
+        .then(() => resolve(serverTime))
+        .catch(e => reject(e));
+      });
+    })
+    .catch(e => reject(e));
+  });
+};
 
 
-module.exports = { createGroup };
+module.exports = { createGroup, updateLocation };

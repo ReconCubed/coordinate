@@ -1,5 +1,6 @@
 const admin = require('./admin');
 const { verifyToken } = require('./auth');
+const { getUser } = require('./user');
 
 const db = admin.database();
 
@@ -54,6 +55,36 @@ const updateLocation = ({ token, newLocation }) => {
   });
 };
 
+const genGroupDetails = ({ token, details, id }) => {
+  const { name, createdBy, members, targetLocation } = details;
+  const returnObj = { id, name, targetLocation };
+  returnObj.createdBy = getUser({ token, targetID: createdBy });
+
+  const membersArray = [];
+  Array.from(Object.keys(members.accepted)).forEach((member) => {
+    const user = getUser({ token, targetID: member });
+    const location = members.accepted[member].location;
+    membersArray.push({ user, location });
+  });
+  returnObj.members = membersArray;
+  return returnObj;
+};
+
+const fetchGroupDetails = ({ token, groupID }) => {
+  return new Promise((resolve, reject) => {
+    verifyToken(token)
+    .then(() => {
+      db.ref(`groups/${groupID}/`)
+      .on('value', (snapshot) => {
+        const details = snapshot.val();
+        const groupDetails = genGroupDetails({ token, details, id: groupID });
+        resolve(groupDetails);
+      });
+    })
+    .catch(e => reject(e));
+  });
+};
+
 
 const fetchGroups = ({ token, inactive }) => {
   return new Promise((resolve, reject) => {
@@ -71,4 +102,4 @@ const fetchGroups = ({ token, inactive }) => {
   });
 };
 
-module.exports = { createGroup, updateLocation, fetchGroups };
+module.exports = { createGroup, updateLocation, fetchGroups, fetchGroupDetails };

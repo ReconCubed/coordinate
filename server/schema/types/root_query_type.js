@@ -1,10 +1,11 @@
 const graphql = require('graphql');
 
-const { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID } = graphql;
 const UserType = require('./user_type');
 const GroupType = require('./group_type');
-const { getUser } = require('../../services/auth');
-const { fetchGroups } = require('../../services/group');
+const GroupDetailType = require('./group_detail_type');
+const { getUser } = require('../../services/user');
+const { fetchGroups, fetchGroupDetails } = require('../../services/group');
 
 const RootQueryType = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -41,6 +42,22 @@ const RootQueryType = new GraphQLObjectType({
               });
             });
             resolve(returnArray);
+          })
+          .catch(e => reject(e));
+        });
+      }
+    },
+    groupDetails: {
+      type: GroupDetailType,
+      args: {
+        token: { type: new GraphQLNonNull(GraphQLString) },
+        groupID: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve: (parentValue, { token, groupID }) => {
+        return new Promise((resolve, reject) => {
+          fetchGroupDetails({ token, groupID })
+          .then((details) => {
+            resolve(details);
           })
           .catch(e => reject(e));
         });

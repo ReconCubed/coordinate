@@ -3,15 +3,24 @@ const graphql = require('graphql');
 const {
   GraphQLInputObjectType,
   GraphQLString,
-  GraphQLInputType,
+  GraphQLObjectType
 } = graphql;
 
-const LocationType = new GraphQLInputObjectType({
-  name: 'LocationType',
+const LocationArgType = new GraphQLInputObjectType({
+  name: 'LocationArgType',
   fields: () => ({
     lat: { type: GraphQLString },
     lng: { type: GraphQLString },
   })
 });
 
-module.exports = LocationType;
+const LocationType = new GraphQLObjectType({
+  name: 'LocationType',
+  fields: () => ({
+    lat: { type: GraphQLString },
+    lng: { type: GraphQLString },
+    updatedAt: { type: GraphQLString }
+  })
+});
+
+module.exports = { LocationType, LocationArgType };

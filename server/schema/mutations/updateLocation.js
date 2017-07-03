@@ -1,5 +1,5 @@
 const { GraphQLString, GraphQLNonNull, GraphQLObjectType, GraphQLList } = require('graphql');
-const LocationType = require('../types/location_type');
+const { LocationArgType } = require('../types/location_type');
 const { updateLocation } = require('../../services/group');
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
   }),
   args: {
     token: { type: new GraphQLNonNull(GraphQLString) },
-    newLocation: { type: new GraphQLNonNull(LocationType) },
+    newLocation: { type: new GraphQLNonNull(LocationArgType) },
   },
   resolve: (parentValue, { token, newLocation }) => {
     return new Promise((resolve, reject) => {

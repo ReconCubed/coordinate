@@ -6,6 +6,7 @@ const GroupType = require('./group_type');
 const GroupDetailType = require('./group_detail_type');
 const { getUser } = require('../../services/user');
 const { fetchGroups, fetchGroupDetails } = require('../../services/group');
+const { fetchFriends } = require('../../services/friends');
 
 const RootQueryType = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -58,6 +59,26 @@ const RootQueryType = new GraphQLObjectType({
           fetchGroupDetails({ token, groupID })
           .then((details) => {
             resolve(details);
+          })
+          .catch(e => reject(e));
+        });
+      }
+    },
+    friends: {
+      type: new GraphQLList(UserType),
+      args: {
+        token: { type: new GraphQLNonNull(GraphQLString) },
+        userID: { type: GraphQLID }
+      },
+      resolve: (parentValue, args) => {
+        return new Promise((resolve, reject) => {
+          fetchFriends(args)
+          .then((friends) => {
+            const returnArray = [];
+            Array.from(Object.keys(friends)).forEach((friend) => {
+              returnArray.push({ id: friend });
+            });
+            resolve(returnArray);
           })
           .catch(e => reject(e));
         });

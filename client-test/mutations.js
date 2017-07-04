@@ -87,6 +87,14 @@ const RemoveUserFromGroup = `
   }
 `;
 
+const FetchFriends = `
+  query FetchFriends($token:String! $userID:ID){
+    friends(token:$token, userID:$userID) {
+      id
+    }
+  }
+`;
+
 const FetchGroupDetails = `
   query FetchGroupDetails($token:String!, $groupID:ID!) {
     groupDetails(token: $token, groupID:$groupID) {
@@ -129,5 +137,6 @@ export {
   AcceptGroupInvite,
   DeclineGroupInvite,
   RemoveUserFromGroup,
-  DeleteFriend
+  DeleteFriend,
+  FetchFriends
 };

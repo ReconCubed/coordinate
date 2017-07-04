@@ -20,10 +20,9 @@ firebase.auth().signInWithEmailAndPassword(users.u1.email, users.u1.password)
   .then((token) => {
     console.log(token);
     axios.post('http://localhost:8080/graphql', {
-      query: mutations.DeleteFriend,
+      query: mutations.FetchFriends,
       variables: {
         token,
-        friendID: 'aG1OTgMqI2SoFBkXxwU0JQLjgQN2'
       }
     })
     .then(res => console.log(res))

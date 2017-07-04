@@ -92,6 +92,21 @@ const removeFriend = ({ token, friendID }) => {
   });
 };
 
+const fetchFriends = ({ token, userID }) => {
+  return new Promise((resolve, reject) => {
+    verifyToken(token)
+    .then((uid) => {
+      db.ref(`users/${userID || uid}/public/friends/`)
+      .once('value', (snapshot) => {
+        const val = snapshot.val();
+        resolve(val);
+      })
+      .catch(e => reject(e));
+    })
+    .catch(e => reject(e));
+  });
+};
+
 const approveFriendRequest = ({ token, senderID, recipientID, requestID }) => {
   return new Promise((resolve, reject) => {
     removeFriendRequest({ token, senderID, recipientID, requestID })
@@ -110,4 +125,4 @@ const approveFriendRequest = ({ token, senderID, recipientID, requestID }) => {
   });
 };
 
-module.exports = { createFriendRequest, removeFriendRequest, approveFriendRequest, removeFriend };
+module.exports = { createFriendRequest, removeFriendRequest, approveFriendRequest, removeFriend, fetchFriends };

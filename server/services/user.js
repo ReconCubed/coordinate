@@ -3,24 +3,16 @@ const { verifyToken } = require('./auth');
 
 const db = admin.database();
 
-const genUserType = (user) => {
-  return {
-    username: user.displayName,
-    photo: user.photoURL,
-    id: user.uid
-  };
-};
-
-
 const getUser = ({ token, targetID }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
     .then(() => {
-      admin.auth().getUser(targetID)
-      .then((user) => {
-        resolve(genUserType(user));
-      })
-      .catch(error => reject(error));
+      db.ref(`users/${targetID}/public/info/`)
+      .on('value', (snapshot) => {
+        const username = snapshot.child('username').val();
+        const photo = snapshot.child('photo').val();
+        resolve({ id: targetID, username, photo });
+      });
     })
     .catch(error => reject(error));
   });
@@ -32,11 +24,10 @@ const getPrivateUserData = (token, targetUserId) => {
     .then((uid) => {
       const target = targetUserId === 'self' ? uid : targetUserId;
       db.ref(`users/${target}/public`)
-      .once('value', (snapshot) => {
+      .on('value', (snapshot) => {
         const val = snapshot.val();
         if (val) {
           val.id = target;
-          console.log(val);
           if (val.friends) {
             val.friends = Object.keys(val.friends);
           }

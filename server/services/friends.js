@@ -1,5 +1,6 @@
 const admin = require('./admin');
 const { verifyToken } = require('./auth');
+const { getUser } = require('./user');
 
 const db = admin.database();
 
@@ -92,16 +93,28 @@ const removeFriend = ({ token, friendID }) => {
   });
 };
 
-const fetchFriends = ({ token, userID }) => {
+// change to child added/modified/changed
+const fetchFriendsList = ({ token, userID }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
     .then((uid) => {
       db.ref(`users/${userID || uid}/public/friends/`)
-      .once('value', (snapshot) => {
-        const val = snapshot.val();
-        resolve(val);
-      })
-      .catch(e => reject(e));
+      .on('value', (snapshot) => {
+        resolve(Array.from(Object.keys(snapshot.val())));
+      });
+    })
+    .catch(e => reject(e));
+  });
+};
+
+const fetchFriends = ({ token, userID }) => {
+  return new Promise((resolve, reject) => {
+    fetchFriendsList({ token, userID })
+    .then((friends) => {
+      const friendArray = friends.map(((targetID) => {
+        return getUser({ token, targetID });
+      }));
+      resolve(friendArray);
     })
     .catch(e => reject(e));
   });

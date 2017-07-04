@@ -1,5 +1,7 @@
 const admin = require('./admin');
 
+const db = admin.database();
+
 const verifyToken = (token) => {
   return new Promise((resolve, reject) => {
     admin.auth().verifyIdToken(token)
@@ -23,7 +25,16 @@ const signup = ({ email, photo, username, password }) => {
       photoURL: photo,
       displayName: username
     })
-    .then(({ uid }) => resolve({ id: uid, photo, email }))
+    .then(({ uid }) => {
+      db.ref(`users/${uid}/public/info/`)
+      .set({
+        email,
+        photo,
+        username
+      })
+      .then(() => resolve({ id: uid, photo, username }))
+      .catch(e => reject(e));
+    })
     .catch((e) => {
       console.error(e);
       reject();

@@ -14,6 +14,7 @@ const dummyLocation = {
 };
 
 firebase.initializeApp(config.firebaseConfig);
+
 firebase.auth().signInWithEmailAndPassword(users.u1.email, users.u1.password)
 .then(() => {
   getToken()

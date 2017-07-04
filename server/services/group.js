@@ -172,7 +172,7 @@ const fetchGroupDetails = ({ token, groupID }) => {
     verifyToken(token)
     .then(() => {
       db.ref(`groups/${groupID}/`)
-      .once('value', (snapshot) => {
+      .on('value', (snapshot) => {
         const details = snapshot.val();
         const groupDetails = genGroupDetails({ token, details, id: groupID });
         resolve(groupDetails);
@@ -188,7 +188,7 @@ const fetchGroups = ({ token, inactive }) => {
     verifyToken(token)
     .then((uid) => {
       db.ref(`users/${uid}/private/groups/${inactive ? 'inactive/' : 'active/'}`)
-      .once('value', (snapshot) => {
+      .on('value', (snapshot) => {
         const groupObject = snapshot.val();
         if (!groupObject) {
           reject('No groups found');

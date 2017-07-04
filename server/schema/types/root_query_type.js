@@ -74,11 +74,7 @@ const RootQueryType = new GraphQLObjectType({
         return new Promise((resolve, reject) => {
           fetchFriends(args)
           .then((friends) => {
-            const returnArray = [];
-            Array.from(Object.keys(friends)).forEach((friend) => {
-              returnArray.push({ id: friend });
-            });
-            resolve(returnArray);
+            resolve(friends);
           })
           .catch(e => reject(e));
         });

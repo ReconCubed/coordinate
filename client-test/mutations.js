@@ -90,7 +90,9 @@ const RemoveUserFromGroup = `
 const FetchFriends = `
   query FetchFriends($token:String! $userID:ID){
     friends(token:$token, userID:$userID) {
-      id
+      id,
+      username,
+      photo
     }
   }
 `;

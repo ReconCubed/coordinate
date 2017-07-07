@@ -8,10 +8,50 @@ const db = admin.database();
 const addToAcceptedMembers = ({ groupID, name, userID }) => {
   return new Promise((resolve, reject) => {
     const updateObject = {};
-    updateObject[`groups/${groupID}/members/accepted/${userID}/`] = { acceptedAt: admin.database.ServerValue.TIMESTAMP };
+    updateObject[`groups/${groupID}/members/accepted/${userID}/acceptedAt`] = admin.database.ServerValue.TIMESTAMP;
     updateObject[`users/${userID}/private/groups/active/${groupID}/`] = { name };
     db.ref().update(updateObject)
     .then(() => resolve())
+    .catch(e => reject(e));
+  });
+};
+
+const deactivateGroup = ({ token, groupID }) => {
+  return new Promise((resolve, reject) => {
+    verifyToken(token)
+    .then((uid) => {
+      db.ref(`groups/${groupID}/`)
+      .once('value', (snapshot) => {
+        console.log(snapshot.val());
+        if (snapshot.child('createdBy').val() !== uid) {
+          reject('Only the creator of the group may perform this action');
+        }
+        const activeMembers = Array.from(Object.keys(snapshot.child('members').child('accepted').val()));
+        const pendingMembers = Array.from(Object.keys(snapshot.child('members').child('pending').val()));
+        const serverTime = admin.database.ServerValue.TIMESTAMP;
+        const updateObject = {};
+        if (activeMembers) {
+          activeMembers.forEach((member) => {
+            updateObject[`users/${member}/private/groups/active/${groupID}/`] = null;
+            updateObject[`users/${member}/private/groups/inactive/${groupID}/`] = { name: snapshot.child('name').val(), lastActive: serverTime };
+            updateObject[`groups/${groupID}/members/accepted/${member}/`] = null;
+            updateObject[`groups/${groupID}/members/inactive/${member}/`] = { lastActive: serverTime };
+          });
+        }
+        if (pendingMembers) {
+          pendingMembers.forEach((member) => {
+            updateObject[`groups/${groupID}/members/pending/`] = null;
+            updateObject[`users/${member}/private/groups/pending/${groupID}/`] = null;
+          });
+        }
+        updateObject[`groups/${groupID}/active`] = false;
+        updateObject[`groups/${groupID}/targetLocation`] = null;
+        updateObject[`groups/${groupID}/lastActive`] = serverTime;
+        db.ref().update(updateObject)
+        .then(() => resolve(groupID))
+        .catch(e => reject(e));
+      });
+    })
     .catch(e => reject(e));
   });
 };
@@ -26,7 +66,8 @@ const createGroup = ({ token, name, targetLocation }) => {
         name,
         targetLocation,
         createdBy: uid,
-        createdAt: serverTime
+        createdAt: serverTime,
+        active: true
       })
       .then(({ key }) => {
         addToAcceptedMembers({ groupID: key, name, userID: uid })
@@ -207,5 +248,6 @@ module.exports = {
   inviteToGroup,
   approveGroupInvite,
   removePendingUser,
-  removeFromGroup
+  removeFromGroup,
+  deactivateGroup
 };

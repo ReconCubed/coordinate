@@ -1,30 +1,45 @@
-const admin = require('firebase-admin');
-const serviceAccount = require('../../../../.secret/coordinate-26851-firebase-adminsdk-342k8-0ef096b97c.json');
+const admin = require('./admin');
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://coordinate-26851.firebaseio.com'
-});
+const db = admin.database();
 
-const verifyToken = (idToken) => {
-  admin.auth().verifyIdToken(idToken)
-  .then((decodedToken) => {
-    const uid = decodedToken.uid;
-    // do something
-    console.log(uid);
-  })
-  .catch((error) => {
-    console.error(error);
+const verifyToken = (token) => {
+  return new Promise((resolve, reject) => {
+    admin.auth().verifyIdToken(token)
+    .then((decodedToken) => {
+      const uid = decodedToken.uid;
+      resolve(uid);
+    })
+    .catch((error) => {
+      console.error(error);
+      reject();
+    });
   });
 };
 
-
-const login = () => {
-
+const signup = ({ email, photo, username, password }) => {
+  return new Promise((resolve, reject) => {
+    admin.auth().createUser({
+      email,
+      emailVerified: false,
+      password,
+      photoURL: photo,
+      displayName: username
+    })
+    .then(({ uid }) => {
+      db.ref(`users/${uid}/public/info/`)
+      .set({
+        email,
+        photo,
+        username
+      })
+      .then(() => resolve({ id: uid, photo, username }))
+      .catch(e => reject(e));
+    })
+    .catch((e) => {
+      console.error(e);
+      reject();
+    });
+  });
 };
 
-const signup = () => {
-
-};
-
-module.exports = { login, signup };
+module.exports = { signup, verifyToken };

@@ -56,6 +56,35 @@ const deactivateGroup = ({ token, groupID }) => {
   });
 };
 
+const addNotification = ({ userID, type, body }) => {
+  return new Promise((resolve, reject) => {
+    db.ref(`users/${userID}/private/notifications/`)
+    .push({ type, body })
+    .then(({ key }) => resolve({ notificationID: key }))
+    .catch(e => reject(e));
+  });
+};
+
+const designateNewLeader = ({ token, groupID, newLeaderID }) => {
+  return new Promise((resolve, reject) => {
+    verifyToken(token)
+    .then((uid) => {
+      db.ref(`groups/${groupID}/leader/`)
+      .once('value', (snapshot) => {
+        const leader = snapshot.val();
+        if (leader !== uid) {
+          reject('You must be the current leader to perform this operation');
+        }
+        db.ref(`groups/${groupID}/`).set({ leader: newLeaderID })
+        .then(() => resolve(newLeaderID))
+        .catch(e => reject(e));
+      })
+      .catch(e => reject(e));
+    })
+    .catch(e => reject(e));
+  });
+};
+
 const createGroup = ({ token, name, targetLocation }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
@@ -67,6 +96,7 @@ const createGroup = ({ token, name, targetLocation }) => {
         targetLocation,
         createdBy: uid,
         createdAt: serverTime,
+        leader: uid,
         active: true
       })
       .then(({ key }) => {
@@ -104,10 +134,10 @@ const updateLocation = ({ token, newLocation }) => {
 };
 
 const genGroupDetails = ({ token, details, id }) => {
-  const { name, createdBy, members, targetLocation } = details;
+  const { name, createdBy, members, targetLocation, leader } = details;
   const returnObj = { id, name, targetLocation };
   returnObj.createdBy = getUser({ token, targetID: createdBy });
-
+  returnObj.leader = getUser({ token, targetID: leader });
   const membersArray = [];
   Array.from(Object.keys(members.accepted)).forEach((member) => {
     const user = getUser({ token, targetID: member });

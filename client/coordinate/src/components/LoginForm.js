@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Text, AsyncStorage } from 'react-native';
 import { graphql } from 'react-apollo';
+import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 import { LogIn } from '../graphql/mutations';
-import { Card, CardSection, Input, Button } from './common';
+import { Card, CardSection, Input, Button, Spinner } from './common';
 
 class LoginForm extends Component {
 
@@ -12,7 +13,7 @@ class LoginForm extends Component {
 
     this.state = {
       email: '',
-      password: ''
+      password: '',
     };
   }
 
@@ -26,6 +27,7 @@ class LoginForm extends Component {
 
   onSubmit() {
     const getToken = () => firebase.auth().currentUser.getIdToken(true);
+    this.setState({ showSpinner: true });
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
       getToken()
@@ -35,7 +37,10 @@ class LoginForm extends Component {
           AsyncStorage.setItem('auth_token', token)
           .then(() => {
             this.props.mutate()
-            .then(resp => console.log(resp))
+            .then((resp) => {
+              console.log(resp);
+              Actions.create_group_form();
+            })
             .catch(e => console.error(e));
           })
           .catch(e => console.error(e));
@@ -45,7 +50,21 @@ class LoginForm extends Component {
       })
       .catch(error => console.error(error));
     })
-    .catch(() => this.setState({ error: 'Invalid email or password' }));
+    .catch(() => this.setState({ error: 'Invalid email or password' }))
+    .then(() => this.setState({ showSpinner: false }));
+  }
+
+  renderSubmitButton() {
+    if (!this.state.showSpinner) {
+      return (
+        <Button onPress={() => this.onSubmit()}>
+          Login
+        </Button>
+      );
+    }
+    return (
+      <Spinner />
+    );
   }
 
   render() {
@@ -72,9 +91,7 @@ class LoginForm extends Component {
           {this.state.error}
         </Text>
         <CardSection>
-          <Button onPress={() => this.onSubmit()}>
-            Login
-          </Button>
+          {this.renderSubmitButton()}
         </CardSection>
       </Card>
     );

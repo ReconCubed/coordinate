@@ -1,6 +1,6 @@
 const UserType = require('../types/user_type');
 const { GraphQLString, GraphQLNonNull } = require('graphql');
-const { signup, setAsLoggedIn } = require('../../services/auth');
+const { signup, setAsLoggedIn } = require('../../services/user-auth');
 
 const signUp = {
   type: UserType,

@@ -8,8 +8,7 @@
   "main": "index.js",
   "scripts": {
     "start:hot": "nodemon ./server/server.js",
-    "start": "node ./server/server.js",
-    "dev": "webpack --config ./webpack.config.js -d --watch"
+    "start": "node ./server/server.js"
   },
   "author": "github.com/krumbot",
   "license": "ISC",
@@ -43,7 +42,6 @@
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.3",
-    "webpack": "^2.2.0"
+    "eslint-plugin-react": "^6.10.3"
   }
 }

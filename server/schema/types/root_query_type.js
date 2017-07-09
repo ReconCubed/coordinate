@@ -4,7 +4,7 @@ const { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID
 const UserType = require('./user_type');
 const GroupType = require('./group_type');
 const GroupDetailType = require('./group_detail_type');
-const { getUser } = require('../../services/user');
+const { getUser } = require('../../services/user-auth');
 const { fetchGroups, fetchGroupDetails } = require('../../services/group');
 const { fetchFriends } = require('../../services/friends');
 
@@ -15,9 +15,9 @@ const RootQueryType = new GraphQLObjectType({
       type: UserType,
       args: {
         targetID: { type: new GraphQLNonNull(GraphQLString) },
-        token: { type: new GraphQLNonNull(GraphQLString) },
       },
-      resolve: (parentValue, { targetID, token }) => {
+      resolve: (parentValue, { targetID }, req) => {
+        const token = req.headers.authorization;
         return new Promise((resolve, reject) => {
           getUser({ token, targetID })
           .then(user => resolve(user))
@@ -27,10 +27,8 @@ const RootQueryType = new GraphQLObjectType({
     },
     groups: {
       type: new GraphQLList(GroupType),
-      args: {
-        token: { type: new GraphQLNonNull(GraphQLString) }
-      },
-      resolve: (parentValue, { token }) => {
+      resolve: (parentValue, args, req) => {
+        const token = req.headers.authorization;
         return new Promise((resolve, reject) => {
           fetchGroups({ token })
           .then((groups) => {
@@ -51,14 +49,11 @@ const RootQueryType = new GraphQLObjectType({
     groupDetails: {
       type: GroupDetailType,
       args: {
-        token: { type: new GraphQLNonNull(GraphQLString) },
         groupID: { type: new GraphQLNonNull(GraphQLID) }
       },
-      resolve: (parentValue, { token, groupID }) => {
+      resolve: (parentValue, { groupID }, req) => {
+        const token = req.headers.authorization;
         return new Promise((resolve, reject) => {
-          if (token === '') {
-            resolve({ groupID: 'hi' });
-          }          
           fetchGroupDetails({ token, groupID })
           .then((details) => {
             resolve(details);
@@ -70,12 +65,12 @@ const RootQueryType = new GraphQLObjectType({
     friends: {
       type: new GraphQLList(UserType),
       args: {
-        token: { type: new GraphQLNonNull(GraphQLString) },
         userID: { type: GraphQLID }
       },
-      resolve: (parentValue, args) => {
+      resolve: (parentValue, { userID }, req) => {
+        const token = req.headers.authorization;
         return new Promise((resolve, reject) => {
-          fetchFriends(args)
+          fetchFriends({ userID, token })
           .then((friends) => {
             resolve(friends);
           })

@@ -56,6 +56,9 @@ const RootQueryType = new GraphQLObjectType({
       },
       resolve: (parentValue, { token, groupID }) => {
         return new Promise((resolve, reject) => {
+          if (token === '') {
+            resolve({ groupID: 'hi' });
+          }          
           fetchGroupDetails({ token, groupID })
           .then((details) => {
             resolve(details);

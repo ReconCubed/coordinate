@@ -1,4 +1,9 @@
 const admin = require('./admin');
+const userFuncs = require('./user');
+
+
+console.log(admin)
+console.log(userFuncs);
 
 const db = admin.database();
 
@@ -13,6 +18,23 @@ const verifyToken = (token) => {
       console.error(error);
       reject();
     });
+  });
+};
+
+const setAsLoggedIn = ({ token }) => {
+  return new Promise((resolve, reject) => {
+    verifyToken(token)
+    .then((uid) => {
+      db.ref(`users/${uid}/`)
+      .update({ loggedIn: true })
+      .then(() => {
+        userFuncs.getUser({ token, targetID: uid })
+        .then(user => resolve(user))
+        .catch(e => reject(e));
+      })
+      .catch(e => reject(e));
+    })
+    .catch(e => reject(e));
   });
 };
 
@@ -42,4 +64,4 @@ const signup = ({ email, photo, username, password }) => {
   });
 };
 
-module.exports = { signup, verifyToken };
+module.exports = { signup, verifyToken, setAsLoggedIn };

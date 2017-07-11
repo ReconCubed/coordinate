@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Text, View } from 'react-native';
-import { Card, CardSection, Input } from './common';
+import TextField from 'react-native-md-textinput';
+import { View, ScrollView } from 'react-native';
+import { Button, Card, ListItem } from 'react-native-material-ui';
+import { CardSection } from './common';
 import { googlePlacesConfig } from '../../app_config';
 
 
@@ -11,10 +13,8 @@ class CreateGroupForm extends Component {
 
     this.state = {
       name: '',
-      locationKeyword: '',
-      location: '',
-      time: '',
-      members: []
+      members: [],
+      memberKeyword: ''
     };
     console.log(googlePlacesConfig);
   }
@@ -23,14 +23,28 @@ class CreateGroupForm extends Component {
     this.setState({ name });
   }
 
-  onLocationKeywordChange(locationKeyword) {
-    this.setState({ locationKeyword });
+  onMemberKeywordChange(memberKeyword) {
+    this.setState({ memberKeyword });
+  }
+
+  renderFriendSearch() {
+    return (
+      <ScrollView>
+        <TextField
+          label={'members'}
+          onChangeText={value => this.onMemberKeywordChange(value)}
+          value={this.state.memberKeyword}
+          highlightColor={'#4c19ce'}
+          autocorrect={false}
+        />
+      </ScrollView>
+    );
   }
 
   renderLocationSearch() {
     return (
       <GooglePlacesAutocomplete
-        placeholder={'Search'}
+        label={'meetup location'}
         minLength={2}
         autoFocus={false}
         listViewDisplayed={'auto'}
@@ -58,12 +72,10 @@ class CreateGroupForm extends Component {
             justifyContent: 'flex-start'
           },
           textInput: {
-            labelStyle: {
-              fontSize: 18,
-              paddingLeft: 20,
-              flex: 1,
-              lineHeight: 23,
-            },
+            fontSize: 18,
+            paddingLeft: 5,
+            flex: 1,
+            lineHeight: 23,
           },
         }}
         nearbyPlacesAPI={'GooglePlacesSearch'}
@@ -78,27 +90,43 @@ class CreateGroupForm extends Component {
 
   render() {
     return (
-      <Card>
-        <CardSection>
-          <Input
-            label={'name'}
-            placeholder={'My Group Name'}
-            onChangeText={value => this.onGroupNameChange(value)}
-            value={this.state.name}
-          />
-        </CardSection>
-        <CardSection>
-          <Input
-            label={'location'}
-            placeholder={'My Favorite Bar'}
-            onChangeText={value => this.onLocationKeywordChange(value)}
-            value={this.state.locationKeyword}
-          />
-        </CardSection>
-        <CardSection>
-        {this.renderLocationSearch()}
-        </CardSection>
-      </Card>
+      <ScrollView>
+        <Card>
+          <CardSection>
+            <ScrollView>
+              <TextField
+                label={'name'}
+                onChangeText={value => this.onGroupNameChange(value)}
+                value={this.state.name}
+                highlightColor={'#4c19ce'}
+                fontSize={24}
+                autocorrect={false}
+              />
+            </ScrollView>
+          </CardSection>
+          <CardSection>
+          {this.renderLocationSearch()}
+          </CardSection>
+          <CardSection>
+            <ScrollView>
+              <TextField
+                label={'members'}
+                onChangeText={value => this.onMemberKeywordChange(value)}
+                value={this.state.memberKeyword}
+                highlightColor={'#4c19ce'}
+                autocorrect={false}
+                onClick={(event) => {
+                  event.preventDefault();
+                  console.log('hi');
+                }}
+              />
+            </ScrollView>
+          </CardSection>  
+          <View style={{ bottom: 0 }}> 
+            <Button primary raised text={'Create'} />
+          </View>  
+        </Card>
+      </ScrollView>
     );
   }
 }

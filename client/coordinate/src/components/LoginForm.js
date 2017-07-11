@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Text, AsyncStorage } from 'react-native';
+import { View, Text, AsyncStorage, ScrollView } from 'react-native';
+import TextField from 'react-native-md-textinput';
 import { graphql } from 'react-apollo';
 import { Actions } from 'react-native-router-flux';
+import { Card, Button } from 'react-native-material-ui';
 import firebase from 'firebase';
 import { LogIn } from '../graphql/mutations';
-import { Card, CardSection, Input, Button, Spinner } from './common';
+import { CardSection, Spinner } from './common';
 
 class LoginForm extends Component {
 
@@ -57,9 +59,10 @@ class LoginForm extends Component {
   renderSubmitButton() {
     if (!this.state.showSpinner) {
       return (
-        <Button onPress={() => this.onSubmit()}>
-          Login
-        </Button>
+        <View style={{ flex: 1, display: 'flex' }}>
+          <Button raised primary text='Log In' onPress={() => this.onSubmit()}>
+          </Button>
+        </View>
       );
     }
     return (
@@ -71,21 +74,26 @@ class LoginForm extends Component {
     return (
       <Card>
         <CardSection>
-          <Input
-            label={'email'}
-            placeholder={'email@gmail.com'}
-            onChangeText={value => this.onEmailChange(value)}
-            value={this.state.email}
-          />
+          <ScrollView >
+            <TextField
+              autoCapitalize={false}
+              label={'email'}
+              onChangeText={value => this.onEmailChange(value)}
+              value={this.state.email}
+              highlightColor={'#4c19ce'}
+            />
+          </ScrollView>
         </CardSection>
         <CardSection>
-          <Input
-            secureTextEntry
-            label={'password'}
-            placeholder={'password'}
-            onChangeText={value => this.onPasswordChange(value)}
-            value={this.state.password}
-          />
+          <ScrollView>
+            <TextField
+              secureTextEntry
+              label={'password'}
+              onChangeText={value => this.onPasswordChange(value)}
+              value={this.state.password}
+              highlightColor={'#4c19ce'}
+            />
+          </ScrollView>
         </CardSection>
         <Text style={styles.errorTextStyle}>
           {this.state.error}

@@ -239,7 +239,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		H8ca35BgZIAloRgUHIGAXGI0i2s=
+		oKH+DQ5XlABSPNIH6uK/ppKKX/s=
 		</data>
 		<key>Ionicons.ttf</key>
 		<data>
@@ -267,7 +267,7 @@
 		</data>
 		<key>PlugIns/coordinateTests.xctest.dSYM/Contents/Resources/DWARF/coordinateTests</key>
 		<data>
-		/z2Gd75yMaRlL1m1RurGHXFWnjg=
+		qxTmbezJ/xWVY69ENvMBdg7aGTc=
 		</data>
 		<key>PlugIns/coordinateTests.xctest/Info.plist</key>
 		<data>
@@ -279,7 +279,55 @@
 		</data>
 		<key>PlugIns/coordinateTests.xctest/coordinateTests</key>
 		<data>
-		ChOHaqknxu3ocmgVwIemYiD95D4=
+		kvZ4eeBuVB87DDC5s0BeDP1Nxo4=
+		</data>
+		<key>Roboto-Black.ttf</key>
+		<data>
+		xXJBa5WHxA1J6mDHEo9/F7kxetg=
+		</data>
+		<key>Roboto-BlackItalic.ttf</key>
+		<data>
+		bIrMNrvfF7zWozdWqkLiVXuz+AU=
+		</data>
+		<key>Roboto-Bold.ttf</key>
+		<data>
+		DON87Zxfysm9xFKkMsEliHC6Rnc=
+		</data>
+		<key>Roboto-BoldItalic.ttf</key>
+		<data>
+		jNeeR+2Kn56nn/oYaFKtfLrVaH8=
+		</data>
+		<key>Roboto-Italic.ttf</key>
+		<data>
+		AhPjjf/eKgpWcthPtixqqZTjjDs=
+		</data>
+		<key>Roboto-Light.ttf</key>
+		<data>
+		c6K7LW5ZGpD/tO0RijmJ+xe1THs=
+		</data>
+		<key>Roboto-LightItalic.ttf</key>
+		<data>
+		A37yvzB2QiA4WN0lL8RutABoTwI=
+		</data>
+		<key>Roboto-Medium.ttf</key>
+		<data>
+		Xxb01tu0pPEtiulkiKwgm7SXYqU=
+		</data>
+		<key>Roboto-MediumItalic.ttf</key>
+		<data>
+		yrYX7M9tsDlmdeycQudHpHOPBZ8=
+		</data>
+		<key>Roboto-Regular.ttf</key>
+		<data>
+		3RsdsT/x9yE4wTTGLzj++DdJ82o=
+		</data>
+		<key>Roboto-Thin.ttf</key>
+		<data>
+		lRSteu40FZT0OjOJPws9im2B8y4=
+		</data>
+		<key>Roboto-ThinItalic.ttf</key>
+		<data>
+		ySl9IWZhjaK2aga6z8vVC2hYHm8=
 		</data>
 		<key>SimpleLineIcons.ttf</key>
 		<data>
@@ -980,11 +1028,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			/z2Gd75yMaRlL1m1RurGHXFWnjg=
+			qxTmbezJ/xWVY69ENvMBdg7aGTc=
 			</data>
 			<key>hash2</key>
 			<data>
-			MsEVrcHVuKtx/ALqZ4CsiKMzBstcMYAhD2aZZDxwC6s=
+			qrAX8Dp8FufRoG9kR4QwRPJea4hJZs7IK0I2xH8GniA=
 			</data>
 		</dict>
 		<key>PlugIns/coordinateTests.xctest/Info.plist</key>
@@ -1013,11 +1061,143 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ChOHaqknxu3ocmgVwIemYiD95D4=
+			kvZ4eeBuVB87DDC5s0BeDP1Nxo4=
 			</data>
 			<key>hash2</key>
 			<data>
-			PAcoZtUD9Qgvp8azgHzb36ASweI6sjPqGcHv+rwz7rc=
+			iLDjpRhOWqXJBK1tCv6/qM+9yiEAXQPIlrQcWk6wPNc=
+			</data>
+		</dict>
+		<key>Roboto-Black.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			xXJBa5WHxA1J6mDHEo9/F7kxetg=
+			</data>
+			<key>hash2</key>
+			<data>
+			OHLps5dgobWaweGSYz27O1jllbTUI5MKx97VJemuJeA=
+			</data>
+		</dict>
+		<key>Roboto-BlackItalic.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			bIrMNrvfF7zWozdWqkLiVXuz+AU=
+			</data>
+			<key>hash2</key>
+			<data>
+			AT0ipPsmOK26KFVe4ZNm9FhfbcUzt8My9JMaIxSXyyI=
+			</data>
+		</dict>
+		<key>Roboto-Bold.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			DON87Zxfysm9xFKkMsEliHC6Rnc=
+			</data>
+			<key>hash2</key>
+			<data>
+			fQuZHuPgvnrwGtfqjNK+6mwAol5nmgImtnN/B5qv/4Y=
+			</data>
+		</dict>
+		<key>Roboto-BoldItalic.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			jNeeR+2Kn56nn/oYaFKtfLrVaH8=
+			</data>
+			<key>hash2</key>
+			<data>
+			pLysFPQZqX3gkXGYpLxRw+1PxKPbn2ilEC8jZk7gE1Q=
+			</data>
+		</dict>
+		<key>Roboto-Italic.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			AhPjjf/eKgpWcthPtixqqZTjjDs=
+			</data>
+			<key>hash2</key>
+			<data>
+			X86Lb4up9NGfDVNeJB1WorjnK7B+ffcR2WjQku9/n8o=
+			</data>
+		</dict>
+		<key>Roboto-Light.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			c6K7LW5ZGpD/tO0RijmJ+xe1THs=
+			</data>
+			<key>hash2</key>
+			<data>
+			ptND1CW8ONuQFS+gYFixxzkeypJk8zTvZcHOF1CFxvY=
+			</data>
+		</dict>
+		<key>Roboto-LightItalic.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			A37yvzB2QiA4WN0lL8RutABoTwI=
+			</data>
+			<key>hash2</key>
+			<data>
+			Nkoj4Txkk3w/zqPbd4YouJN5yJOEm7reblv4PF9gXGo=
+			</data>
+		</dict>
+		<key>Roboto-Medium.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Xxb01tu0pPEtiulkiKwgm7SXYqU=
+			</data>
+			<key>hash2</key>
+			<data>
+			8gXMURgh6lYHihBVV/zqYlMSlATUEcmX4YZvvQBqu2g=
+			</data>
+		</dict>
+		<key>Roboto-MediumItalic.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			yrYX7M9tsDlmdeycQudHpHOPBZ8=
+			</data>
+			<key>hash2</key>
+			<data>
+			8Xfu0Q0kcNE+xo0EkHpYKCnQ7oKB+KAqkG9pVMeBblg=
+			</data>
+		</dict>
+		<key>Roboto-Regular.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			3RsdsT/x9yE4wTTGLzj++DdJ82o=
+			</data>
+			<key>hash2</key>
+			<data>
+			eehRQEZX2sIQaz0irSVtR4JKmldlRY7bcskQKkWBbZU=
+			</data>
+		</dict>
+		<key>Roboto-Thin.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			lRSteu40FZT0OjOJPws9im2B8y4=
+			</data>
+			<key>hash2</key>
+			<data>
+			PZH3qmnLf3BkA1iVxWasXLmyCEWC01Gvcme7Tg+6YPU=
+			</data>
+		</dict>
+		<key>Roboto-ThinItalic.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ySl9IWZhjaK2aga6z8vVC2hYHm8=
+			</data>
+			<key>hash2</key>
+			<data>
+			9eiaNEiUpg8PmPHAGCulH1BG4p3eMRiCDTkCVEWuqug=
 			</data>
 		</dict>
 		<key>SimpleLineIcons.ttf</key>

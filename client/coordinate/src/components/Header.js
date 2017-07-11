@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Toolbar } from 'react-native-material-design';
+import { Toolbar } from 'react-native-material-ui';
 
 
 class Header extends Component {
   render() {
     console.log(this.props);
     return (
-      <View style={{ paddingBottom: 56 }}>
+      <View>
         <Toolbar
-          title={this.props.title}
-          icon={'menu'}
+          leftElement="menu"
+          centerElement={this.props.title}
         />
       </View>
     );

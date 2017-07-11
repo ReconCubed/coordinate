@@ -2,10 +2,21 @@ import React, { Component } from 'react';
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import { AsyncStorage } from 'react-native';
 import firebase from 'firebase';
+import { COLOR, ThemeProvider } from 'react-native-material-ui';
 import { ApolloProvider } from 'react-apollo';
 import Router from './Router';
 
-// TEMPORARY! - until front-end auth view is implemented
+const uiTheme = {
+  palette: {
+    primaryColor: '#553ecb',
+  },
+  toolbar: {
+    container: {
+      height: 50,
+    },
+  },
+};
+
 
 const initFirebase = () => {
   const config = {
@@ -68,10 +79,13 @@ class App extends Component {
   }
 
   render() {
+
     return (
-    <ApolloProvider client={this.client}>
-      <Router />
-    </ApolloProvider>
+    <ThemeProvider uiTheme={uiTheme}>
+      <ApolloProvider client={this.client}>
+        <Router />
+      </ApolloProvider>
+    </ThemeProvider>
     );
   }
 }

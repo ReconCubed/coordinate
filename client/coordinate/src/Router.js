@@ -12,13 +12,12 @@ const RouterComponent = () => {
             key="login"
             component={LoginForm}
             title={'Log In'}
-            
+            initial
           />
           <Scene
             key="create_group_form"
             component={CreateGroupForm}
             title={'Create a Group'}
-            initial
           />
         </Scene>
     </Router>

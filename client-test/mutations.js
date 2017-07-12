@@ -95,15 +95,6 @@ const SetGroupInactive = `
   }
 `;
 
-const FetchFriends = `
-  query FetchFriends($token:String! $userID:ID){
-    friends(token:$token, userID:$userID) {
-      id,
-      username,
-      photo
-    }
-  }
-`;
 
 const FetchGroupDetails = `
   query FetchGroupDetails($token:String!, $groupID:ID!) {

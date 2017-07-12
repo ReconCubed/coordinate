@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import TextField from 'react-native-md-textinput';
-import { View, ScrollView } from 'react-native';
-import { Button, Card, ListItem } from 'react-native-material-ui';
+import { Actions } from 'react-native-router-flux';
+import { View, ScrollView, TouchableHighlight, Text } from 'react-native';
+import firebase from 'firebase';
+import { Button, Card, ListItem, Divider } from 'react-native-material-ui';
 import { CardSection } from './common';
 import { googlePlacesConfig } from '../../app_config';
 
 
 class CreateGroupForm extends Component {
   constructor(props) {
+    console.log(firebase.auth().currentUser);
     super(props);
 
     this.state = {
@@ -89,6 +92,7 @@ class CreateGroupForm extends Component {
   }
 
   render() {
+    console.log(this);
     return (
       <ScrollView>
         <Card>
@@ -108,23 +112,16 @@ class CreateGroupForm extends Component {
           {this.renderLocationSearch()}
           </CardSection>
           <CardSection>
-            <ScrollView>
-              <TextField
-                label={'members'}
-                onChangeText={value => this.onMemberKeywordChange(value)}
-                value={this.state.memberKeyword}
-                highlightColor={'#4c19ce'}
-                autocorrect={false}
-                onClick={(event) => {
-                  event.preventDefault();
-                  console.log('hi');
-                }}
-              />
-            </ScrollView>
-          </CardSection>  
-          <View style={{ bottom: 0 }}> 
+            <TouchableHighlight style={{ paddingTop: 30, display: 'flex', flex: 1 }} onPress={() => Actions.add_group_members()}>
+            <View>
+                <Text style={styles.inputStyle}>members</Text>
+                <Divider primary />
+            </View>
+            </TouchableHighlight>
+          </CardSection>
+          <View style={{ bottom: 0 }}>
             <Button primary raised text={'Create'} />
-          </View>  
+          </View>
         </Card>
       </ScrollView>
     );
@@ -133,12 +130,15 @@ class CreateGroupForm extends Component {
 
 const styles = {
   inputStyle: {
-    color: '#000',
+    color: '#9E9E9E',
     paddingRight: 5,
-    paddingLeft: 5,
-    fontSize: 18,
+    paddingLeft: 0,
+    fontSize: 16,
     lineHeight: 23,
-    flex: 2
+    flex: 2,
+    height: 30,
+    display: 'flex',
+    flexDirection: 'row'
   },
   labelStyle: {
     fontSize: 18,

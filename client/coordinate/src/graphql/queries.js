@@ -30,6 +30,17 @@ const FetchGroupDetails = gql`
   }
 `;
 
+const FetchFriends = gql`
+  query FetchFriends($userID: ID){
+    friends(userID:$userID) {
+      id,
+      username,
+      photo
+    }
+  }
+`;
+
 export {
-  FetchGroupDetails
+  FetchGroupDetails,
+  FetchFriends
 };

@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import TextField from 'react-native-md-textinput';
 import { Actions } from 'react-native-router-flux';
+import { compose, graphql } from 'react-apollo';
 import { View, ScrollView, TouchableHighlight, Text } from 'react-native';
-import firebase from 'firebase';
-import { Button, Card, ListItem, Divider } from 'react-native-material-ui';
+import { Button, Card, Divider } from 'react-native-material-ui';
 import { CardSection } from './common';
 import { googlePlacesConfig } from '../../app_config';
-
+import { CreateGroup, InviteUsersToGroup } from '../graphql/mutations';
 
 class CreateGroupForm extends Component {
   constructor(props) {
@@ -15,11 +15,8 @@ class CreateGroupForm extends Component {
     this.state = {
       name: props.groupName || '',
       members: props.groupMembers || {},
-      location: props.groupLocation || '',
+      location: props.groupLocation || {},
     };
-  }
-
-  componentWillMount() {
   }
 
   componentDidMount() {
@@ -28,27 +25,30 @@ class CreateGroupForm extends Component {
     }
   }
 
+  createGroup() {
+    const members = Array.from(Object.keys(this.state.members));
+    this.props.createGroup_mutation({
+      variables: {
+        name: this.state.name,
+        targetLocation: this.state.location,
+      }
+    })
+    .then(({ data }) => {
+      console.log(data);
+      this.props.inviteUsersToGroup_mutation({
+        variables: {
+          groupID: data.createGroup.id,
+          userIDArray: members
+        }
+      })
+      .then(response => console.log(response))
+      .catch(e => console.error(e));
+    })
+    .catch(e => console.error(e));
+  }
 
   onGroupNameChange(name) {
     this.setState({ name });
-  }
-
-  onMemberKeywordChange(memberKeyword) {
-    this.setState({ memberKeyword });
-  }
-
-  renderFriendSearch() {
-    return (
-      <ScrollView>
-        <TextField
-          label={'members'}
-          onChangeText={value => this.onMemberKeywordChange(value)}
-          value={this.state.memberKeyword}
-          highlightColor={'#4c19ce'}
-          autocorrect={false}
-        />
-      </ScrollView>
-    );
   }
 
   renderLocationSearch() {
@@ -62,9 +62,11 @@ class CreateGroupForm extends Component {
         fetchDetails
         text={'testing'}
         onPress={(data, details = null) => {
-          console.log(data);
-          console.log(details);
-          this.setState({ location: data });
+          const address = details.formatted_address;
+          const lat = details.geometry.location.lat;
+          const lng = details.geometry.location.lng;
+          const description = data.description;
+          this.setState({ location: { address, lat, lng, description } });
         }}
         query={{
           key: googlePlacesConfig.apiKey,
@@ -102,6 +104,7 @@ class CreateGroupForm extends Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <ScrollView>
         <Card>
@@ -134,7 +137,7 @@ class CreateGroupForm extends Component {
             </TouchableHighlight>
           </CardSection>
           <View style={{ bottom: 0 }}>
-            <Button primary raised text={'Create'} />
+            <Button primary raised text={'Create'} onPress={() => this.createGroup()} />
           </View>
         </Card>
       </ScrollView>
@@ -166,4 +169,7 @@ const styles = {
   }
 };
 
-export default CreateGroupForm;
+export default compose(
+  graphql(CreateGroup, { name: 'createGroup_mutation' }),
+  graphql(InviteUsersToGroup, { name: 'inviteUsersToGroup_mutation' })
+)(CreateGroupForm);

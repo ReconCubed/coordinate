@@ -54,13 +54,6 @@ const InviteUsersToGroup = `
   }
 `;
 
-const CreateGroup = `
-  mutation CreateGroup($token:String!, $name:String!, $targetLocation:LocationArgType) {
-    createGroup(token:$token, name:$name, targetLocation:$targetLocation) {
-      id
-    }
-  }
-`;
 
 const AcceptGroupInvite = `
   mutation AcceptGroupInvite($token:String!, $groupID:ID!) {

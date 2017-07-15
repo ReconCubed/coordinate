@@ -10,13 +10,12 @@ module.exports = {
     }
   }),
   args: {
-    token: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
     targetLocation: { type: LocationArgType },
   },
-  resolve: (parentValue, { token, name, targetLocation }) => {
+  resolve: (parentValue, { name, targetLocation }, req) => {
     return new Promise((resolve, reject) => {
-      createGroup({ token, name, targetLocation })
+      createGroup({ token: req.headers.authorization, name, targetLocation })
       .then((groupID) => {
         resolve({ id: groupID });
       })

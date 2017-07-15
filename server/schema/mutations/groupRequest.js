@@ -9,14 +9,14 @@ const inviteUsersToGroup = {
     }
   }),
   args: {
-    token: { type: new GraphQLNonNull(GraphQLString) },
     groupID: { type: new GraphQLNonNull(GraphQLID) },
     userIDArray: { type: new GraphQLNonNull(new GraphQLList(GraphQLID)) },
   },
-  resolve: (parentValue, args) => {
+  resolve: (parentValue, { groupID, userIDArray }, req) => {
+    console.log(userIDArray);
     return new Promise((resolve, reject) => {
-      inviteToGroup(args)
-      .then(groupID => resolve({ groupID }))
+      inviteToGroup({ groupID, userIDArray, token: req.headers.authorization })
+      .then(id => resolve({ groupID: id }))
       .catch(e => reject(e));
     });
   }

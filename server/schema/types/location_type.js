@@ -11,6 +11,8 @@ const LocationArgType = new GraphQLInputObjectType({
   fields: () => ({
     lat: { type: GraphQLString },
     lng: { type: GraphQLString },
+    description: { type: GraphQLString },
+    address: { type: GraphQLString },
   })
 });
 

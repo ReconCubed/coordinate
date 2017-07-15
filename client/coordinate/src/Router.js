@@ -13,21 +13,17 @@ const RouterComponent = () => {
             key="login"
             component={LoginForm}
             title={'Log In'}
-            initial
           />
           <Scene
             key="create_group_form"
             component={CreateGroupForm}
             title={'Create a Group'}
+            initial
           />
           <Scene
             key="add_group_members"
             component={AddGroupMembers}
-            title={'Add Group Members'}
-            leftElement={'arrow-back'}
-            onLeftElementPress={() => Actions.pop()}
-            searchable={{ autoFocus: true, placeholder: 'Search' }}         
-
+            hideNavBar
           />
         </Scene>
     </Router>

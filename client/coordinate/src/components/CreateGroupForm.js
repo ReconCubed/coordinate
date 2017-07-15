@@ -11,16 +11,23 @@ import { googlePlacesConfig } from '../../app_config';
 
 class CreateGroupForm extends Component {
   constructor(props) {
-    console.log(firebase.auth().currentUser);
     super(props);
-
     this.state = {
-      name: '',
-      members: [],
-      memberKeyword: ''
+      name: props.groupName || '',
+      members: props.groupMembers || {},
+      location: props.groupLocation || '',
     };
-    console.log(googlePlacesConfig);
   }
+
+  componentWillMount() {
+  }
+
+  componentDidMount() {
+    if (this.state.location.description) {
+      this.locationSearch.setAddressText(this.state.location.description);
+    }
+  }
+
 
   onGroupNameChange(name) {
     this.setState({ name });
@@ -47,14 +54,17 @@ class CreateGroupForm extends Component {
   renderLocationSearch() {
     return (
       <GooglePlacesAutocomplete
+        ref={c => this.locationSearch = c}
         label={'meetup location'}
         minLength={2}
         autoFocus={false}
         listViewDisplayed={'auto'}
         fetchDetails
+        text={'testing'}
         onPress={(data, details = null) => {
           console.log(data);
           console.log(details);
+          this.setState({ location: data });
         }}
         query={{
           key: googlePlacesConfig.apiKey,
@@ -92,7 +102,6 @@ class CreateGroupForm extends Component {
   }
 
   render() {
-    console.log(this);
     return (
       <ScrollView>
         <Card>
@@ -112,7 +121,12 @@ class CreateGroupForm extends Component {
           {this.renderLocationSearch()}
           </CardSection>
           <CardSection>
-            <TouchableHighlight style={{ paddingTop: 30, display: 'flex', flex: 1 }} onPress={() => Actions.add_group_members()}>
+            <TouchableHighlight style={{ paddingTop: 30, display: 'flex', flex: 1 }} onPress={() => Actions.add_group_members({
+              groupName: this.state.name,
+              groupLocation: this.state.location,
+              groupMembers: this.state.members
+
+            })}>
             <View>
                 <Text style={styles.inputStyle}>members</Text>
                 <Divider primary />

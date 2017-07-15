@@ -26,7 +26,8 @@
 		"react-native-material-ui": "^1.12.0",
 		"react-native-md-textinput": "^2.0.4",
 		"react-native-router-flux": "^4.0.0-beta.6",
-		"react-native-vector-icons": "^4.2.0"
+		"react-native-vector-icons": "^4.2.0",
+		"trie-search": "^1.0.1"
 	},
 	"devDependencies": {
 		"babel-jest": "20.0.3",

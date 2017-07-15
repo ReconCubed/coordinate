@@ -1,35 +1,109 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableHighlight } from 'react-native';
 import { graphql } from 'react-apollo';
-import { List, ListItem } from 'react-native-elements';
+import PropTypes from 'prop-types';
+import { Actions } from 'react-native-router-flux';
+import { Button } from 'react-native-material-ui';
+import { List, ListItem, CheckBox } from 'react-native-elements';
+import TrieSearch from 'trie-search';
 import { FetchFriends } from '../graphql/queries';
+import Header from './Header';
+
 
 class AddGroupMembers extends Component {
-  render() {
-    console.log(this.props);
-    if (!this.props.data) {
-      return <View />;
-    }
+  constructor(props) {
+    super(props);
+    console.log(props);
+    this.state = {
+      searchTerm: '',
+    };
+    this.selectedFriends = props.groupMembers || {};
+    this.listItems = {};
+  }
 
-    if (!this.props.data.loading && this.props.data.friends) {
+  componentDidUpdate() {
+    if (!this.trieSearch && this.props.data) {
+      if (!this.props.data.loading && this.props.data.friends) {
+        const ts = new TrieSearch('username', { indexField: 'id' });
+        this.props.data.friends.forEach(item => ts.add(item));
+        this.trieSearch = ts;
+      }
+    }
+  }
+
+  selectFriend({ id }) {
+    if (this.selectedFriends[id]) {
+      delete this.selectedFriends[id];
+    } else {
+      this.selectedFriends[id] = true;
+    }
+    this.forceUpdate();
+  }
+
+  saveAddedFriends() {
+    Actions.create_group_form({
+      groupMembers: this.selectedFriends,
+      groupName: this.props.groupName,
+      groupLocation: this.props.groupLocation
+    });
+  }
+
+  renderFriends() {
+    if (!this.props.data) {
+      return;
+    } else if (!this.props.data.loading && this.props.data.friends) {
+      let friendList = this.props.data.friends;
+      if (this.state.searchTerm !== '' && this.trieSearch) {
+        friendList = this.trieSearch.get(this.state.searchTerm);
+      }
+
       return (
-        <List containerStyle={{ marginBottom: 20 }}>
-          {
-            this.props.data.friends.map((l) => {
-              return (
-              <ListItem
-                roundAvatar
-                avatar={{ uri: 'l.photo' }}
-                key={l.id}
-                title={l.username}
-              />);
-            })
-          }
-        </List>
+        <View>
+          <List containerStyle={{ marginBottom: 20 }}>
+            {
+              friendList.map((l) => {
+                return (
+                <ListItem
+                  onPress={() => this.selectFriend(l)}
+                  containerStyle={{ backgroundColor: this.selectedFriends[l.id] ? '#E0E0E0' : 'white' }}
+                  roundAvatar
+                  avatar={{ uri: l.photo }}
+                  key={l.id}
+                  title={l.username}
+                  hideChevron
+                />);
+              })
+            }
+          </List>
+          <Button primary raised text={'Save Members'} onPress={() => this.saveAddedFriends()} />
+        </View>
       );
     }
-    return <View />;
+  }
+
+  render() {
+    return (
+      <View>
+        <Header
+          searchable={{
+            autoFocus: true,
+            placeholder: 'Search for friends',
+            onSearchClosed: () => this.setState({ searchTerm: '' }),
+            onChangeText: searchTerm => this.setState({ searchTerm })
+          }}
+          onLeftElementPress={() => Actions.pop({ groupName: this.props.groupName, groupLocation: this.props.location })}
+          leftElement={'arrow-back'}
+          title={'Add Group Members'}
+        />
+        {this.renderFriends()}
+      </View>
+    );
   }
 }
+
+AddGroupMembers.propTypes = {
+  data: PropTypes.object,
+  selectedFriends: PropTypes.object,
+};
 
 export default graphql(FetchFriends)(AddGroupMembers);

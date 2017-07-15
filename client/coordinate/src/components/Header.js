@@ -5,7 +5,6 @@ import { Toolbar } from 'react-native-material-ui';
 
 class Header extends Component {
   render() {
-    console.log(this.props);
     return (
       <View>
         <Toolbar
@@ -13,6 +12,7 @@ class Header extends Component {
           onLeftElementPress={() => this.props.onLeftElementPress()}
           centerElement={this.props.title}
           searchable={this.props.searchable}
+          primary
         />
       </View>
     );

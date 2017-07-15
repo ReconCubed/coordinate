@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import { AsyncStorage } from 'react-native';
 import firebase from 'firebase';
-import { COLOR, ThemeProvider } from 'react-native-material-ui';
+import { ThemeProvider } from 'react-native-material-ui';
 import { ApolloProvider } from 'react-apollo';
 import Router from './Router';
 
@@ -19,6 +19,7 @@ const uiTheme = {
 
 
 const initFirebase = () => {
+  const getToken = () => firebase.auth().currentUser.getIdToken(true);
   const config = {
     apiKey: 'AIzaSyAgXDDJletVdmwm_apWDFt39f9XdenkNKs',
     authDomain: 'coordinate-26851.firebaseapp.com',
@@ -29,6 +30,19 @@ const initFirebase = () => {
   };
 
   firebase.initializeApp(config);
+  firebase.auth().onIdTokenChanged((user) => {
+    if (user) {
+      getToken()
+      .then((token) => {
+        try {
+          AsyncStorage.setItem('auth_token', token);
+        } catch (e) {
+          console.error(e);
+        }
+      })
+      .catch(e => console.error(e));
+    }
+  });
 };
 
 class App extends Component {

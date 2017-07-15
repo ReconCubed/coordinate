@@ -13,7 +13,7 @@ const RouterComponent = () => {
             key="login"
             component={LoginForm}
             title={'Log In'}
-            initial            
+            initial
           />
           <Scene
             key="create_group_form"
@@ -26,7 +26,8 @@ const RouterComponent = () => {
             title={'Add Group Members'}
             leftElement={'arrow-back'}
             onLeftElementPress={() => Actions.pop()}
-            searchable={{ autoFocus: true, placeholder: 'Search' }}
+            searchable={{ autoFocus: true, placeholder: 'Search' }}         
+
           />
         </Scene>
     </Router>

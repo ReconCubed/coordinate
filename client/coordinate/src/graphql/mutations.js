@@ -26,4 +26,12 @@ const InviteUsersToGroup = gql`
   }
 `;
 
-export { LogIn, CreateGroup, InviteUsersToGroup };
+const UpdateLocation = gql`
+  mutation UpdateLocation($newLocation:LocationArgType!) {
+    updateLocation(newLocation:$newLocation) {
+      groupsUpdated
+    }
+  }
+`;
+
+export { LogIn, CreateGroup, InviteUsersToGroup, UpdateLocation };

@@ -120,11 +120,12 @@ const updateLocation = ({ token, newLocation }) => {
         const updateObject = {};
         const serverTime = admin.database.ServerValue.TIMESTAMP;
         newLocation.updatedAt = serverTime;
-        Array.from(Object.keys(groups)).forEach((group) => {
+        const groupIDArray = Array.from(Object.keys(groups));
+        groupIDArray.forEach((group) => {
           updateObject[`${group}/members/accepted/${uid}/location/`] = newLocation;
         });
         db.ref('groups/').update(updateObject)
-        .then(() => resolve(groups))
+        .then(() => resolve(groupIDArray))
         .catch(e => reject(e));
       });
     })

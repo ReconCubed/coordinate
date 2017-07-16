@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const FetchGroupDetails = gql`
-  query FetchGroupDetails($token:String!, $groupID:ID!) {
-    groupDetails(token: $token, groupID:$groupID) {
+  query FetchGroupDetails($groupID:ID!) {
+    groupDetails(groupID:$groupID) {
       id
       name
       members {
@@ -14,6 +14,8 @@ const FetchGroupDetails = gql`
         location{
           lat
           lng
+          description
+          address
           updatedAt
         }
       }
@@ -21,9 +23,15 @@ const FetchGroupDetails = gql`
         id
         username
       }
+      leader {
+        id
+        username
+      }
       targetLocation {
         lat
         lng
+        description
+        address
         updatedAt
       }
     }

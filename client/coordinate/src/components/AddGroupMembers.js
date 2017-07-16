@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, TouchableHighlight } from 'react-native';
+import { View } from 'react-native';
 import { graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Button } from 'react-native-material-ui';
-import { List, ListItem, CheckBox } from 'react-native-elements';
+import { List, ListItem } from 'react-native-elements';
 import TrieSearch from 'trie-search';
 import { FetchFriends } from '../graphql/queries';
 import Header from './Header';

@@ -21,6 +21,8 @@ const LocationType = new GraphQLObjectType({
   fields: () => ({
     lat: { type: GraphQLString },
     lng: { type: GraphQLString },
+    description: { type: GraphQLString },
+    address: { type: GraphQLString },
     updatedAt: { type: GraphQLString }
   })
 });

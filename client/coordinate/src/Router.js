@@ -4,6 +4,12 @@ import Header from './components/Header';
 import LoginForm from './components/LoginForm';
 import CreateGroupForm from './components/CreateGroupForm';
 import AddGroupMembers from './components/AddGroupMembers';
+import GroupView from './components/GroupView';
+
+const TempGroupView = () => {
+  return <GroupView groupID={'-Kp7KILTDegMeZRiBxHk'} />;
+};
+
 
 const RouterComponent = () => {
   return (
@@ -13,7 +19,6 @@ const RouterComponent = () => {
             key="login"
             component={LoginForm}
             title={'Log In'}
-            initial            
           />
           <Scene
             key="create_group_form"
@@ -24,6 +29,12 @@ const RouterComponent = () => {
             key="add_group_members"
             component={AddGroupMembers}
             hideNavBar
+          />
+          <Scene
+            key="group_view"
+            component={TempGroupView}
+            hideNavBar
+            initial
           />
         </Scene>
     </Router>

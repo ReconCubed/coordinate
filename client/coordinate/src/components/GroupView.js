@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, } from 'react-native';
+import { View, Text } from 'react-native';
 import { graphql, compose } from 'react-apollo';
 import MapView from 'react-native-maps';
 import { Actions } from 'react-native-router-flux';
@@ -14,7 +14,7 @@ class GroupView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: 'map'
+      view: 'members'
     };
   }
 
@@ -95,29 +95,47 @@ class GroupView extends Component {
     const { groupDetails } = this.props.data;
     const leader = groupDetails.leader.id;
     const allMembers = (groupDetails.acceptedMembers.concat(groupDetails.pendingMembers)).map(m => m.user);
-
     return (
-      <List containerStyle={{ flex: 1 }}>
-        {
-          groupDetails.acceptedMembers.map(({ user }) => {
-            return (
-            <ListItem
-              roundAvatar
-              avatar={{ uri: user.photo }}
-              key={user.id}
-              title={user.username}
-              rightIcon={(() => (user.id === leader) ? { name: 'grade', color: 'gold' } : {})()}
-            />);
-          })
-        }
-        <ActionButton 
-          style={{ container: { backgroundColor: '#553ecb' } }}
-          onPress={() => Actions.invite_additional_members({
-            groupID: this.props.groupID,
-            friendsToRemove: allMembers
-          })}
-        />
-      </List>
+      <View style={{
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1
+      }}>
+        <List containerStyle={{ flex: 1 }}>
+        <ListItem title={'Accepted'} hideChevron containerStyle={{ height: 8, backgroundColor: '#E0E0E0' }} titleStyle={{ fontSize: 12, textAlign: 'left', lineHeight: 12, marginTop: -5 }}/>
+          {
+            groupDetails.acceptedMembers.map(({ user }) => {
+              return (
+              <ListItem
+                roundAvatar
+                avatar={{ uri: user.photo }}
+                key={user.id}
+                title={user.username}
+                rightIcon={(() => (user.id === leader) ? { name: 'grade', color: 'gold' } : {})()}
+              />);
+            })
+          }
+        <ListItem title={'Pending'} hideChevron containerStyle={{ display: groupDetails.pendingMembers.length > 0 ? 'flex' : 'none', height: 8, backgroundColor: '#E0E0E0' }} titleStyle={{ fontSize: 12, textAlign: 'left', lineHeight: 12, marginTop: -5 }}/>
+          {
+            groupDetails.pendingMembers.map(({ user }) => {
+              return (
+              <ListItem
+                roundAvatar
+                avatar={{ uri: user.photo }}
+                key={user.id}
+                title={user.username}
+              />);
+            })
+          }
+          <ActionButton
+            style={{ container: { backgroundColor: '#553ecb' } }}
+            onPress={() => Actions.invite_additional_members({
+              groupID: this.props.groupID,
+              friendsToRemove: allMembers
+            })}
+          />
+        </List>
+      </View>
     );
   }
 

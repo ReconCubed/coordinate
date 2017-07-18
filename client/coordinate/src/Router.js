@@ -19,7 +19,7 @@ const RouterComponent = () => {
           <Scene
             key="login"
             component={LoginForm}
-            title={'Log In'}
+            title={'Log In'}            
           />
           <Scene
             key="create_group_form"

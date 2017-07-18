@@ -17,6 +17,7 @@ class AddGroupMembers extends Component {
     this.state = {
       searchTerm: '',
     };
+    this.friendsToRemove = props.friendsToRemove || [];
     this.selectedFriends = props.groupMembers || {};
     this.listItems = {};
   }
@@ -52,16 +53,18 @@ class AddGroupMembers extends Component {
     if (!this.props.data) {
       return;
     } else if (!this.props.data.loading && this.props.data.friends) {
-      let friendList = this.props.data.friends;
-      if (this.state.searchTerm !== '' && this.trieSearch) {
-        friendList = this.trieSearch.get(this.state.searchTerm);
+      if (!this.friendslist) {
+        this.friendslist = this.props.data.friends.filter(x => this.friendsToRemove.indexOf(x) == -1);
       }
-
+      let friendsList = this.friendslist;
+      if (this.state.searchTerm !== '' && this.trieSearch) {
+        friendsList = this.trieSearch.get(this.state.searchTerm);
+      } 
       return (
         <View>
           <List containerStyle={{ marginBottom: 20 }}>
             {
-              friendList.map((l) => {
+              friendsList.map((l) => {
                 return (
                 <ListItem
                   onPress={() => this.selectFriend(l)}

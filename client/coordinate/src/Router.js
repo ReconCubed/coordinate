@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm';
 import CreateGroupForm from './components/CreateGroupForm';
 import AddGroupMembers from './components/AddGroupMembers';
 import GroupView from './components/GroupView';
+import InviteAdditionalMembers from './components/InviteAdditionalMembers';
 
 const TempGroupView = () => {
   return <GroupView groupID={'-Kp7KILTDegMeZRiBxHk'} />;
@@ -34,7 +35,12 @@ const RouterComponent = () => {
             key="group_view"
             component={TempGroupView}
             hideNavBar
-            initial
+            initial            
+          />
+          <Scene
+            key="invite_additional_members"
+            component={InviteAdditionalMembers}
+            hideNavBar
           />
         </Scene>
     </Router>

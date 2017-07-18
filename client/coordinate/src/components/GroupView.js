@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { View, } from 'react-native';
 import { graphql, compose } from 'react-apollo';
 import MapView from 'react-native-maps';
+import { Actions } from 'react-native-router-flux';
 import { BottomNavigation } from 'react-native-material-ui';
 import { List, ListItem } from 'react-native-elements';
+import { ActionButton } from 'react-native-material-ui';
 import Header from './Header';
 import { FetchGroupDetails } from '../graphql/queries';
 import { UpdateLocation } from '../graphql/mutations';
@@ -49,7 +51,7 @@ class GroupView extends Component {
 
   renderMap() {
     const { groupDetails } = this.props.data;
-    const { members } = groupDetails;
+    const { acceptedMembers } = groupDetails;
     const { lat, lng, description } = groupDetails.targetLocation;
     const image = require('../assets/icons/target_location.png');
     return (
@@ -71,7 +73,7 @@ class GroupView extends Component {
           title={description}
           image={image}
         />
-        {members.map((member) => {
+        {acceptedMembers.map((member) => {
           if (member.location.lat && member.location.lng) {
             return (
               <MapView.Marker
@@ -92,10 +94,12 @@ class GroupView extends Component {
   renderMembers() {
     const { groupDetails } = this.props.data;
     const leader = groupDetails.leader.id;
+    const allMembers = (groupDetails.acceptedMembers.concat(groupDetails.pendingMembers)).map(m => m.user);
+
     return (
       <List containerStyle={{ flex: 1 }}>
         {
-          groupDetails.members.map(({ user }) => {
+          groupDetails.acceptedMembers.map(({ user }) => {
             return (
             <ListItem
               roundAvatar
@@ -106,6 +110,13 @@ class GroupView extends Component {
             />);
           })
         }
+        <ActionButton 
+          style={{ container: { backgroundColor: '#553ecb' } }}
+          onPress={() => Actions.invite_additional_members({
+            groupID: this.props.groupID,
+            friendsToRemove: allMembers
+          })}
+        />
       </List>
     );
   }
@@ -149,6 +160,7 @@ class GroupView extends Component {
   }
 
   render() {
+    console.log(this.props);
     if (!this.watchPosition) {
       this.initLocationUpdates();
     }

@@ -8,7 +8,7 @@ class Header extends Component {
     return (
       <View>
         <Toolbar
-          leftElement={this.props.leftElement || 'menu'}
+          leftElement={this.props.leftElement}
           onLeftElementPress={() => this.props.onLeftElementPress()}
           centerElement={this.props.title}
           searchable={this.props.searchable}

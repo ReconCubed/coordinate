@@ -5,7 +5,7 @@ const FetchGroupDetails = gql`
     groupDetails(groupID:$groupID) {
       id
       name
-      members {
+      acceptedMembers {
         user {
           username
           photo
@@ -17,6 +17,13 @@ const FetchGroupDetails = gql`
           description
           address
           updatedAt
+        }
+      }
+      pendingMembers {
+        user {
+          username
+          photo
+          id
         }
       }
       createdBy {

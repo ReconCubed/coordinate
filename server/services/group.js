@@ -138,13 +138,20 @@ const genGroupDetails = ({ token, details, id }) => {
   const returnObj = { id, name, targetLocation };
   returnObj.createdBy = getUser({ token, targetID: createdBy });
   returnObj.leader = getUser({ token, targetID: leader });
-  const membersArray = [];
+  const acceptedMembersArray = [];
+  const pendingMembersArray = [];
+
   Array.from(Object.keys(members.accepted)).forEach((member) => {
     const user = getUser({ token, targetID: member });
     const location = members.accepted[member].location;
-    membersArray.push({ user, location });
+    acceptedMembersArray.push({ user, location });
   });
-  returnObj.members = membersArray;
+  Array.from(Object.keys(members.pending)).forEach((member) => {
+    const user = getUser({ token, targetID: member });
+    pendingMembersArray.push({ user });
+  });
+  returnObj.acceptedMembers = acceptedMembersArray;
+  returnObj.pendingMembers = pendingMembersArray;
   return returnObj;
 };
 

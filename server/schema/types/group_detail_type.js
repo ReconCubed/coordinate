@@ -15,7 +15,8 @@ const GroupDetailType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
-    members: { type: new GraphQLList(MemberType) },
+    acceptedMembers: { type: new GraphQLList(MemberType) },
+    pendingMembers: { type: new GraphQLList(MemberType) },
     createdBy: { type: UserType },
     targetLocation: { type: LocationType },
     leader: { type: UserType }

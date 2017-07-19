@@ -14,7 +14,7 @@ class GroupView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: 'members'
+      view: 'map'
     };
   }
 

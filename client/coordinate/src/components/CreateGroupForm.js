@@ -112,11 +112,17 @@ class CreateGroupForm extends Component {
             <ScrollView>
               <TextField
                 label={'name'}
+                placeholder={'Enter a group name...'}
                 onChangeText={value => this.onGroupNameChange(value)}
                 value={this.state.name}
                 highlightColor={'#4c19ce'}
-                fontSize={24}
                 autocorrect={false}
+                fontSize={28}
+                wrapperStyle={{ paddingBottom: 10 }}
+                height={60}
+                inputStyle={{ lineHeight: 80, marginTop: -30 }}
+                labelStyle={{ display: 'none' }}
+                dense
               />
             </ScrollView>
           </CardSection>

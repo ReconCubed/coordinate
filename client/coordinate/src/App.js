@@ -69,7 +69,7 @@ class App extends Component {
     };
 
     const networkInterface = createNetworkInterface({
-      uri: 'http://localhost:8080/graphql'
+      uri: 'http://192.168.1.3:8080/graphql'
     });
 
     networkInterface.use([{

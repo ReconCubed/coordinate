@@ -39,5 +39,4 @@ app.use('/graphql', expressGraphQL({
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer({ key, cert }, app);
 
-httpServer.listen(8080, () => console.log('listening on 8080 http'));
-httpsServer.listen(8443, () => console.log('listening on 8443 https'));
+module.exports = { httpServer };

@@ -1,0 +1,50 @@
+[
+    {
+        "merged": "/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/res/merged/debug/color/abc_secondary_text_material_dark.xml",
+        "source": "/Users/vikrum/.android/build-cache/6bf53393f2e6f46e2621fd9546e469a3b1041b92/output/res/color/abc_secondary_text_material_dark.xml"
+    },
+    {
+        "merged": "/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/res/merged/debug/color/switch_thumb_material_light.xml",
+        "source": "/Users/vikrum/.android/build-cache/6bf53393f2e6f46e2621fd9546e469a3b1041b92/output/res/color/switch_thumb_material_light.xml"
+    },
+    {
+        "merged": "/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/res/merged/debug/color/abc_search_url_text.xml",
+        "source": "/Users/vikrum/.android/build-cache/6bf53393f2e6f46e2621fd9546e469a3b1041b92/output/res/color/abc_search_url_text.xml"
+    },
+    {
+        "merged": "/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/res/merged/debug/color/common_google_signin_btn_tint.xml",
+        "source": "/Users/vikrum/.android/build-cache/61301db96cf4fab4640706bbe9fef0493435facf/output/res/color/common_google_signin_btn_tint.xml"
+    },
+    {
+        "merged": "/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/res/merged/debug/color/abc_secondary_text_material_light.xml",
+        "source": "/Users/vikrum/.android/build-cache/6bf53393f2e6f46e2621fd9546e469a3b1041b92/output/res/color/abc_secondary_text_material_light.xml"
+    },
+    {
+        "merged": "/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/res/merged/debug/color/switch_thumb_material_dark.xml",
+        "source": "/Users/vikrum/.android/build-cache/6bf53393f2e6f46e2621fd9546e469a3b1041b92/output/res/color/switch_thumb_material_dark.xml"
+    },
+    {
+        "merged": "/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/res/merged/debug/color/abc_primary_text_material_light.xml",
+        "source": "/Users/vikrum/.android/build-cache/6bf53393f2e6f46e2621fd9546e469a3b1041b92/output/res/color/abc_primary_text_material_light.xml"
+    },
+    {
+        "merged": "/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/res/merged/debug/color/common_google_signin_btn_text_light.xml",
+        "source": "/Users/vikrum/.android/build-cache/61301db96cf4fab4640706bbe9fef0493435facf/output/res/color/common_google_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/res/merged/debug/color/common_google_signin_btn_text_dark.xml",
+        "source": "/Users/vikrum/.android/build-cache/61301db96cf4fab4640706bbe9fef0493435facf/output/res/color/common_google_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/res/merged/debug/color/abc_primary_text_disable_only_material_light.xml",
+        "source": "/Users/vikrum/.android/build-cache/6bf53393f2e6f46e2621fd9546e469a3b1041b92/output/res/color/abc_primary_text_disable_only_material_light.xml"
+    },
+    {
+        "merged": "/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/res/merged/debug/color/abc_primary_text_disable_only_material_dark.xml",
+        "source": "/Users/vikrum/.android/build-cache/6bf53393f2e6f46e2621fd9546e469a3b1041b92/output/res/color/abc_primary_text_disable_only_material_dark.xml"
+    },
+    {
+        "merged": "/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/res/merged/debug/color/abc_primary_text_material_dark.xml",
+        "source": "/Users/vikrum/.android/build-cache/6bf53393f2e6f46e2621fd9546e469a3b1041b92/output/res/color/abc_primary_text_material_dark.xml"
+    }
+]

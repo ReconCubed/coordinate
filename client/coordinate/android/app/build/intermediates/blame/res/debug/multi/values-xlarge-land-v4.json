@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-xlarge-land-v4/values-xlarge-land-v4.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 63,
+                    "endOffset": 114
+                },
+                "from": {
+                    "file": "/Users/vikrum/.android/build-cache/6bf53393f2e6f46e2621fd9546e469a3b1041b92/output/res/values-xlarge-land/values-xlarge-land.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 288,
+                        "endColumn": 63,
+                        "endOffset": 347
+                    }
+                }
+            }
+        ]
+    }
+]

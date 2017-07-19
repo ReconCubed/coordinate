@@ -1,0 +1,4 @@
+#Tue Jul 18 23:01:41 EDT 2017
+base.0=/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7
+renamed.0=classes.dex
+file.0=/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex

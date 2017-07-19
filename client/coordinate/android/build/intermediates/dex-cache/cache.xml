@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/765411cd2094e76525cd62727cac3cdd2d2bebdb/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6d0d5e86f5b7203834df01ed78ebfdd5cbf74d48">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_219d82d67463ee4ba16d13a96ec762d96d425026.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.0/5871fb60dc68d67da54a663c3fd636a10a532948/jsr305-3.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/jsr305-3.0.0_64d72ecd25598db62faec4d2026a37f573ed89c1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/6bf53393f2e6f46e2621fd9546e469a3b1041b92/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_a1e322489ea86a96863060738689a10b497f5181.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/node_modules/react-native-maps/lib/android/build/intermediates/bundles/default/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="4a5cfa49f964d9ec42d13b5c2f8bc222d2a8feab">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_942729f0d954a666feadbeb1079639fc316e2539.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/915ed8210d65afd2b949a1b9901e34e7b3328b13/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="2f7e6e2dad1bccaf68a8820820adc6c0d5b96d37">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_e9152e0fa35f4038176d76af628f5c5aaf52f390.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/16a2e6a65fb870ecef7c1318f2f8ed48d215386e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="9ed08fab37c3a572da1d9ed2bf2e36c8d3e2bc48">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_2a80c37598dd8f9a1e30fcc1d3afc3ca1482b62f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/f4d446621af7272a34e0ad7fa7252156306cb41b/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ba9b39366b723ccff6359d1117332968e98a4aca">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_d995dc7edad86da120fb457635db725d5bc069aa.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/a534e024411bc91e82094479a0e71d4c2a9cb8a0/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="5a61f17cd72e20aa4323cbf5f909b7c609619275">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_d568a9218ff511b81be424678652bbb2bb475931.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/a9283170b7305c8d92d25aff02a6ab7e45d06cbe/okio-1.13.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/okio-1.13.0_26bce27ce9626263ba98f1c0fd53148f23abc9a8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/bcfb4050e93060dcdb7a2870f43ec660dc05eb6f/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d9c4402c3057225d80cbbbec52154e7a25b0ebdf">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_16b690505e5f6fcc6395dd96bb8120b9b515b025.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/bf5c1c2c3a64b9754f9f5fb33665f38de5c45f7e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="cf836a435a496eb22ff2aa69aa1e619462549f81">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_02c28dd8a7ec0cc15a1f01b6747444ce4b042cb7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.6.0/3f9b16b774f2c36cfd86dd2053d0b3059531dacc/okhttp-urlconnection-3.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3f9b16b774f2c36cfd86dd2053d0b3059531dacc">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/okhttp-urlconnection-3.6.0_61214d0e16c8d5a87113b35136b84dc8f4407e82.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/f6c69b86eb772a8946497d05495dc991e162b353/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="5803db663655ef5cb38c6bcb17ba326fdb9edfbd">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_639046af04d90332ffe7afb55e53760a663d4a7f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/915ed8210d65afd2b949a1b9901e34e7b3328b13/output/jars/libs/internal_impl-24.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="fcaf463e10e69c1923ccf1edeba3b4196d239e00">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/internal_impl-24.0.0_6aabd363a8178af1dcdee468b31d6ff6e8b373e5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/a702dbb94ddacf80f2dbff41c81f03ea414957b4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_18dd48a557c6f8f0e7ee8e02b48fc91825a378f5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/node_modules/react-native-vector-icons/android/build/intermediates/bundles/default/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="b319ff9834bbeb9be394687614eb86892699ea14">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_8fb25a009f69112acab743c885ff7e72c18d2e11.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/4b60ec9218fb164ad5b176820a64f2c9c4c46fea/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="2668e49e4e31c7d451b76a36009b902bf44e0d70">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_1763b47a2fb3ffc83a64f687c364057e9b6c3e4a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/91d87413db47a34dca9d86408608f2dc4204c7c3/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="f90b593491e4044903f0bbf68dc3fa2790b151b9">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_3f35bbb3ab6f339769c9dd628a5775b044d61521.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.gradle/caches/modules-2/files-2.1/com.facebook.fbui.textlayoutbuilder/staticlayout-proxy/1.0/f162442a19fff13995fbd51ba414d9ee05579080/staticlayout-proxy-1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="f162442a19fff13995fbd51ba414d9ee05579080">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/staticlayout-proxy-1.0_63f8303caef2338459e999bfa468ee355ab2ccb4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.4.0/d85884acf6810a3bbbecb587f239005cbc846dc4/bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/bolts-tasks-1.4.0_d83b832095312a80dfecce2f0f232dc4d14582d4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/24.0.0/support-annotations-24.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="2943c74db6d4346ab8c6531adac91fa05c137c40">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/support-annotations-24.0.0_5dae6f6cf8280188dca5bb624a51be39aea0231c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/2ed784b260168cd71bdf873725a74524a04ac2d5/output/jars/libs/infer-annotations-4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="9809e90be788acdb479b2b44e2112f3295a03068">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/infer-annotations-4.0_5b6e4d892479e68c5316e48387ee0b11fa77eeb4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/61301db96cf4fab4640706bbe9fef0493435facf/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="dd1d0d84da2cff18f741c63a9c3af7d9aa89fdd6">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_3a927ff9c2d2dcf68a2126064493b21c03526ac6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/69edde9fc4b01c9fd51d25b83428837478c27254/okhttp-3.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="69edde9fc4b01c9fd51d25b83428837478c27254">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/okhttp-3.6.0_63c5c1f9288931804c58df8bc8fdf9f02f43857d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/javax.inject-1_d4c78d7584024124eae0070650a0b1469693cdcc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/2cc604949b5498d18b35ceee7b43cc90e58c6ad3/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="050f688115ea65a0292d8483a6ffe6bcdab1e2ef">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_2da033aa8d78149b86b3731470c4046b4e8d4a64.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/vikrum/.android/build-cache/2ed784b260168cd71bdf873725a74524a04ac2d5/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c5526d30278eb171f4a1325bd6b927c9057c91f4">
+        <dex dex="/Users/vikrum/Documents/Dev/projects/coordinate/client/coordinate/android/app/build/intermediates/pre-dexed/debug/classes_84dc8bb7ea69b8f5080248c192766ca1d961668c.jar" />
+    </item>
+
+</items>

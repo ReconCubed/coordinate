@@ -41,7 +41,7 @@ class LoginForm extends Component {
             this.props.mutate()
             .then((resp) => {
               console.log(resp);
-              Actions.create_group_form();
+              Actions.group_view({ groupID: '-Kp7KILTDegMeZRiBxHk'});
             })
             .catch(e => console.error(e));
           })
@@ -76,11 +76,12 @@ class LoginForm extends Component {
         <CardSection>
           <ScrollView >
             <TextField
-              autoCapitalize={false}
+              autoCapitalize={'none'}
               label={'email'}
               onChangeText={value => this.onEmailChange(value)}
               value={this.state.email}
               highlightColor={'#4c19ce'}
+              dense
             />
           </ScrollView>
         </CardSection>
@@ -92,6 +93,7 @@ class LoginForm extends Component {
               onChangeText={value => this.onPasswordChange(value)}
               value={this.state.password}
               highlightColor={'#4c19ce'}
+              dense
             />
           </ScrollView>
         </CardSection>

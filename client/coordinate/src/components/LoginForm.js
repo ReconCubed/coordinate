@@ -41,7 +41,8 @@ class LoginForm extends Component {
             this.props.mutate()
             .then((resp) => {
               console.log(resp);
-              Actions.group_view({ groupID: '-Kp7KILTDegMeZRiBxHk'});
+              Actions.create_group_form();
+              // Actions.group_view({ groupID: '-Kp7KILTDegMeZRiBxHk'});
             })
             .catch(e => console.error(e));
           })

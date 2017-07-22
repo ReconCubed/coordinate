@@ -55,7 +55,29 @@ const FetchFriends = gql`
   }
 `;
 
+const FetchNotifications = gql`
+  query {
+    notifications {
+      read {
+        id
+        type
+        groupID
+        title
+        received
+      }
+      unread {
+        id
+        type
+        groupID
+        title
+        received
+      }
+    }
+  }
+`;
+
 export {
   FetchGroupDetails,
-  FetchFriends
+  FetchFriends,
+  FetchNotifications
 };

@@ -1,20 +1,6 @@
-const admin = require('./admin');
+const { admin, verifyToken } = require('./admin');
 
 const db = admin.database();
-
-const verifyToken = (token) => {
-  return new Promise((resolve, reject) => {
-    admin.auth().verifyIdToken(token)
-    .then((decodedToken) => {
-      const uid = decodedToken.uid;
-      resolve(uid);
-    })
-    .catch((error) => {
-      console.error(error);
-      reject();
-    });
-  });
-};
 
 const setAsLoggedIn = ({ token }) => {
   return new Promise((resolve, reject) => {

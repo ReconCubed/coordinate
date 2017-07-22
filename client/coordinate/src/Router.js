@@ -7,6 +7,9 @@ import AddGroupMembers from './components/AddGroupMembers';
 import GroupView from './components/GroupView';
 import InviteAdditionalMembers from './components/InviteAdditionalMembers';
 
+
+const testGroup7 = () => <GroupView groupID={'-KpfxcoKrGYxZwSopCr4'} />;
+
 const RouterComponent = () => {
   return (
     <Router navBar={Header}>
@@ -15,13 +18,12 @@ const RouterComponent = () => {
             key="login"
             component={LoginForm}
             title={'Log In'}
-            initial            
           />
           <Scene
             key="create_group_form"
             component={CreateGroupForm}
             title={'Create a Group'}
-
+            initial            
           />
           <Scene
             key="add_group_members"
@@ -31,6 +33,11 @@ const RouterComponent = () => {
           <Scene
             key="group_view"
             component={GroupView}
+            hideNavBar
+          />
+          <Scene
+            key="test_group"
+            component={testGroup7}
             hideNavBar
           />
           <Scene

@@ -1,5 +1,5 @@
-const admin = require('./admin');
-const { verifyToken, getUser } = require('./user-auth');
+const { admin, verifyToken } = require('./admin');
+const { getUser } = require('./user-auth');
 
 const db = admin.database();
 

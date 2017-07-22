@@ -11,8 +11,8 @@ const LogIn = gql`
 `;
 
 const CreateGroup = gql`
-  mutation CreateGroup($name:String!, $targetLocation:LocationArgType) {
-    createGroup(name:$name, targetLocation:$targetLocation) {
+  mutation CreateGroup($name:String!, $targetLocation:LocationArgType, $userIDArray:[ID]) {
+    createGroup(name:$name, targetLocation:$targetLocation, userIDArray:$userIDArray) {
       id
     }
   }

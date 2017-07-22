@@ -1,5 +1,6 @@
-const admin = require('./admin');
-const { verifyToken, getUser } = require('./user-auth');
+const { admin, verifyToken } = require('./admin');
+const { getUser } = require('./user-auth');
+const { groupRequestNotification } = require('./notifications');
 
 const db = admin.database();
 
@@ -55,15 +56,6 @@ const deactivateGroup = ({ token, groupID }) => {
   });
 };
 
-const addNotification = ({ userID, type, body }) => {
-  return new Promise((resolve, reject) => {
-    db.ref(`users/${userID}/private/notifications/`)
-    .push({ type, body })
-    .then(({ key }) => resolve({ notificationID: key }))
-    .catch(e => reject(e));
-  });
-};
-
 const designateNewLeader = ({ token, groupID, newLeaderID }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
@@ -84,7 +76,7 @@ const designateNewLeader = ({ token, groupID, newLeaderID }) => {
   });
 };
 
-const createGroup = ({ token, name, targetLocation }) => {
+const createGroup = ({ token, name, targetLocation, members }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
     .then((uid) => {
@@ -101,6 +93,11 @@ const createGroup = ({ token, name, targetLocation }) => {
       .then(({ key }) => {
         addToAcceptedMembers({ groupID: key, name, userID: uid })
         .then(() => {
+          if (members) {
+            inviteToGroup({ token, groupID: key, userIDArray: members, name })
+            .then(() => resolve(key))
+            .catch(e => reject(e));
+          }
           resolve(key);
         })
         .catch(e => reject(e));
@@ -155,7 +152,7 @@ const genGroupDetails = ({ token, details, id }) => {
   return returnObj;
 };
 
-const inviteToGroup = ({ token, groupID, userIDArray }) => {
+const inviteToGroup = ({ token, groupID, userIDArray, name }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
     .then((uid) => {
@@ -163,13 +160,26 @@ const inviteToGroup = ({ token, groupID, userIDArray }) => {
         invitedAt: admin.database.ServerValue.TIMESTAMP,
         invitedBy: uid
       };
-      const updateObject = {};
-      userIDArray.forEach((id) => {
-        updateObject[`groups/${groupID}/members/pending/${id}/`] = invitePayload;
-        updateObject[`users/${id}/private/groups/pending/${groupID}/`] = invitePayload;
-      });
-      db.ref().update(updateObject)
-      .then(() => resolve(groupID))
+      getUser({ token, targetID: uid })
+      .then((invitedByUser) => {
+        const updateObject = {};
+        const notificationObject = groupRequestNotification({
+          groupID,
+          name,
+          invitedByUser
+        });
+        userIDArray.forEach((id) => {
+          updateObject[`groups/${groupID}/members/pending/${id}/`] = invitePayload;
+          updateObject[`users/${id}/private/groups/pending/${groupID}/`] = invitePayload;
+          db.ref(`users/${id}/private/notifications/active/unread/`).push(notificationObject)
+          .catch(e => reject(e));
+        });
+        db.ref().update(updateObject)
+        .then(() => {
+          resolve(groupID);
+        })
+        .catch(e => reject(e));
+      })
       .catch(e => reject(e));
     })
     .catch(e => reject(e));

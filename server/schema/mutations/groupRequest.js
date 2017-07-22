@@ -13,7 +13,6 @@ const inviteUsersToGroup = {
     userIDArray: { type: new GraphQLNonNull(new GraphQLList(GraphQLID)) },
   },
   resolve: (parentValue, { groupID, userIDArray }, req) => {
-    console.log(userIDArray);
     return new Promise((resolve, reject) => {
       inviteToGroup({ groupID, userIDArray, token: req.headers.authorization })
       .then(id => resolve({ groupID: id }))

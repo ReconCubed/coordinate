@@ -1,12 +1,13 @@
 const graphql = require('graphql');
-
 const { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID } = graphql;
 const UserType = require('./user_type');
 const GroupType = require('./group_type');
 const GroupDetailType = require('./group_detail_type');
+const NotificationType = require('./notification_type');
 const { getUser } = require('../../services/user-auth');
 const { fetchGroups, fetchGroupDetails } = require('../../services/group');
 const { fetchFriends } = require('../../services/friends');
+const { fetchNotifications } = require('../../services/notifications');
 
 const RootQueryType = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -74,6 +75,23 @@ const RootQueryType = new GraphQLObjectType({
           .then((friends) => {
             resolve(friends);
           })
+          .catch(e => reject(e));
+        });
+      }
+    },
+    notifications: {
+      type: new GraphQLObjectType({
+        name: 'NotificationsObjectType',
+        fields: () => ({
+          unread: { type: new GraphQLList(NotificationType) },
+          read: { type: new GraphQLList(NotificationType) }
+        })
+      }),
+      resolve: (parentValue, args, req) => {
+        const token = req.headers.authorization;
+        return new Promise((resolve, reject) => {
+          fetchNotifications({ token })
+          .then(notifications => resolve(notifications))
           .catch(e => reject(e));
         });
       }

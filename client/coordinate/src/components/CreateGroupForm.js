@@ -7,7 +7,7 @@ import { View, ScrollView, TouchableHighlight, Text } from 'react-native';
 import { Button, Card, Divider } from 'react-native-material-ui';
 import { CardSection } from './common';
 import { googlePlacesConfig } from '../../app_config';
-import { CreateGroup, InviteUsersToGroup } from '../graphql/mutations';
+import { CreateGroup } from '../graphql/mutations';
 
 class CreateGroupForm extends Component {
   constructor(props) {
@@ -31,19 +31,10 @@ class CreateGroupForm extends Component {
       variables: {
         name: this.state.name,
         targetLocation: this.state.location,
+        userIDArray: members
       }
     })
-    .then(({ data }) => {
-      console.log(data);
-      this.props.inviteUsersToGroup_mutation({
-        variables: {
-          groupID: data.createGroup.id,
-          userIDArray: members
-        }
-      })
-      .then(response => console.log(response))
-      .catch(e => console.error(e));
-    })
+    .then(response => console.log(response))
     .catch(e => console.error(e));
   }
 
@@ -176,6 +167,5 @@ const styles = {
 };
 
 export default compose(
-  graphql(CreateGroup, { name: 'createGroup_mutation' }),
-  graphql(InviteUsersToGroup, { name: 'inviteUsersToGroup_mutation' })
+  graphql(CreateGroup, { name: 'createGroup_mutation' })
 )(CreateGroupForm);

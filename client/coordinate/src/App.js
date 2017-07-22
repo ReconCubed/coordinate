@@ -69,7 +69,8 @@ class App extends Component {
     };
 
     const networkInterface = createNetworkInterface({
-      uri: 'http://192.168.1.3:8080/graphql'
+      // uri: 'https://coordinate-26851.appspot.com/graphql'
+      uri: 'http://localhost:8080/graphql'
     });
 
     networkInterface.use([{

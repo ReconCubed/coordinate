@@ -7,6 +7,7 @@ import AddGroupMembers from './components/AddGroupMembers';
 import GroupView from './components/GroupView';
 import InviteAdditionalMembers from './components/InviteAdditionalMembers';
 import NotificationsView from './components/NotificationsView';
+import HomeView from './components/HomeView';
 
 const testGroup7 = () => <GroupView groupID={'-KpfxcoKrGYxZwSopCr4'} />;
 
@@ -30,6 +31,12 @@ const RouterComponent = () => {
             hideNavBar
           />
           <Scene
+            key="home_view"
+            component={HomeView}
+            hideNavBar
+            initial
+          />
+          <Scene
             key="group_view"
             component={GroupView}
             hideNavBar
@@ -48,7 +55,6 @@ const RouterComponent = () => {
             key="notifications"
             component={NotificationsView}
             hideNavBar
-            initial
           />
         </Scene>
     </Router>

@@ -42,4 +42,12 @@ const AcceptGroupInvite = gql`
   }
 `;
 
-export { LogIn, CreateGroup, InviteUsersToGroup, UpdateLocation, AcceptGroupInvite };
+const RejectGroupInvite = gql`
+  mutation RejectGroupInvite($groupID:ID!, $notificationID:ID) {
+    rejectGroupInvite(groupID:$groupID, notificationID:$notificationID) {
+      groupID
+    }
+  }
+`;
+
+export { LogIn, CreateGroup, InviteUsersToGroup, UpdateLocation, AcceptGroupInvite, RejectGroupInvite };

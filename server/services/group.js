@@ -238,6 +238,25 @@ const removePendingUser = ({ token, groupID, userID }) => {
   });
 };
 
+const declineGroupInvite = ({ token, groupID, notificationID }) => {
+  return new Promise((resolve, reject) => {
+    removePendingUser({ token, groupID })
+    .then((uid) => {
+      if (notificationID) {
+        const updateObject = {};
+        updateObject[`unread/${notificationID}`] = null;
+        updateObject[`read/${notificationID}`] = null;
+        db.ref(`users/${uid}/private/notifications/`)
+        .update(updateObject)
+        .then(() => resolve(groupID));
+      }
+      resolve(groupID);
+    })
+    .catch(e => reject(e));
+  });
+};
+
+
 const approveGroupInvite = ({ token, groupID, notificationID }) => {
   return new Promise((resolve, reject) => {
     removePendingUser({ token, groupID })
@@ -306,5 +325,6 @@ module.exports = {
   approveGroupInvite,
   removePendingUser,
   removeFromGroup,
-  deactivateGroup
+  deactivateGroup,
+  declineGroupInvite
 };

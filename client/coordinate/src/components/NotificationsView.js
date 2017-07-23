@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { graphql, compose } from 'react-apollo';
-import { Icon, Button } from 'react-native-material-ui';
+import { Icon, Button, Card } from 'react-native-material-ui';
 import { List, ListItem } from 'react-native-elements';
 import { View, Text, ScrollView } from 'react-native';
 import { FetchNotifications } from '../graphql/queries';
-import { AcceptGroupInvite } from '../graphql/mutations';
+import { AcceptGroupInvite, RejectGroupInvite} from '../graphql/mutations';
 import Header from './Header';
 
 class NotificationsView extends Component {
-
-
   iconType(type) {
     let icon = ''
     switch(type) {
@@ -22,7 +20,7 @@ class NotificationsView extends Component {
     }
     return icon;
   }
-
+2
   renderNotificationActions(type, { groupID, notificationID }) {
     const buttonViewStyle = {
       display: 'flex',
@@ -43,12 +41,24 @@ class NotificationsView extends Component {
       .catch(e => console.error(e));
     };
 
+    const declineGroupOnPress = () => {
+      this.props.rejectGroupInvite_mutation({
+        variables: {
+          notificationID,
+          groupID
+        },
+        refetchQueries: [{ query: FetchNotifications }]
+      })
+      .then(resp => console.log(resp))
+      .catch(e => console.error(e));
+    };
+
 
     if (type === 'group_request') {
       return (
         <View style={buttonViewStyle}>
           <Button raised primary text={'Accept'} icon={'check'} onPress={() => acceptGroupOnPress()} />
-          <Button raised text={'Decline'} icon={'close'} />
+          <Button raised text={'Decline'} icon={'close'} onPress={() => declineGroupOnPress()}/>
         </View>
       );
     }
@@ -58,6 +68,13 @@ class NotificationsView extends Component {
     if (this.props.data.notifications) {
       const unread = this.props.data.notifications.unread || [];
       const read = this.props.data.notifications.read || [];
+      if (read.length === 0 && unread.length === 0) {
+        return (
+          <Card style={{ container: { height: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' } }}>
+            <Text> You have no notifications </Text>
+          </Card>
+        )
+      }
       return (
         <View style={{
           display: 'flex',
@@ -96,7 +113,7 @@ class NotificationsView extends Component {
           hideNotifications
           onLeftElementPress={() => Actions.pop()}
           leftElement={'arrow-back'}
-          title={'Requests'}
+          title={'Notifications'}
         />
         <ScrollView>
           {this.renderNotifications()}
@@ -108,6 +125,7 @@ class NotificationsView extends Component {
 
 
 export default graphql(FetchNotifications)(compose(
-  graphql(AcceptGroupInvite, { name: 'acceptGroupInvite_mutation' })
+  graphql(AcceptGroupInvite, { name: 'acceptGroupInvite_mutation' }),
+  graphql(RejectGroupInvite, { name: 'rejectGroupInvite_mutation' })
 )(NotificationsView));
 

@@ -11,7 +11,6 @@ const setAsLoggedIn = ({ token }) => {
       .then(() => {
         getUser({ token, targetID: uid })
         .then((user) => {
-          console.log(user);
           resolve(user);
         })
         .catch(e => reject(e));

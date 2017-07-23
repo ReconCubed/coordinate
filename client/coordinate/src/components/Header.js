@@ -26,14 +26,7 @@ class Header extends Component {
   }
 
   notificationOnPress() {
-    if (this.props.data.notifications) {
-      const { unread, read } = this.props.data.notifications;
-      if (unread.length === 0 && read.length === 0) {
-        console.log('no notifications');
-      } else {
-        Actions.notifications();
-      }
-    }
+    Actions.notifications();
   }
 
   renderRightElement() {

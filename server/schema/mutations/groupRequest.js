@@ -1,5 +1,5 @@
 const { GraphQLString, GraphQLNonNull, GraphQLID, GraphQLObjectType, GraphQLList } = require('graphql');
-const { inviteToGroup, approveGroupInvite, removePendingUser, removeFromGroup, deactivateGroup } = require('../../services/group');
+const { inviteToGroup, declineGroupInvite, approveGroupInvite, removeFromGroup, deactivateGroup } = require('../../services/group');
 
 const inviteUsersToGroup = {
   type: new GraphQLObjectType({
@@ -41,22 +41,21 @@ const acceptGroupInvite = {
   }
 };
 
-const declineGroupInvite = {
+const rejectGroupInvite = {
   type: new GraphQLObjectType({
-    name: 'declineGroupInviteConfirmation',
+    name: 'rejectGroupInviteConfirmation',
     fields: {
       groupID: { type: GraphQLID }
     }
   }),
   args: {
-    token: { type: new GraphQLNonNull(GraphQLString) },
     groupID: { type: new GraphQLNonNull(GraphQLID) },
-    targetUserID: { type: GraphQLID }
+    notificationID: { type: GraphQLID },
   },
-  resolve: (parentValue, { token, groupID, targetUserID }) => {
+  resolve: (parentValue, { groupID, notificationID }, req) => {
     return new Promise((resolve, reject) => {
-      removePendingUser({ token, groupID, userID: targetUserID })
-      .then(() => resolve({ groupID }))
+      declineGroupInvite({ groupID, notificationID, token: req.headers.authorization })
+      .then(id => resolve({ groupID: id }))
       .catch(e => reject(e));
     });
   }
@@ -104,4 +103,4 @@ const setGroupInactive = {
 };
 
 
-module.exports = { inviteUsersToGroup, acceptGroupInvite, declineGroupInvite, removeUserFromGroup, setGroupInactive };
+module.exports = { inviteUsersToGroup, acceptGroupInvite, rejectGroupInvite, removeUserFromGroup, setGroupInactive };

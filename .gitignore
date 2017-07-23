@@ -7,4 +7,5 @@ node_modules
 *app_config*
 backup
 *coordinate-*
-*/build/*
+*ios*
+*android*

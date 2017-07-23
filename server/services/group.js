@@ -171,7 +171,7 @@ const inviteToGroup = ({ token, groupID, userIDArray, name }) => {
         userIDArray.forEach((id) => {
           updateObject[`groups/${groupID}/members/pending/${id}/`] = invitePayload;
           updateObject[`users/${id}/private/groups/pending/${groupID}/`] = invitePayload;
-          db.ref(`users/${id}/private/notifications/active/unread/`).push(notificationObject)
+          db.ref(`users/${id}/private/notifications/unread/`).push(notificationObject)
           .catch(e => reject(e));
         });
         db.ref().update(updateObject)
@@ -238,7 +238,7 @@ const removePendingUser = ({ token, groupID, userID }) => {
   });
 };
 
-const approveGroupInvite = ({ token, groupID }) => {
+const approveGroupInvite = ({ token, groupID, notificationID }) => {
   return new Promise((resolve, reject) => {
     removePendingUser({ token, groupID })
     .then((uid) => {
@@ -246,7 +246,17 @@ const approveGroupInvite = ({ token, groupID }) => {
       .once('value', (snapshot) => {
         const name = snapshot.val().name;
         addToAcceptedMembers({ groupID, name, userID: uid })
-        .then(() => resolve(groupID))
+        .then(() => {
+          if (notificationID) {
+            const updateObject = {};
+            updateObject[`unread/${notificationID}`] = null;
+            updateObject[`read/${notificationID}`] = null;
+            db.ref(`users/${uid}/private/notifications/`)
+            .update(updateObject)
+            .then(() => resolve(groupID));
+          }
+          resolve(groupID);
+        })
         .catch(e => reject(e));
       })
       .catch(e => reject(e));

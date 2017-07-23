@@ -55,13 +55,6 @@ const InviteUsersToGroup = `
 `;
 
 
-const AcceptGroupInvite = `
-  mutation AcceptGroupInvite($token:String!, $groupID:ID!) {
-    acceptGroupInvite(token:$token, groupID:$groupID) {
-      groupID
-    }
-  }
-`;
 
 const DeclineGroupInvite = `
   mutation DeclineGroupInvite($token:String!, $groupID:ID!) {

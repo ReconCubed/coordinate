@@ -34,4 +34,12 @@ const UpdateLocation = gql`
   }
 `;
 
-export { LogIn, CreateGroup, InviteUsersToGroup, UpdateLocation };
+const AcceptGroupInvite = gql`
+  mutation AcceptGroupInvite($groupID:ID!, $notificationID:ID) {
+    acceptGroupInvite(groupID:$groupID, notificationID:$notificationID) {
+      groupID
+    }
+  }
+`;
+
+export { LogIn, CreateGroup, InviteUsersToGroup, UpdateLocation, AcceptGroupInvite };

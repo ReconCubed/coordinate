@@ -34,7 +34,7 @@ class CreateGroupForm extends Component {
         userIDArray: members
       }
     })
-    .then(response => console.log(response))
+    .then(({ id }) => Actions.group_view({ groupID: id }))
     .catch(e => console.error(e));
   }
 

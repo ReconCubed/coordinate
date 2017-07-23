@@ -29,13 +29,13 @@ const acceptGroupInvite = {
     }
   }),
   args: {
-    token: { type: new GraphQLNonNull(GraphQLString) },
     groupID: { type: new GraphQLNonNull(GraphQLID) },
+    notificationID: { type: GraphQLID },
   },
-  resolve: (parentValue, args) => {
+  resolve: (parentValue, { groupID, notificationID }, req) => {
     return new Promise((resolve, reject) => {
-      approveGroupInvite(args)
-      .then(groupID => resolve({ groupID }))
+      approveGroupInvite({ groupID, notificationID, token: req.headers.authorization })
+      .then(id => resolve({ groupID: id }))
       .catch(e => reject(e));
     });
   }

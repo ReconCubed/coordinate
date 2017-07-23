@@ -4,10 +4,10 @@ const db = admin.database();
 
 const GROUP_REQUEST = 'group_request';
 
-const addNotification = ({ userID, type, body }) => {
+const addNotification = ({ userID, notification }) => {
   return new Promise((resolve, reject) => {
     db.ref(`users/${userID}/private/notifications/`)
-    .push({ type, body })
+    .push(notification)
     .then(({ key }) => resolve({ notificationID: key }))
     .catch(e => reject(e));
   });
@@ -27,7 +27,7 @@ const fetchNotifications = ({ token }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
     .then((uid) => {
-      db.ref(`users/${uid}/private/notifications/active/`)
+      db.ref(`users/${uid}/private/notifications/`)
       .on('value', (snapshot) => {
         const unread = snapshot.child('unread').val() || {};
         const read = snapshot.child('read').val() || {};

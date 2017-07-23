@@ -1,12 +1,12 @@
 import React from 'react';
-import { Scene, Router, Actions } from 'react-native-router-flux';
+import { Scene, Router } from 'react-native-router-flux';
 import Header from './components/Header';
 import LoginForm from './components/LoginForm';
 import CreateGroupForm from './components/CreateGroupForm';
 import AddGroupMembers from './components/AddGroupMembers';
 import GroupView from './components/GroupView';
 import InviteAdditionalMembers from './components/InviteAdditionalMembers';
-
+import NotificationsView from './components/NotificationsView';
 
 const testGroup7 = () => <GroupView groupID={'-KpfxcoKrGYxZwSopCr4'} />;
 
@@ -23,7 +23,6 @@ const RouterComponent = () => {
             key="create_group_form"
             component={CreateGroupForm}
             title={'Create a Group'}
-            initial            
           />
           <Scene
             key="add_group_members"
@@ -44,6 +43,12 @@ const RouterComponent = () => {
             key="invite_additional_members"
             component={InviteAdditionalMembers}
             hideNavBar
+          />
+          <Scene
+            key="notifications"
+            component={NotificationsView}
+            hideNavBar
+            initial
           />
         </Scene>
     </Router>

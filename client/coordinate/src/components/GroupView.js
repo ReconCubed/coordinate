@@ -75,13 +75,16 @@ class GroupView extends Component {
         />
         {acceptedMembers.map((member) => {
           if (member.location.lat && member.location.lng) {
+            const { lat: memberLat, lng: memberLng } = member.location;
+            const locationObject = (memberLat && memberLng) ?
+            {
+              latitude: parseFloat(memberLat),
+              longitude: parseFloat(memberLng)
+            } : {};
             return (
               <MapView.Marker
                 key={member.user.id}
-                coordinate={{
-                  latitude: parseFloat(member.location.lat),
-                  longitude: parseFloat(member.location.lng)
-                }}
+                coordinate={locationObject}
                 title={member.user.username}
               />
             );

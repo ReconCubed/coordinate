@@ -76,8 +76,31 @@ const FetchNotifications = gql`
   }
 `;
 
+const UserGroupDetails = gql`
+  query {
+    userGroupDetails{
+      id
+      name
+      targetLocation {
+        description
+      }
+      acceptedMembers {
+        user {
+          id
+          photo
+        }
+      }
+      leader{
+        username
+        photo
+      }
+    }
+  }
+`;
+
 export {
   FetchGroupDetails,
   FetchFriends,
-  FetchNotifications
+  FetchNotifications,
+  UserGroupDetails
 };

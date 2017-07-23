@@ -15,6 +15,7 @@ const uiTheme = {
       height: 50,
     },
   },
+  fontFamily: 'Roboto'
 };
 
 

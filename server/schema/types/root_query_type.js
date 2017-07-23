@@ -1,4 +1,5 @@
 const graphql = require('graphql');
+
 const { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID } = graphql;
 const UserType = require('./user_type');
 const GroupType = require('./group_type');
@@ -34,14 +35,32 @@ const RootQueryType = new GraphQLObjectType({
           fetchGroups({ token })
           .then((groups) => {
             const keys = Array.from(Object.keys(groups));
-            const returnArray = [];
-            keys.forEach((key) => {
-              returnArray.push({
-                id: key,
-                name: groups[key].name
-              });
+            const returnArray = keys.map((id) => {
+              return {
+                id,
+                name: groups[id].name
+              };
             });
             resolve(returnArray);
+          })
+          .catch(e => reject(e));
+        });
+      }
+    },
+    userGroupDetails: {
+      type: new GraphQLList(GroupDetailType),
+      resolve: (parentValue, args, req) => {
+        const token = req.headers.authorization;
+        return new Promise((resolve, reject) => {
+          fetchGroups({ token })
+          .then((groups) => {
+            const keys = Array.from(Object.keys(groups));
+            const groupDetailPromise = keys.map((groupID) => {
+              return fetchGroupDetails({ token, groupID });
+            });
+            Promise.all(groupDetailPromise)
+            .then(groupDetailArray => resolve(groupDetailArray))
+            .catch(e => console.error(e));
           })
           .catch(e => reject(e));
         });

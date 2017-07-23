@@ -137,13 +137,12 @@ const genGroupDetails = ({ token, details, id }) => {
   returnObj.leader = getUser({ token, targetID: leader });
   const acceptedMembersArray = [];
   const pendingMembersArray = [];
-
-  Array.from(Object.keys(members.accepted)).forEach((member) => {
+  Array.from(Object.keys(members.accepted || {})).forEach((member) => {
     const user = getUser({ token, targetID: member });
     const location = members.accepted[member].location;
     acceptedMembersArray.push({ user, location });
   });
-  Array.from(Object.keys(members.pending)).forEach((member) => {
+  Array.from(Object.keys(members.pending || {})).forEach((member) => {
     const user = getUser({ token, targetID: member });
     pendingMembersArray.push({ user });
   });

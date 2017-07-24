@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { graphql, compose } from 'react-apollo';
+import firebase from 'firebase';
 import { BottomNavigation } from 'react-native-material-ui';
 import { UserGroupDetails, FetchFriends } from '../../graphql/queries';
-import Header from '../Header';
 import UserGroupView from './UserGroupView';
 import UserPeopleView from './UserPeopleView';
 
@@ -15,10 +14,12 @@ class HomeView extends Component {
     };
   }
   renderView() {
-    if (this.state.view === 'group') {
-      return <UserGroupView />;
+    if (firebase.auth().currentUser) {
+      if (this.state.view === 'group') {
+        return <UserGroupView />;
+      }
+      return <UserPeopleView />;
     }
-    return <UserPeopleView />;
   }
 
   renderBottomNavigation() {
@@ -51,7 +52,6 @@ class HomeView extends Component {
   }
 
   render() {
-
     return (
       <View style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
         {this.renderView()}
@@ -62,5 +62,4 @@ class HomeView extends Component {
 }
 
 
-export default graphql(UserGroupDetails)(compose(
-  graphql(FetchFriends, { name: 'fetchFriends_query' }))(HomeView));
+export default HomeView;

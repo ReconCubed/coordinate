@@ -10,6 +10,14 @@ const LogIn = gql`
   }
 `;
 
+const LogOut = gql`
+  mutation LogOut {
+    logOut {
+      id
+    }
+  }
+`;
+
 const CreateGroup = gql`
   mutation CreateGroup($name:String!, $targetLocation:LocationArgType, $userIDArray:[ID]) {
     createGroup(name:$name, targetLocation:$targetLocation, userIDArray:$userIDArray) {
@@ -50,4 +58,4 @@ const RejectGroupInvite = gql`
   }
 `;
 
-export { LogIn, CreateGroup, InviteUsersToGroup, UpdateLocation, AcceptGroupInvite, RejectGroupInvite };
+export { LogIn, CreateGroup, InviteUsersToGroup, UpdateLocation, AcceptGroupInvite, RejectGroupInvite, LogOut };

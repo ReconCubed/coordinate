@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, View } from 'react-native';
 import firebase from 'firebase';
 import { ThemeProvider } from 'react-native-material-ui';
 import { ApolloProvider } from 'react-apollo';
@@ -21,37 +21,44 @@ const uiTheme = {
 };
 
 
-const initFirebase = () => {
-  const getToken = () => firebase.auth().currentUser.getIdToken(true);
-  const config = {
-    apiKey: 'AIzaSyAgXDDJletVdmwm_apWDFt39f9XdenkNKs',
-    authDomain: 'coordinate-26851.firebaseapp.com',
-    databaseURL: 'https://coordinate-26851.firebaseio.com',
-    projectId: 'coordinate-26851',
-    storageBucket: 'coordinate-26851.appspot.com',
-    messagingSenderId: '396610550465'
-  };
-
-  firebase.initializeApp(config);
-  firebase.auth().onIdTokenChanged((user) => {
-    if (user) {
-      getToken()
-      .then((token) => {
-        try {
-          AsyncStorage.setItem('auth_token', token);
-        } catch (e) {
-          console.error(e);
-        }
-      })
-      .catch(e => console.error(e));
-    }
-  });
-};
-
 class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   componentWillMount() {
     this.initApollo();
-    initFirebase();
+    this.initFirebase();
+  }
+
+  initFirebase() {
+    const getToken = () => firebase.auth().currentUser.getIdToken(true);
+    const config = {
+      apiKey: 'AIzaSyAgXDDJletVdmwm_apWDFt39f9XdenkNKs',
+      authDomain: 'coordinate-26851.firebaseapp.com',
+      databaseURL: 'https://coordinate-26851.firebaseio.com',
+      projectId: 'coordinate-26851',
+      storageBucket: 'coordinate-26851.appspot.com',
+      messagingSenderId: '396610550465'
+    };
+
+    firebase.initializeApp(config);
+
+    firebase.auth().onIdTokenChanged((user) => {
+      if (user) {
+        getToken()
+        .then((token) => {
+          try {
+            AsyncStorage.setItem('auth_token', token);
+          } catch (e) {
+            console.error(e);
+          }
+        })
+        .catch(e => console.error(e));
+      } else {
+        AsyncStorage.clear();
+      }
+    });
   }
 
   initApollo() {
@@ -86,7 +93,7 @@ class App extends Component {
           req.options.headers.authorization = token || null;
           next();
         })
-        .catch(() => null);
+        .catch(e => console.error(e));
       }
     }]);
 
@@ -97,14 +104,16 @@ class App extends Component {
   }
 
   render() {
-
-    return (
-    <ThemeProvider uiTheme={uiTheme}>
-      <ApolloProvider client={this.client}>
-        <Router />
-      </ApolloProvider>
-    </ThemeProvider>
-    );
+    if (this.client) {
+      return (
+      <ThemeProvider uiTheme={uiTheme}>
+        <ApolloProvider client={this.client}>
+          <Router />
+        </ApolloProvider>
+      </ThemeProvider>
+      );
+    }
+    return <View />;
   }
 }
 

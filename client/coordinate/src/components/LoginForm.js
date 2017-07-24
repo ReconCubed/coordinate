@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, AsyncStorage, ScrollView } from 'react-native';
 import TextField from 'react-native-md-textinput';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { Actions } from 'react-native-router-flux';
 import { Card, Button } from 'react-native-material-ui';
 import firebase from 'firebase';
@@ -9,7 +9,6 @@ import { LogIn } from '../graphql/mutations';
 import { CardSection, Spinner } from './common';
 
 class LoginForm extends Component {
-
   constructor(props) {
     super(props);
 
@@ -17,6 +16,15 @@ class LoginForm extends Component {
       email: '',
       password: '',
     };
+  }
+
+  componentWillMount() {
+    const user = firebase.auth().currentUser;
+    if (user && !this.props.hasLoggedOut) {
+      Actions.home_view();
+    } else {
+      this.props.client.resetStore();
+    }
   }
 
   onEmailChange(email) {
@@ -34,15 +42,13 @@ class LoginForm extends Component {
     .then(() => {
       getToken()
       .then((token) => {
-        console.log(token);
         try {
           AsyncStorage.setItem('auth_token', token)
           .then(() => {
             this.props.mutate()
             .then((resp) => {
-              console.log(resp);
-              Actions.create_group_form();
-              // Actions.group_view({ groupID: '-Kp7KILTDegMeZRiBxHk'});
+              console.log('successfully logged in');
+              Actions.home_view();
             })
             .catch(e => console.error(e));
           })
@@ -117,4 +123,4 @@ const styles = {
   }
 };
 
-export default graphql(LogIn)(LoginForm);
+export default graphql(LogIn)(withApollo(LoginForm));

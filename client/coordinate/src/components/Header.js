@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { View, Modal, Text } from 'react-native';
+import { View, Text, AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { graphql } from 'react-apollo';
 import { Toolbar, Badge, IconToggle, Drawer } from 'react-native-material-ui';
-import requireAuth from './requireAuth';
+import firebase from 'firebase';
 import { ListItem, Avatar } from 'react-native-elements';
 import { FetchNotifications } from '../graphql/queries';
+import requireAuth from './requireAuth';
+import { LogOut } from '../graphql/mutations';
+
 
 class HeaderComponent extends Component {
   constructor(props) {
@@ -16,35 +19,43 @@ class HeaderComponent extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data.notifications) {
-      const { unread, read } = nextProps.data.notifications;
-      if (unread.length > 0 && unread.length !== this.state.notifications) {
-        this.setState({
-          notifications: unread.length
-        });
-      }
+  componentWillReceiveProps({ data }) {
+    if (data) {
+      if (data.notifications) {
+        const { unread, read } = data.notifications;
+        if (unread.length > 0 && unread.length !== this.state.notifications) {
+          this.setState({
+            notifications: unread.length
+          });
+        }
+      }      
     }
   }
 
   notificationOnPress() {
     Actions.notifications();
+  } 
+
+  logOutOnPress() {
+    Actions.log_out_auth();
   }
 
   renderMenuDrawer() {
     if (this.state.showMenuDrawer) {
       const { photo, username } = this.props.user || {};
       return (
-        <View style={{
-          position: 'absolute',
-          top: 50,
-          width: 200,
-          elevation: 4,
-          backgroundColor: 'white',
-          borderWidth: 1,
-          borderStyle: 'solid',
-          borderColor: '#E0E0E0'
-        }}>
+        <View
+          style={{
+            position: 'absolute',
+            top: 50,
+            width: 200,
+            elevation: 4,
+            backgroundColor: 'white',
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderColor: '#E0E0E0'
+          }}
+        >
           <Drawer>
             <View style={{ height: 75, backgroundColor: '#E0E0E0', display: 'flex', justifyContent: 'center' }}>
               <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 15 }}>
@@ -65,9 +76,9 @@ class HeaderComponent extends Component {
                 style={{ height: 40 }}
                 key={'log_out'}
                 title={'Log Out'}
-                leftIcon={<IconToggle name={'input'} onPress={() => console.log('Log out')}  />}
+                leftIcon={<IconToggle name={'input'} onPress={() => this.logOutOnPress()} />}
                 hideChevron
-                onPress={() => console.log('Log Out')}
+                onPress={() => this.logOutOnPress()}
               />
             </View>
           </Drawer>
@@ -144,5 +155,6 @@ class HeaderComponent extends Component {
   }
 }
 
-
-export default graphql(FetchNotifications)(requireAuth(HeaderComponent));
+export default graphql(FetchNotifications, {
+  skip: ownProps => ownProps.hideNotifications
+})(requireAuth(HeaderComponent));

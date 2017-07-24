@@ -20,6 +20,7 @@ const RootQueryType = new GraphQLObjectType({
       },
       resolve: (parentValue, { targetID }, req) => {
         const token = req.headers.authorization;
+        console.log(token);
         return new Promise((resolve, reject) => {
           getUser({ token, targetID })
           .then(user => resolve(user))

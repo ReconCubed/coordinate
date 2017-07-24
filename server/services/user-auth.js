@@ -21,6 +21,21 @@ const setAsLoggedIn = ({ token }) => {
   });
 };
 
+const setAsLoggedOut = ({ token }) => {
+  return new Promise((resolve, reject) => {
+    verifyToken(token)
+    .then((uid) => {
+      db.ref(`users/${uid}/`)
+      .update({ loggedIn: false })
+      .then(() => {
+        resolve({ id: uid });
+      })
+      .catch(e => reject(e));
+    })
+    .catch(e => reject(e));
+  });
+};
+
 const signup = ({ email, photo, username, password }) => {
   return new Promise((resolve, reject) => {
     admin.auth().createUser({
@@ -90,4 +105,4 @@ const getPrivateUserData = (token, targetUserId) => {
   });
 };
 
-module.exports = { signup, verifyToken, setAsLoggedIn, getUser, getPrivateUserData };
+module.exports = { signup, verifyToken, setAsLoggedIn, getUser, getPrivateUserData, setAsLoggedOut };

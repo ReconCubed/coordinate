@@ -1,4 +1,4 @@
-const { signUp, logIn } = require('./auth');
+const { signUp, logIn, logOut } = require('./auth');
 const createGroup = require('./createGroup');
 const updateLocation = require('./updateLocation');
 const { sendFriendRequest, cancelFriendRequest, acceptFriendRequest, deleteFriend } = require('./friendRequest');
@@ -17,5 +17,6 @@ module.exports = {
   removeUserFromGroup,
   deleteFriend,
   setGroupInactive,
-  rejectGroupInvite
+  rejectGroupInvite,
+  logOut
 };

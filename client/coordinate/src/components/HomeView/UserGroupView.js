@@ -29,7 +29,7 @@ class UserGroupView extends Component {
                   <Text style={{ fontSize: 24, paddingBottom: 10 }}>{name}</Text>
                   <View style={{ display: 'flex', flexDirection: 'row', marginRight: 50 }}>
                     <Icon name={'place'} color={'#553ecb'} />
-                    <Text style={{ paddingLeft: 2 }}>{targetLocation.description}</Text>
+                    <Text style={{ paddingLeft: 2 }}>{targetLocation ? targetLocation.description : ''}</Text>
                   </View>
                   <View style={{ display: 'flex', flexDirection: 'row', paddingTop: 15 }}>
                   {
@@ -59,6 +59,7 @@ class UserGroupView extends Component {
     }
   }
   render() {
+    console.log(this);
     return (
       <View style={{ flex: 1 }}>
         <Header leftElement={'menu'} title={'Coordinate'} />

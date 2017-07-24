@@ -1,6 +1,6 @@
 const UserType = require('../types/user_type');
-const { GraphQLString, GraphQLNonNull } = require('graphql');
-const { signup, setAsLoggedIn } = require('../../services/user-auth');
+const { GraphQLString, GraphQLID, GraphQLNonNull, GraphQLObjectType } = require('graphql');
+const { signup, setAsLoggedIn, setAsLoggedOut } = require('../../services/user-auth');
 
 const signUp = {
   type: UserType,
@@ -18,8 +18,21 @@ const signUp = {
 const logIn = {
   type: UserType,
   resolve: (parentValue, args, req) => {
+    console.log(req.headers.authorization);
     return setAsLoggedIn({ token: req.headers.authorization });
   }
 };
 
-module.exports = { logIn, signUp };
+const logOut = {
+  type: new GraphQLObjectType({
+    name: 'userID',
+    fields: {
+      id: { type: GraphQLID }
+    }
+  }),
+  resolve: (parentValue, args, req) => {
+    return setAsLoggedOut({ token: req.headers.authorization });
+  }
+};
+
+module.exports = { logIn, signUp, logOut };

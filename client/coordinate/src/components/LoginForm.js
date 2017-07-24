@@ -16,14 +16,32 @@ class LoginForm extends Component {
       email: '',
       password: '',
     };
+    this.logInChecks = 0;
   }
 
-  componentWillMount() {
+  checkIfLoggedIn() {
     const user = firebase.auth().currentUser;
     if (user && !this.props.hasLoggedOut) {
       Actions.home_view();
     } else {
       this.props.client.resetStore();
+    }
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      if (this.logInChecks > 30) {
+        clearInterval(this.interval);
+        this.interval = null;
+      }
+      this.checkIfLoggedIn();
+      this.logInChecks += 1;
+    }, 100);
+  }
+
+  componentWillUnmount() {
+    if (this.interval) {
+      this.clearInterval(this.interval);
     }
   }
 

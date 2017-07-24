@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 import { BottomNavigation } from 'react-native-material-ui';
-import { UserGroupDetails, FetchFriends } from '../../graphql/queries';
 import UserGroupView from './UserGroupView';
 import UserPeopleView from './UserPeopleView';
 
@@ -13,6 +13,13 @@ class HomeView extends Component {
       view: 'group'
     };
   }
+
+  componentWillMount() {
+    if (!firebase.auth().currentUser) {
+      Actions.login();
+    }
+  }
+
   renderView() {
     if (firebase.auth().currentUser) {
       if (this.state.view === 'group') {

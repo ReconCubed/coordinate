@@ -21,7 +21,6 @@ class RouterComponent extends Component  {
               component={LoginForm}
               title={'Log In'}
               hideNotifications
-              initial
             />
             <Scene
               key="create_group_form"

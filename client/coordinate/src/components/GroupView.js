@@ -98,6 +98,27 @@ class GroupView extends Component {
     const { groupDetails } = this.props.data;
     const leader = groupDetails.leader.id;
     const allMembers = (groupDetails.acceptedMembers.concat(groupDetails.pendingMembers)).map(m => m.user);
+    const pendingMemberListView = () => {
+      if (groupDetails.pendingMembers.length > 0) {
+        return (
+          <View>
+           <ListItem title={'Pending'} hideChevron containerStyle={{ display: groupDetails.pendingMembers.length > 0 ? 'flex' : 'none', height: 8, backgroundColor: '#E0E0E0' }} titleStyle={{ fontSize: 12, textAlign: 'left', lineHeight: 12, marginTop: -5 }} />
+            {
+              groupDetails.pendingMembers.map(({ user }) => {
+                return (
+                <ListItem
+                  roundAvatar
+                  avatar={{ uri: user.photo }}
+                  key={user.id}
+                  title={user.username}
+                />);
+              })
+            }
+          </View>
+        );
+      }
+    };
+
     return (
       <View style={{
         display: 'flex',
@@ -118,17 +139,8 @@ class GroupView extends Component {
               />);
             })
           }
-        <ListItem title={'Pending'} hideChevron containerStyle={{ display: groupDetails.pendingMembers.length > 0 ? 'flex' : 'none', height: 8, backgroundColor: '#E0E0E0' }} titleStyle={{ fontSize: 12, textAlign: 'left', lineHeight: 12, marginTop: -5 }}/>
           {
-            groupDetails.pendingMembers.map(({ user }) => {
-              return (
-              <ListItem
-                roundAvatar
-                avatar={{ uri: user.photo }}
-                key={user.id}
-                title={user.username}
-              />);
-            })
+            pendingMemberListView()
           }
           <ActionButton
             style={{ container: { backgroundColor: '#553ecb' } }}

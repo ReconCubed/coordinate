@@ -31,9 +31,19 @@ class Header extends Component {
 
   renderRightElement() {
     const { notifications } = this.state;
+    let rightElement = [];
+    let notificationElement = [];
+    if (this.props.rightElement) {
+      if (typeof (this.props.rightElement) === 'object') {
+        rightElement = this.props.rightElement;
+      } else {
+        rightElement = [this.props.rightElement];
+      }
+    }
     if (!this.props.hideNotifications) {
-      return (
+      notificationElement = [
         <Badge
+          key={'notification'}
           text={notifications > 0 ? notifications.toString() : ''}
           style={{
             container: {
@@ -49,7 +59,19 @@ class Header extends Component {
           onPress={() => this.notificationOnPress()}
         />
       </Badge>
-      );
+      ];
+    }
+    const rightElements = notificationElement.concat(rightElement);
+    console.log(rightElements);
+    return rightElements;
+  }
+
+  onLeftElementPress() {
+    const { onLeftElementPress, leftElement } = this.props;
+    if (onLeftElementPress) {
+      onLeftElementPress();
+    } else if (leftElement === 'menu') {
+      console.log('menu');
     }
   }
 
@@ -59,7 +81,7 @@ class Header extends Component {
       <View>
         <Toolbar
           leftElement={this.props.leftElement}
-          onLeftElementPress={() => this.props.onLeftElementPress()}
+          onLeftElementPress={() => this.onLeftElementPress()}
           centerElement={this.props.title}
           rightElement={this.renderRightElement()}
           onRightElementPress={() => console.log('Right element press')}

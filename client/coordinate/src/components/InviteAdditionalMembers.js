@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { graphql, compose } from 'react-apollo';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { Button } from 'react-native-material-ui';
+import { Button, Card } from 'react-native-material-ui';
 import { List, ListItem } from 'react-native-elements';
 import TrieSearch from 'trie-search';
 import { FetchFriends } from '../graphql/queries';
 import { InviteUsersToGroup } from '../graphql/mutations';
-
 import Header from './Header';
 
 
 class InviteAdditionalMembers extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       searchTerm: '',
-      selectedFriends: {}
+      selectedFriends: {},
+      showSearch: false,
     };
     this.selectedFriends = {};
     this.friendsToRemove = props.friendsToRemove || [];
@@ -51,38 +50,44 @@ class InviteAdditionalMembers extends Component {
         userIDArray: Array.from(Object.keys(this.state.selectedFriends))
       }
     })
-    .then(response => {
+    .then((response) => {
       console.log(response);
       Actions.pop();
     })
     .catch(e => console.error(e));
-  };
+  }
 
   renderInviteButton() {
     if (Object.keys(this.state.selectedFriends).length > 0) {
-      return <Button primary raised text={'Invite To Group'} onPress={() => this.inviteToGroup()} />
+      return <Button primary raised text={'Invite To Group'} onPress={() => this.inviteToGroup()} />;
     }
-    return <Button primary disabled raised text={'Invite To Group'} />
+    return <Button primary disabled raised text={'Invite To Group'} />;
   }
 
   renderFriends() {
     if (!this.props.data) {
-      return;
+      return [];
     } else if (!this.props.data.loading && this.props.data.friends) {
       if (!this.friendslist) {
         const removalArray = this.friendsToRemove.map(i => i.id);
-        console.log(removalArray);
-        this.friendslist = this.props.data.friends.filter(x => removalArray.indexOf(x.id) == -1);
-        console.log(this.props.data.friends);
-        console.log(this.friendsToRemove);
-        console.log(this.friendslist);
+        this.friendslist = this.props.data.friends.filter(x => removalArray.indexOf(x.id) === -1);
+        if (this.friendslist.length !== 0) {
+          this.setState({ showSearch: true });
+        }
       }
       let friendsList = this.friendslist;
       if (this.state.searchTerm !== '' && this.trieSearch) {
         friendsList = this.trieSearch.get(this.state.searchTerm);
-      } 
+      }
+      if (this.friendslist.length === 0 && this.props.data.friends.length !== 0) {
+        return (
+          <Card style={{ container: { height: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' } }}>
+            <Text>Your friends have already been invited to this group.</Text>
+          </Card>
+        );
+      }
       return (
-        <View>
+        <ScrollView>
           <List containerStyle={{ marginBottom: 20 }}>
             {
               friendsList.map((l) => {
@@ -100,21 +105,22 @@ class InviteAdditionalMembers extends Component {
             }
           </List>
           {this.renderInviteButton()}
-        </View>
+        </ScrollView>
       );
     }
   }
 
   render() {
+    const searchable = this.state.showSearch ? {
+      autoFocus: true,
+      placeholder: 'Search for friends',
+      onSearchClosed: () => this.setState({ searchTerm: '' }),
+      onChangeText: searchTerm => this.setState({ searchTerm })
+    } : null;
     return (
       <View>
         <Header
-          searchable={{
-            autoFocus: true,
-            placeholder: 'Search for friends',
-            onSearchClosed: () => this.setState({ searchTerm: '' }),
-            onChangeText: searchTerm => this.setState({ searchTerm })
-          }}
+          searchable={searchable}
           onLeftElementPress={() => Actions.pop()}
           leftElement={'arrow-back'}
           title={'Invite Friends to Group'}

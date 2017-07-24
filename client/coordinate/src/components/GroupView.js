@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { graphql, compose } from 'react-apollo';
 import MapView from 'react-native-maps';
 import { Actions } from 'react-native-router-flux';
@@ -125,31 +125,33 @@ class GroupView extends Component {
         flexDirection: 'column',
         flex: 1
       }}>
-        <List containerStyle={{ flex: 1 }}>
-        <ListItem title={'Accepted'} hideChevron containerStyle={{ height: 8, backgroundColor: '#E0E0E0' }} titleStyle={{ fontSize: 12, textAlign: 'left', lineHeight: 12, marginTop: -5 }}/>
-          {
-            groupDetails.acceptedMembers.map(({ user }) => {
-              return (
-              <ListItem
-                roundAvatar
-                avatar={{ uri: user.photo }}
-                key={user.id}
-                title={user.username}
-                rightIcon={(() => (user.id === leader) ? { name: 'grade', color: 'gold' } : {})()}
-              />);
-            })
-          }
-          {
-            pendingMemberListView()
-          }
-          <ActionButton
-            style={{ container: { backgroundColor: '#553ecb' } }}
-            onPress={() => Actions.invite_additional_members({
-              groupID: this.props.groupID,
-              friendsToRemove: allMembers
-            })}
-          />
-        </List>
+        <ScrollView>
+          <List containerStyle={{ flex: 1 }}>
+          <ListItem title={'Accepted'} hideChevron containerStyle={{ height: 8, backgroundColor: '#E0E0E0' }} titleStyle={{ fontSize: 12, textAlign: 'left', lineHeight: 12, marginTop: -5 }}/>
+            {
+              groupDetails.acceptedMembers.map(({ user }) => {
+                return (
+                <ListItem
+                  roundAvatar
+                  avatar={{ uri: user.photo }}
+                  key={user.id}
+                  title={user.username}
+                  rightIcon={(() => (user.id === leader) ? { name: 'grade', color: 'gold' } : {})()}
+                />);
+              })
+            }
+            {
+              pendingMemberListView()
+            }
+          </List>
+          </ScrollView>
+        <ActionButton
+          style={{ container: { backgroundColor: '#553ecb' } }}
+          onPress={() => Actions.invite_additional_members({
+            groupID: this.props.groupID,
+            friendsToRemove: allMembers
+          })}
+        />        
       </View>
     );
   }
@@ -204,7 +206,7 @@ class GroupView extends Component {
     }
     return (
       <View style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-        <Header title={title} />
+        <Header title={title} leftElement={'arrow-back'} onLeftElementPress={() => Actions.pop()}/>
         <View style={{ flex: 1 }} >
           {this.renderContent()}
         </View>

@@ -6,6 +6,8 @@ import { ThemeProvider } from 'react-native-material-ui';
 import { ApolloProvider } from 'react-apollo';
 import Router from './Router';
 
+console.ignoredYellowBox = ['Warning: Failed prop type: Invalid prop `rightElement` supplied to `Toolbar`'];
+
 const uiTheme = {
   palette: {
     primaryColor: '#553ecb',

@@ -50,12 +50,12 @@ const signup = ({ email, photo, username, password }) => {
 const getUser = ({ token, targetID }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
-    .then(() => {
-      db.ref(`users/${targetID}/public/info/`)
+    .then((uid) => {
+      db.ref(`users/${targetID || uid}/public/info/`)
       .on('value', (snapshot) => {
         const username = snapshot.child('username').val();
         const photo = snapshot.child('photo').val();
-        resolve({ id: targetID, username, photo });
+        resolve({ id: targetID || uid, username, photo });
       });
     })
     .catch(error => reject(error));

@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { View, Modal, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { graphql } from 'react-apollo';
-import { Toolbar, Badge, IconToggle } from 'react-native-material-ui';
+import { Toolbar, Badge, IconToggle, Drawer } from 'react-native-material-ui';
+import requireAuth from './requireAuth';
+import { ListItem, Avatar } from 'react-native-elements';
 import { FetchNotifications } from '../graphql/queries';
 
-class Header extends Component {
+class HeaderComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,7 +20,7 @@ class Header extends Component {
     if (nextProps.data.notifications) {
       const { unread, read } = nextProps.data.notifications;
       if (unread.length > 0 && unread.length !== this.state.notifications) {
-        this.setState( {
+        this.setState({
           notifications: unread.length
         });
       }
@@ -27,6 +29,51 @@ class Header extends Component {
 
   notificationOnPress() {
     Actions.notifications();
+  }
+
+  renderMenuDrawer() {
+    if (this.state.showMenuDrawer) {
+      const { photo, username } = this.props.user || {};
+      return (
+        <View style={{
+          position: 'absolute',
+          top: 50,
+          width: 200,
+          elevation: 4,
+          backgroundColor: 'white',
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: '#E0E0E0'
+        }}>
+          <Drawer>
+            <View style={{ height: 75, backgroundColor: '#E0E0E0', display: 'flex', justifyContent: 'center' }}>
+              <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 15 }}>
+                <Avatar rounded source={{ uri: photo }} />
+                <Text style={{ paddingLeft: 12, fontWeight: 'bold', fontSize: 18 }}>{username}</Text>
+              </View>
+            </View>
+            <View style={{ flex: 1 }}>
+              <ListItem
+                style={{ height: 40 }}
+                key={'settings'}
+                title={'Settings'}
+                leftIcon={<IconToggle name={'settings'} onPress={() => console.log('settings')} />}
+                hideChevron
+                onPress={() => console.log('Settings')}
+              />
+              <ListItem
+                style={{ height: 40 }}
+                key={'log_out'}
+                title={'Log Out'}
+                leftIcon={<IconToggle name={'input'} onPress={() => console.log('Log out')}  />}
+                hideChevron
+                onPress={() => console.log('Log Out')}
+              />
+            </View>
+          </Drawer>
+        </View>
+      );
+    }
   }
 
   renderRightElement() {
@@ -62,7 +109,6 @@ class Header extends Component {
       ];
     }
     const rightElements = notificationElement.concat(rightElement);
-    console.log(rightElements);
     return rightElements;
   }
 
@@ -71,14 +117,18 @@ class Header extends Component {
     if (onLeftElementPress) {
       onLeftElementPress();
     } else if (leftElement === 'menu') {
-      console.log('menu');
+      if (this.state.showMenuDrawer) {
+        this.setState({ showMenuDrawer: false });
+      } else {
+        this.setState({ showMenuDrawer: true });
+      }
     }
   }
 
   render() {
     const { notifications } = this.state;
     return (
-      <View>
+      <View style={{ zIndex: 9999999999}}>
         <Toolbar
           leftElement={this.props.leftElement}
           onLeftElementPress={() => this.onLeftElementPress()}
@@ -88,10 +138,11 @@ class Header extends Component {
           searchable={this.props.searchable}
           primary
         />
+        {this.renderMenuDrawer()}
       </View>
     );
   }
 }
 
 
-export default graphql(FetchNotifications)(Header);
+export default graphql(FetchNotifications)(requireAuth(HeaderComponent));

@@ -1,6 +1,6 @@
 const graphql = require('graphql');
 
-const { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID } = graphql;
+const { GraphQLObjectType, GraphQLNonNull, GraphQLList, GraphQLID } = graphql;
 const UserType = require('./user_type');
 const GroupType = require('./group_type');
 const GroupDetailType = require('./group_detail_type');
@@ -16,7 +16,7 @@ const RootQueryType = new GraphQLObjectType({
     user: {
       type: UserType,
       args: {
-        targetID: { type: new GraphQLNonNull(GraphQLString) },
+        targetID: { type: GraphQLID },
       },
       resolve: (parentValue, { targetID }, req) => {
         const token = req.headers.authorization;

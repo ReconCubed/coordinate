@@ -55,6 +55,16 @@ const FetchFriends = gql`
   }
 `;
 
+const FetchUser = gql`
+  query FetchUser($targetID: ID){
+    user(targetID:$targetID) {
+      id,
+      username,
+      photo
+    }
+  }
+`;
+
 const FetchNotifications = gql`
   query {
     notifications {
@@ -102,5 +112,6 @@ export {
   FetchGroupDetails,
   FetchFriends,
   FetchNotifications,
-  UserGroupDetails
+  UserGroupDetails,
+  FetchUser
 };

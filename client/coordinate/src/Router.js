@@ -27,7 +27,7 @@ class RouterComponent extends Component  {
               component={CreateGroupForm}
               title={'Create a Group'}
               leftElement={'arrow-back'}
-              onLeftElementPress={() => Actions.pop()}
+              onLeftElementPress={() => Actions.home_view()}
             />
             <Scene
               key="add_group_members"

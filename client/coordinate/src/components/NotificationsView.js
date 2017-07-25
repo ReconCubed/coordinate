@@ -20,7 +20,7 @@ class NotificationsView extends Component {
     }
     return icon;
   }
-2
+
   renderNotificationActions(type, { groupID, notificationID }) {
     const buttonViewStyle = {
       display: 'flex',
@@ -73,7 +73,7 @@ class NotificationsView extends Component {
           <Card style={{ container: { height: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' } }}>
             <Text> You have no notifications </Text>
           </Card>
-        )
+        );
       }
       return (
         <View style={{

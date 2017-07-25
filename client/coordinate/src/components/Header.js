@@ -7,7 +7,6 @@ import firebase from 'firebase';
 import { ListItem, Avatar } from 'react-native-elements';
 import { FetchNotifications } from '../graphql/queries';
 import requireAuth from './requireAuth';
-import { LogOut } from '../graphql/mutations';
 
 
 class HeaderComponent extends Component {
@@ -20,7 +19,7 @@ class HeaderComponent extends Component {
   }
 
   componentWillReceiveProps({ data }) {
-    if (data) {
+    if (data && data.loading === false) {
       if (data.notifications) {
         const { unread, read } = data.notifications;
         if (unread.length > 0 && unread.length !== this.state.notifications) {
@@ -28,7 +27,10 @@ class HeaderComponent extends Component {
             notifications: unread.length
           });
         }
-      }      
+      } else {
+        console.log('refetching..');
+        data.refetch();
+      }
     }
   }
 
@@ -138,6 +140,7 @@ class HeaderComponent extends Component {
 
   render() {
     const { notifications } = this.state;
+    console.log(this.props);
     return (
       <View style={{ zIndex: 9999999999}}>
         <Toolbar
@@ -155,6 +158,6 @@ class HeaderComponent extends Component {
   }
 }
 
-export default graphql(FetchNotifications, {
+export default requireAuth(graphql(FetchNotifications, {
   skip: ownProps => ownProps.hideNotifications
-})(requireAuth(HeaderComponent));
+})(HeaderComponent));

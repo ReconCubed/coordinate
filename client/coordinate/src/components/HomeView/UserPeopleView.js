@@ -1,15 +1,32 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { graphql } from 'react-apollo';
 import { Actions } from 'react-native-router-flux';
-import { ActionButton } from 'react-native-material-ui';
-import { List, ListItem, Avatar } from 'react-native-elements';
+import { Card } from 'react-native-material-ui';
+import { List, ListItem } from 'react-native-elements';
 import Header from '../Header';
 import { FetchFriends } from '../../graphql/queries';
 
 class UserPeopleView extends Component {
+  constructor(props) {
+    super(props);
+  
+    this.state = {
+      searchTerm: ''
+    };
+  }
+
   renderFriends() {
     const { friends } = this.props.data;
+    if (friends.length === 0 && this.state.searchTerm === '') {
+      return (
+        <ScrollView style={{ display: 'flex', flex: 1 }} >
+            <Card primary style={{ container: { height: 150, display: 'flex', justifyContent: 'center', alignItems: 'center' } }} >
+            <Text style={{ fontSize: 18, margin: 20, textAlign: 'center' }}> Use the search bar to start finding friends! </Text>
+          </Card>
+        </ScrollView>
+      );
+    }
     return (
       <ScrollView
         style={{

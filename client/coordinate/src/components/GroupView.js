@@ -3,9 +3,9 @@ import { View, Text, ScrollView } from 'react-native';
 import { graphql, compose } from 'react-apollo';
 import MapView from 'react-native-maps';
 import { Actions } from 'react-native-router-flux';
-import { BottomNavigation } from 'react-native-material-ui';
+import { BottomNavigation, IconToggle } from 'react-native-material-ui';
 import { List, ListItem } from 'react-native-elements';
-import { ActionButton } from 'react-native-material-ui';
+import { ActionButton, Card } from 'react-native-material-ui';
 import Header from './Header';
 import { FetchGroupDetails } from '../graphql/queries';
 import { UpdateLocation } from '../graphql/mutations';
@@ -40,7 +40,6 @@ class GroupView extends Component {
             },
             refetchQueries: [{ query: FetchGroupDetails, variables: { groupID: this.props.groupID } }]
           })
-          .then(resp => console.log(resp))
           .catch(e => console.error(e));
         }),
         error => console.log(error),
@@ -57,7 +56,7 @@ class GroupView extends Component {
     return (
       <MapView
         ref={mv => this.mv = mv}
-        style={{ flex: 1 }}
+        style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}
         initialRegion={{
           latitude: parseFloat(lat),
           longitude: parseFloat(lng),
@@ -65,6 +64,18 @@ class GroupView extends Component {
           longitudeDelta: 0.0211
         }}
       >
+        <View
+          style={{
+            opacity: 0.7,
+            height: 100,
+            borderRadius: 10,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          <Text>{description}</Text>
+        </View>
         <MapView.Marker
           coordinate={{
             latitude: parseFloat(lat),
@@ -195,7 +206,6 @@ class GroupView extends Component {
   }
 
   render() {
-    console.log(this.props);
     if (!this.watchPosition) {
       this.initLocationUpdates();
     }

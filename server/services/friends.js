@@ -99,7 +99,7 @@ const fetchFriendsList = ({ token, userID }) => {
     .then((uid) => {
       db.ref(`users/${userID || uid}/public/friends/`)
       .on('value', (snapshot) => {
-        resolve(Array.from(Object.keys(snapshot.val())));
+        resolve(Array.from(Object.keys(snapshot.val() || {})));
       });
     })
     .catch(e => reject(e));

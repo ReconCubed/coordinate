@@ -307,7 +307,7 @@ const fetchGroups = ({ token, inactive }) => {
       .on('value', (snapshot) => {
         const groupObject = snapshot.val();
         if (!groupObject) {
-          reject('No groups found');
+          resolve({});
         }
         resolve(groupObject);
       });

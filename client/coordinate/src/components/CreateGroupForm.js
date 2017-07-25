@@ -3,8 +3,8 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import TextField from 'react-native-md-textinput';
 import { Actions } from 'react-native-router-flux';
 import { compose, graphql } from 'react-apollo';
-import { View, ScrollView, TouchableHighlight, Text } from 'react-native';
-import { Button, Card, Divider } from 'react-native-material-ui';
+import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { Button, Card, Divider, IconToggle, Badge } from 'react-native-material-ui';
 import { CardSection } from './common';
 import { googlePlacesConfig } from '../../app_config';
 import { CreateGroup } from '../graphql/mutations';
@@ -51,7 +51,6 @@ class CreateGroupForm extends Component {
         autoFocus={false}
         listViewDisplayed={'auto'}
         fetchDetails
-        text={'testing'}
         onPress={(data, details = null) => {
           const address = details.formatted_address;
           const lat = details.geometry.location.lat;
@@ -78,7 +77,7 @@ class CreateGroupForm extends Component {
             justifyContent: 'flex-start'
           },
           textInput: {
-            fontSize: 18,
+            fontSize: 14,
             paddingLeft: 5,
             flex: 1,
             lineHeight: 23,
@@ -108,7 +107,7 @@ class CreateGroupForm extends Component {
                 value={this.state.name}
                 highlightColor={'#4c19ce'}
                 autocorrect={false}
-                fontSize={28}
+                fontSize={24}
                 wrapperStyle={{ paddingBottom: 10 }}
                 height={60}
                 inputStyle={{ lineHeight: 80, marginTop: -30 }}
@@ -121,20 +120,37 @@ class CreateGroupForm extends Component {
           {this.renderLocationSearch()}
           </CardSection>
           <CardSection>
-            <TouchableHighlight style={{ paddingTop: 30, display: 'flex', flex: 1 }} onPress={() => Actions.add_group_members({
-              groupName: this.state.name,
-              groupLocation: this.state.location,
-              groupMembers: this.state.members
-
-            })}>
-            <View>
+            <TouchableOpacity 
+              style={{ paddingTop: 30, display: 'flex', flex: 1 }}
+              onPress={() => Actions.add_group_members({
+                groupName: this.state.name,
+                groupLocation: this.state.location,
+                groupMembers: this.state.members
+              })}
+            >
+            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', flex: 1 }}>
                 <Text style={styles.inputStyle}>members</Text>
-                <Divider primary />
+                <View style={{ display: 'flex' }}>
+                  <Badge
+                    text={(Object.keys(this.state.members).length).toString()}
+                    style={{ container: { top: 2, right: -1 } }}
+                  >
+                      <IconToggle
+                        name="person"
+                      />
+                  </Badge>
+                </View>
             </View>
-            </TouchableHighlight>
+            <Divider primary />
+            </TouchableOpacity>
           </CardSection>
           <View style={{ bottom: 0 }}>
-            <Button primary raised text={'Create'} onPress={() => this.createGroup()} />
+          {
+            (this.state.name && Object.keys(this.state.members).length !== 0 && this.state.location)
+            ?
+            <Button primary raised text={'Create'} onPress={() => this.createGroup()} /> :
+            <Button primary raised disabled text={'Create'} onPress={() => {}} />
+          }
           </View>
         </Card>
       </ScrollView>
@@ -145,17 +161,13 @@ class CreateGroupForm extends Component {
 const styles = {
   inputStyle: {
     color: '#9E9E9E',
-    paddingRight: 5,
     paddingLeft: 0,
-    fontSize: 16,
+    fontSize: 14,
     lineHeight: 23,
-    flex: 2,
-    height: 30,
-    display: 'flex',
-    flexDirection: 'row'
+    height: 30
   },
   labelStyle: {
-    fontSize: 18,
+    fontSize: 14,
     paddingLeft: 20,
     flex: 1
   },

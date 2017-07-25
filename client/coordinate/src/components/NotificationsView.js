@@ -10,7 +10,7 @@ import Header from './Header';
 
 class NotificationsView extends Component {
   iconType(type) {
-    let icon = ''
+    let icon = '';
     switch(type) {
       case 'group_request':
         icon = 'group-add';
@@ -75,6 +75,7 @@ class NotificationsView extends Component {
           </Card>
         );
       }
+      console.log(unread);
       return (
         <View style={{
           display: 'flex',
@@ -94,8 +95,14 @@ class NotificationsView extends Component {
             ))
           }
           {
-            read.map(({ id, title }) => (
-              <ListItem key={id} title={title} />
+            read.map(({ id, title, type, groupID }) => (
+              <ListItem
+                key={id}
+                title={title}
+                leftIcon={<Icon name={this.iconType(type)} style={{ paddingRight: 10 }} />}
+                subtitle={this.renderNotificationActions(type, { groupID, notificationID: id })}
+                hideChevron
+              />
             ))
           }
           </List>
@@ -104,14 +111,14 @@ class NotificationsView extends Component {
     }
   }
 
-
   render() {
-    console.log(this.props);
     return (
       <View style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
         <Header
           hideNotifications
-          onLeftElementPress={() => Actions.pop()}
+          onLeftElementPress={() => {
+            Actions[Actions.prevScene]();
+          }}
           leftElement={'arrow-back'}
           title={'Notifications'}
         />

@@ -2,13 +2,22 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { graphql } from 'react-apollo';
 import { Actions } from 'react-native-router-flux';
-import { Card, Icon, ActionButton } from 'react-native-material-ui';
+import { Card, Icon, IconToggle, ActionButton } from 'react-native-material-ui';
 import { List, Avatar } from 'react-native-elements';
 import { UserGroupDetails } from '../../graphql/queries';
 import Header from '../Header';
-import requireAuth from '../requireAuth';
+
 
 class UserGroupView extends Component {
+
+  componentWillMount() {
+    this.props.data.refetch();
+  }
+
+  componentWillReceieveProps(nextProps) {
+    console.log(nextProps);
+  }
+
   renderGroups() {
     const groups = this.props.data.userGroupDetails;
     if (groups.length > 0) {
@@ -27,7 +36,10 @@ class UserGroupView extends Component {
                     }
                   }}
                 >
-                  <View style={{ display: 'flex', flexDirection: 'column', marginLeft: 30, marginTop: 20, marginRight: 20 }}>
+                  <View style={{ position: 'absolute', right: 0, zIndex: 9999999 }}>
+                    <IconToggle name={'clear'} />
+                  </View>
+                  <View style={{ display: 'flex', flexDirection: 'column', marginLeft: 30, marginTop: 20, marginRight: 20, zIndex: 9999 }}>
                     <Text style={{ fontSize: 24, paddingBottom: 10 }}>{name}</Text>
                     <View style={{ display: 'flex', flexDirection: 'row', marginRight: 50 }}>
                       <Icon name={'place'} color={'#553ecb'} />
@@ -54,7 +66,6 @@ class UserGroupView extends Component {
         </ScrollView>
       );
     }
-    console.log('rendering card');
     return (
       <ScrollView style={{ display: 'flex', flex: 1 }} >
           <Card primary style={{ container: { height: 150, display: 'flex', justifyContent: 'center', alignItems: 'center' } }} >

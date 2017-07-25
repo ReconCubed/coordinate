@@ -50,8 +50,8 @@ class GroupView extends Component {
 
   renderMap() {
     const { groupDetails } = this.props.data;
-    const { acceptedMembers } = groupDetails;
-    const { lat, lng, description } = groupDetails.targetLocation;
+    const { acceptedMembers, targetLocation } = groupDetails;
+    const { lat, lng, description } = targetLocation;
     const image = require('../assets/icons/target_location.png');
     return (
       <MapView
@@ -85,7 +85,7 @@ class GroupView extends Component {
           image={image}
         />
         {acceptedMembers.map((member) => {
-          if (member.location.lat && member.location.lng) {
+          if (member.location) {
             const { lat: memberLat, lng: memberLng } = member.location;
             const locationObject = (memberLat && memberLng) ?
             {

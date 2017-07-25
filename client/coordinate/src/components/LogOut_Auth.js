@@ -16,7 +16,8 @@ class LogOut_Auth extends Component {
 
   logOut() {
     return new Promise((resolve, reject) => {
-      this.props.client.resetStore()
+      const promises = this.props.client.resetStore();
+      Promise.all(promises)
       .then(() => {
         this.props.mutate()
         .then((resp) => {

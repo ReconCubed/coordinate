@@ -151,7 +151,7 @@ const genGroupDetails = ({ token, details, id }) => {
   return returnObj;
 };
 
-const inviteToGroup = ({ token, groupID, userIDArray, name }) => {
+const inviteToGroup = ({ token, groupID, userIDArray }) => {
   return new Promise((resolve, reject) => {
     verifyToken(token)
     .then((uid) => {
@@ -161,22 +161,25 @@ const inviteToGroup = ({ token, groupID, userIDArray, name }) => {
       };
       getUser({ token, targetID: uid })
       .then((invitedByUser) => {
-        const updateObject = {};
-        const notificationObject = groupRequestNotification({
-          groupID,
-          name,
-          invitedByUser
-        });
-        userIDArray.forEach((id) => {
-          updateObject[`groups/${groupID}/members/pending/${id}/`] = invitePayload;
-          updateObject[`users/${id}/private/groups/pending/${groupID}/`] = invitePayload;
-          db.ref(`users/${id}/private/notifications/unread/`).push(notificationObject)
-          .catch(e => reject(e));
-        });
-        db.ref().update(updateObject)
-        .then(() => {
-          resolve(groupID);
-        })
+        fetchGroupDetails({ token, groupID })
+          .then(({ name }) => {
+            const updateObject = {};
+            const notificationObject = groupRequestNotification({
+              groupID,
+              name,
+              invitedByUser
+            });
+            userIDArray.forEach((id) => {
+              updateObject[`groups/${groupID}/members/pending/${id}/`] = invitePayload;
+              updateObject[`users/${id}/private/groups/pending/${groupID}/`] = invitePayload;
+              db.ref(`users/${id}/private/notifications/unread/`).push(notificationObject)
+              .catch(e => reject(e));
+            });
+            db.ref().update(updateObject)
+            .then(() => {
+              resolve(groupID);
+            });
+          })
         .catch(e => reject(e));
       })
       .catch(e => reject(e));

@@ -140,15 +140,14 @@ class HeaderComponent extends Component {
 
   render() {
     const { notifications } = this.state;
-    console.log(this.props);
     return (
-      <View style={{ zIndex: 9999999999}}>
+      <View style={{ zIndex: 9999998 }}>
         <Toolbar
           leftElement={this.props.leftElement}
-          onLeftElementPress={() => this.onLeftElementPress()}
+          onLeftElementPress={() => this.props.onLeftElementPress ? this.props.onLeftElementPress() : this.onLeftElementPress()}
           centerElement={this.props.title}
           rightElement={this.renderRightElement()}
-          onRightElementPress={() => console.log('Right element press')}
+          onRightElementPress={() => this.props.onRightElementPress ? this.props.onRightElementPress() : {}}
           searchable={this.props.searchable}
           primary
         />

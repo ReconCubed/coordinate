@@ -3,18 +3,19 @@ import { View, Text, ScrollView } from 'react-native';
 import { graphql, compose } from 'react-apollo';
 import MapView from 'react-native-maps';
 import { Actions } from 'react-native-router-flux';
-import { BottomNavigation, IconToggle } from 'react-native-material-ui';
 import { List, ListItem } from 'react-native-elements';
-import { ActionButton, Card } from 'react-native-material-ui';
+import { ActionButton, BottomNavigation } from 'react-native-material-ui';
+import OverflowMenu from './OverflowMenu';
 import Header from './Header';
 import { FetchGroupDetails } from '../graphql/queries';
-import { UpdateLocation } from '../graphql/mutations';
+import { UpdateLocation, RemoveUserFromGroup } from '../graphql/mutations';
 
 class GroupView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: 'map'
+      view: 'map',
+      showOverflow: false,
     };
   }
 
@@ -46,6 +47,18 @@ class GroupView extends Component {
         options
       );
     }
+  }
+
+  leaveGroup() {
+    this.props.removeUserFromGroup_mutation({
+      variables: {
+        groupID: this.props.groupID
+      }
+    })
+    .then(resp => {
+      console.log(resp);
+      Actions.home_view();
+    });
   }
 
   renderMap() {
@@ -131,11 +144,13 @@ class GroupView extends Component {
     };
 
     return (
-      <View style={{
-        display: 'flex',
-        flexDirection: 'column',
-        flex: 1
-      }}>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1
+        }}
+      >
         <ScrollView>
           <List containerStyle={{ flex: 1 }}>
           <ListItem title={'Accepted'} hideChevron containerStyle={{ height: 8, backgroundColor: '#E0E0E0' }} titleStyle={{ fontSize: 12, textAlign: 'left', lineHeight: 12, marginTop: -5 }}/>
@@ -162,9 +177,27 @@ class GroupView extends Component {
             groupID: this.props.groupID,
             friendsToRemove: allMembers
           })}
-        />        
+        />
       </View>
     );
+  }
+
+  renderOverflowMenu() {
+    const menuItems = [
+      {
+        title: 'Settings',
+        icon: 'settings',
+        onPress: () => console.log('settings')
+      },
+      {
+        title: 'Leave Group',
+        icon: 'input',
+        onPress: () => this.leaveGroup(),
+      }
+    ];
+    if (this.state.showOverflow) {
+      return <OverflowMenu menuItems={menuItems} />;
+    }
   }
 
   renderBottomNavigation() {
@@ -216,8 +249,21 @@ class GroupView extends Component {
     }
     return (
       <View style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-        <Header title={title} leftElement={'arrow-back'} onLeftElementPress={() => Actions.pop()}/>
+        <Header
+          title={title}
+          leftElement={'arrow-back'}
+          onLeftElementPress={() => Actions.pop()}
+          rightElement={this.state.view === 'map' ? 'more-vert' : null}          
+          onRightElementPress={() => {
+            if (this.state.showOverflow) {
+              this.setState({ showOverflow: false });
+            } else {
+              this.setState({ showOverflow: true });
+            }
+          }}
+        />
         <View style={{ flex: 1 }} >
+          {this.renderOverflowMenu()}
           {this.renderContent()}
         </View>
         {this.renderBottomNavigation()}
@@ -229,4 +275,5 @@ class GroupView extends Component {
 export default graphql(FetchGroupDetails, {
   options: ({ groupID }) => ({ variables: { groupID } }),
 })((compose(
+  graphql(RemoveUserFromGroup, { name: 'removeUserFromGroup_mutation' }),
   graphql(UpdateLocation, { name: 'updateLocation_mutation' }))(GroupView)));

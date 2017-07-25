@@ -50,6 +50,14 @@ const AcceptGroupInvite = gql`
   }
 `;
 
+const RemoveUserFromGroup = gql`
+  mutation RemoveUserFromGroup($groupID:ID!, $targetUserID:ID) {
+    removeUserFromGroup(groupID:$groupID, targetUserID:$targetUserID) {
+      groupID
+    }
+  }
+`;
+
 const RejectGroupInvite = gql`
   mutation RejectGroupInvite($groupID:ID!, $notificationID:ID) {
     rejectGroupInvite(groupID:$groupID, notificationID:$notificationID) {
@@ -58,4 +66,4 @@ const RejectGroupInvite = gql`
   }
 `;
 
-export { LogIn, CreateGroup, InviteUsersToGroup, UpdateLocation, AcceptGroupInvite, RejectGroupInvite, LogOut };
+export { LogIn, CreateGroup, InviteUsersToGroup, UpdateLocation, AcceptGroupInvite, RejectGroupInvite, RemoveUserFromGroup, LogOut };

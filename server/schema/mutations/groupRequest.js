@@ -69,12 +69,12 @@ const removeUserFromGroup = {
     }
   }),
   args: {
-    token: { type: new GraphQLNonNull(GraphQLString) },
     groupID: { type: new GraphQLNonNull(GraphQLID) },
     targetUserID: { type: GraphQLID }
   },
-  resolve: (parentValue, { token, groupID, targetUserID }) => {
+  resolve: (parentValue, { groupID, targetUserID }, req) => {
     return new Promise((resolve, reject) => {
+      const token = req.headers.authorization;
       removeFromGroup({ token, groupID, userID: targetUserID })
       .then(() => resolve({ groupID }))
       .catch(e => reject(e));

@@ -57,7 +57,7 @@ class NotificationsView extends Component {
     if (type === 'group_request') {
       return (
         <View style={buttonViewStyle}>
-          <Button raised primary text={'Accept'} icon={'check'} onPress={() => acceptGroupOnPress()} />
+          <View style={{ paddingRight: 4 }}><Button raised primary text={'Accept'} icon={'check'} onPress={() => acceptGroupOnPress()} /></View>
           <Button raised text={'Decline'} icon={'close'} onPress={() => declineGroupOnPress()}/>
         </View>
       );
